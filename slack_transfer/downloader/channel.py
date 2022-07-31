@@ -1,0 +1,129 @@
+import json
+import os
+import warnings
+from typing import Dict
+from typing import List
+from typing import Optional
+
+import requests
+from slack_sdk.errors import SlackApiError
+from slack_sdk.web import SlackResponse
+
+from slack_transfer.commons.client import DownloaderClient
+
+
+def download_channels_list(client: DownloaderClient) -> List[Dict]:
+    _response: SlackResponse = client.conversations_list(
+        types="public_channel, private_channel"
+    )
+    if not _response["ok"]:
+        raise IOError("channel list cannot be fetched in downloading WS data.")
+    channels: List[Dict] = _response["channels"]
+    json.dump(
+        channels,
+        open(
+            os.path.join(client.local_data_dir, "channels.json"),
+            mode="w",
+            encoding="utf-8",
+        ),
+        indent=4,
+    )
+    return channels
+
+
+def get_replies(client: DownloaderClient, channel_id: str, ts: str) -> List[Dict]:
+    messages: List[Dict] = []
+    while True:
+        next_cursor: Optional[str] = None
+        response = client.conversations_replies(
+            channel=channel_id, ts=ts, cursor=next_cursor
+        )
+        if not response["ok"]:
+            raise IOError(
+                f"replies cannot be fetched in downloading WS data. (channel_id: {channel_id}, ts: {ts})"
+            )
+        messages.extend(response["messages"])
+
+        if "response_metadata" in response:
+            next_cursor = response["response_metadata"]["next_cursor"]
+        else:
+            break
+    return messages
+
+
+def download_file(
+    client: DownloaderClient, file_id: str, file_name: str, url_private: str
+) -> None:
+    res = requests.get(
+        url=url_private,
+        allow_redirects=True,
+        headers={"Authorization": f"Bearer {client.token}"},
+        stream=True,
+    )
+    file_name = f"{file_id}--{file_name}"
+    if res.status_code != 200:
+        warnings.warn(f"failed to download: {url_private} as {file_name}")
+        return None
+    file_path = os.path.join(client.local_data_dir, "files", file_name)
+    with open(file_path, mode="wb") as f:
+        f.write(res.content)
+
+
+def download_channel_history(
+    client: DownloaderClient,
+    channel_id: str,
+    channel_name: str,
+    latest: Optional[str] = None,
+) -> None:
+    # ToDo: 1 channel内でAPI limit来た場合の挙動
+    messages = []
+    while True:
+        next_cursor: Optional[str] = None
+        try:
+            response = client.conversations_history(
+                channel=channel_id, latest=latest, next_cursor=next_cursor
+            )
+        except SlackApiError as e:
+            if e.response["error"] == "not_in_channel":
+                warnings.warn(f"slack bot is not in `{channel_name}`. Skip this.")
+                return None
+            else:
+                raise e
+        if not response["ok"]:
+            raise IOError(
+                f"channel history cannot be fetched in downloading WS data. (channel_id: {channel_id}, channel_name: {channel_name}, latest: {latest})"
+            )
+        for message in response["messages"]:
+            if "files" in message:
+                for file in message["files"]:
+                    url_private: str = file["url_private"]
+                    file_id: str = file["id"]
+                    file_name: str = file["name"]
+                    download_file(
+                        client=client,
+                        file_id=file_id,
+                        file_name=file_name,
+                        url_private=url_private,
+                    )
+
+            if "reply_count" in message and message["reply_count"] > 0:
+                ts: str = message["ts"]
+                replies = get_replies(client=client, channel_id=channel_id, ts=ts)
+                messages.extend(replies)
+            else:
+                messages.append(message)
+
+        if "response_metadata" in response:
+            next_cursor = response["response_metadata"]["next_cursor"]
+            latest = None
+        else:
+            break
+    json.dump(
+        messages,
+        open(
+            os.path.join(client.local_data_dir, f"{channel_name}.json"),
+            mode="w",
+            encoding="utf-8",
+        ),
+        indent=4,
+    )

@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "slack-transfer"
+version = "0.1.0"
+description = ""
+authors = ["Masanori HIRANO <masa.hirano.1996@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "slack_transfer"}]
+
+[tool.poetry.dependencies]
+python = "^3.7,<3.10"
+slack-sdk = "^3.18.1"
+requests = "^2.28.1"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.6.0"
+isort = "^5.10.1"
+mypy = "^0.971"
+tox = "^3.25.1"
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+[tool.black]
+skip-magic-trailing-comma = true
+
+[tool.isort]
+profile = 'black'
+force_single_line = true
+
+[tool.mypy]
+disallow_untyped_defs = true
+
