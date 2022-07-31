@@ -1,11 +1,13 @@
 import json
 import os
+import time
 import warnings
 from typing import Dict
 from typing import List
 from typing import Optional
 
 import requests
+import tqdm.std
 from slack_sdk.errors import SlackApiError
 from slack_sdk.web import SlackResponse
 
@@ -33,8 +35,8 @@ def download_channels_list(client: DownloaderClient) -> List[Dict]:
 
 def get_replies(client: DownloaderClient, channel_id: str, ts: str) -> List[Dict]:
     messages: List[Dict] = []
+    next_cursor: Optional[str] = None
     while True:
-        next_cursor: Optional[str] = None
         response = client.conversations_replies(
             channel=channel_id, ts=ts, cursor=next_cursor
         )
@@ -74,17 +76,30 @@ def download_channel_history(
     channel_id: str,
     channel_name: str,
     latest: Optional[str] = None,
+    ts_progress_bar: Optional[tqdm.std.tqdm] = None,
+    ts_now: Optional[int] = None,
+    auto_join: bool = True,
 ) -> None:
     # ToDo: 1 channel内でAPI limit来た場合の挙動
+    if ts_progress_bar:
+        if ts_now is None:
+            ts_now = int(time.time())
+
     messages = []
+    next_cursor: Optional[str] = None
     while True:
-        next_cursor: Optional[str] = None
         try:
             response = client.conversations_history(
-                channel=channel_id, latest=latest, next_cursor=next_cursor
+                channel=channel_id, latest=latest, cursor=next_cursor
             )
         except SlackApiError as e:
             if e.response["error"] == "not_in_channel":
+                if auto_join:
+                    try:
+                        client.conversations_join(channel=channel_id)
+                        continue
+                    except:
+                        pass
                 warnings.warn(f"slack bot is not in `{channel_name}`. Skip this.")
                 return None
             else:
@@ -112,6 +127,12 @@ def download_channel_history(
                 messages.extend(replies)
             else:
                 messages.append(message)
+
+        if ts_progress_bar and len(messages) > 0:
+            oldest_ts = messages[-1]["ts"]
+            progress_ts = int(ts_now - float(oldest_ts))
+            update_p = progress_ts - ts_progress_bar.n
+            ts_progress_bar.update(update_p)
 
         if "response_metadata" in response:
             next_cursor = response["response_metadata"]["next_cursor"]
