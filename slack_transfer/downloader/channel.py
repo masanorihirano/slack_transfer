@@ -15,12 +15,24 @@ from slack_transfer.commons.client import DownloaderClient
 
 
 def download_channels_list(client: DownloaderClient) -> List[Dict]:
-    _response: SlackResponse = client.conversations_list(
-        types="public_channel, private_channel"
-    )
-    if not _response["ok"]:
-        raise IOError("channel list cannot be fetched in downloading WS data.")
-    channels: List[Dict] = _response["channels"]
+    channels: List[Dict] = []
+    next_cursor: Optional[str] = None
+
+    while True:
+        response: SlackResponse = client.conversations_list(
+            cursor=next_cursor, types="public_channel, private_channel"
+        )
+        if not response["ok"]:
+            raise IOError("channel list cannot be fetched in downloading WS data.")
+        channels.extend(response["channels"])
+
+        if "response_metadata" in response:
+            next_cursor = response["response_metadata"]["next_cursor"]
+            if next_cursor == "":
+                break
+        else:
+            break
+
     json.dump(
         channels,
         open(
@@ -48,6 +60,8 @@ def get_replies(client: DownloaderClient, channel_id: str, ts: str) -> List[Dict
 
         if "response_metadata" in response:
             next_cursor = response["response_metadata"]["next_cursor"]
+            if next_cursor == "":
+                break
         else:
             break
     return messages
@@ -90,7 +104,10 @@ def download_channel_history(
     while True:
         try:
             response = client.conversations_history(
-                channel=channel_id, latest=latest, cursor=next_cursor
+                channel=channel_id,
+                latest=latest,
+                cursor=next_cursor,
+                include_all_metadata=True,
             )
         except SlackApiError as e:
             if e.response["error"] == "not_in_channel":
@@ -137,12 +154,23 @@ def download_channel_history(
         if "response_metadata" in response:
             next_cursor = response["response_metadata"]["next_cursor"]
             latest = None
+            if next_cursor == "":
+                break
         else:
             break
+    messages = list(
+        {
+            message["client_msg_id"]: message
+            for message in [
+                message for message in messages if "client_msg_id" in message
+            ]
+        }.values()
+    ) + [message for message in messages if "client_msg_id" not in message]
+    messages.sort(key=lambda x: x["ts"], reverse=False)
     json.dump(
         messages,
         open(
-            os.path.join(client.local_data_dir, f"{channel_name}.json"),
+            os.path.join(client.local_data_dir, "channels", f"{channel_name}.json"),
             mode="w",
             encoding="utf-8",
         ),
