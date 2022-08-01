@@ -139,6 +139,18 @@ def data_insert(
                         message["attachments"] if "attachments" in message else []
                     ),
                     blocks=(
+                        [
+                            {
+                                "type": "context",
+                                "elements": [
+                                    {"type": "mrkdwn", "text": message["text"]}
+                                ],
+                            }
+                        ]
+                        if message["text"] and len(file_ids) != 0
+                        else []
+                    )
+                    + (
                         list(
                             filter(
                                 lambda x: x["type"] not in ["rich_text"],
