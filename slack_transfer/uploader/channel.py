@@ -141,13 +141,8 @@ def data_insert(
                 date_time = datetime.datetime.fromtimestamp(
                     float(message["ts"]), tz=tz_delta
                 ).strftime("%Y/%m/%d %H:%M %Z")
-                response: SlackResponse = client.chat_postMessage(
-                    channel=new_channel_id,
-                    text=message["text"],
-                    attachments=(
-                        message["attachments"] if "attachments" in message else []
-                    ),
-                    blocks=(
+                blocks = (
+                    (
                         [
                             {
                                 "type": "context",
@@ -172,7 +167,23 @@ def data_insert(
                     + [
                         {"type": "file", "source": "remote", "file_id": file_id}
                         for file_id in file_ids
-                    ],
+                    ]
+                )
+                if (
+                    len(blocks) == 0
+                    and message["text"] == ""
+                    and "attachments" not in message
+                ):
+                    message[
+                        "text"
+                    ] = "[Migration Error] this thread is missing (possibly due to original slack limitation)"
+                response: SlackResponse = client.chat_postMessage(
+                    channel=new_channel_id,
+                    text=message["text"],
+                    attachments=(
+                        message["attachments"] if "attachments" in message else []
+                    ),
+                    blocks=blocks,
                     thread_ts=new_thread_ts,
                     reply_broadcast=(
                         message["subtype"] == "thread_broadcast"
