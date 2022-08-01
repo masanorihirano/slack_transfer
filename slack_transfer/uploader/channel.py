@@ -84,7 +84,7 @@ def data_insert(
     old_members_dict: Dict[str, str],
     old_channel_name: Optional[str] = None,
     time_zone: str = "Asia/Tokyo",
-):
+) -> None:
     tz_delta = tz.gettz(time_zone)
     channels_list: List[Dict] = get_channels_list(client=client)
     new_channel_info = list(filter(lambda x: x["name"] == channel_name, channels_list))[
