@@ -2,6 +2,7 @@ import datetime
 import json
 import os.path
 import time
+import warnings
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -62,17 +63,23 @@ def upload_file(
     channel_id: Optional[str] = None,
     title: Optional[str] = None,
     filetype: Optional[str] = None,
-) -> Tuple[str, str]:
+) -> Optional[Tuple[str, str]]:
     file_path = os.path.join(
         client.local_data_dir, "files", f"{old_file_id}--{file_name}"
     )
-    response: SlackResponse = client.files_upload(
-        file=file_path,
-        filename=file_name,
-        filetype=filetype,
-        title=title,
-        channels=channel_id,
-    )
+    try:
+        response: SlackResponse = client.files_upload(
+            file=file_path,
+            filename=file_name,
+            filetype=filetype,
+            title=title,
+            channels=channel_id,
+        )
+    except FileNotFoundError as e:
+        warnings.warn(
+            f"file is missing (possibly duu to original slack limitations): {file_path}"
+        )
+        return None
     if not response["ok"]:
         raise IOError(f"Error in uploading file {file_path}")
     return response["file"]["id"], response["file"]["permalink"]
@@ -109,7 +116,7 @@ def data_insert(
                 file_name = file["name"]
                 title = file["title"]
                 file_type = file["filetype"]
-                new_file_id, new_file_permalink = upload_file(
+                upload_results = upload_file(
                     client=client,
                     old_file_id=old_file_id,
                     file_name=file_name,
@@ -117,9 +124,11 @@ def data_insert(
                     title=title,
                     filetype=file_type,
                 )
-                file_ids.append(new_file_id)
-                file_permalinks.append(new_file_permalink)
-                file_titles.append(title)
+                if upload_results:
+                    new_file_id, new_file_permalink = upload_results
+                    file_ids.append(new_file_id)
+                    file_permalinks.append(new_file_permalink)
+                    file_titles.append(title)
 
         new_thread_ts = None
         if "thread_ts" in message.keys() and message["thread_ts"] != "":
@@ -170,7 +179,14 @@ def data_insert(
                         if "subtype" in message
                         else False
                     ),
-                    username=old_members_dict[message["user"]] + " [" + date_time + "]",
+                    username=(
+                        old_members_dict[message["user"]]
+                        if "user" in message and message["user"] in old_members_dict
+                        else "Unknown member"
+                    )
+                    + " ["
+                    + date_time
+                    + "]",
                 )
                 break
             except SlackApiError as e:

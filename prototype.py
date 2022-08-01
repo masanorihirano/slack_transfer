@@ -1,3 +1,4 @@
+import glob
 import json
 import os.path
 import time
@@ -55,15 +56,10 @@ def main(downloader_token: str, uploader_token: str, override: bool = False) -> 
     old_members_dict = dict(
         [(member["id"], member["profile"]["real_name"]) for member in old_members]
     )
-    downloaded_channels = json.load(
-        open(
-            os.path.join(uploader.local_data_dir, "channels.json"),
-            mode="r",
-            encoding="utf-8",
-        )
-    )
-    for channel in downloaded_channels:
-        old_channel_name = channel["name"]
+    for channel in glob.glob(
+        os.path.join(uploader.local_data_dir, "channels", "*.json")
+    ):
+        old_channel_name = os.path.basename(channel).replace(".json", "")
         if old_channel_name in name_mappings:
             new_channel_name = name_mappings[old_channel_name]
         else:

@@ -146,6 +146,8 @@ def download_channel_history(
                 messages.append(message)
 
         if ts_progress_bar and len(messages) > 0:
+            if ts_now is None:
+                raise AssertionError
             oldest_ts = messages[-1]["ts"]
             progress_ts = int(ts_now - float(oldest_ts))
             update_p = progress_ts - ts_progress_bar.n
