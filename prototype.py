@@ -1,6 +1,6 @@
 import os
 
-from slack_transfer import run
+from slack_transfer.run import run
 
 if __name__ == "__main__":
     local_data_dir = os.path.join(
