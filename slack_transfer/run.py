@@ -69,12 +69,15 @@ def run(
         channel_files: List[str] = glob.glob(
             os.path.join(uploader.local_data_dir, "channels", "*.json")
         )
-        for channel_file_path in channel_files:
+        for i, channel_file_path in enumerate(channel_files):
             old_channel_name = os.path.basename(channel_file_path).replace(".json", "")
             if old_channel_name in name_mappings:
                 new_channel_name = name_mappings[old_channel_name]
             else:
                 new_channel_name = old_channel_name
+            print(
+                f"{i + 1}/{len(channel_files)}: {old_channel_name} -> {new_channel_name}"
+            )
             uploader.data_insert(
                 channel_name=new_channel_name,
                 old_members_dict=old_members_dict,

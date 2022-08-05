@@ -7,7 +7,9 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import Union
 
+import tqdm
 from dateutil import tz
 from slack_sdk.errors import SlackApiError
 from slack_sdk.web import SlackResponse
@@ -90,6 +92,7 @@ def data_insert(
     old_members_dict: Dict[str, str],
     old_channel_name: Optional[str] = None,
     time_zone: str = "Asia/Tokyo",
+    progress: Union[bool, tqdm.tqdm] = True,
 ) -> None:
     tz_delta = tz.gettz(time_zone)
     channels_list: List[Dict] = get_channels_list(client=client)
@@ -105,6 +108,11 @@ def data_insert(
     messages: List[Dict] = json.load(open(data_file_path, mode="r", encoding="utf-8"))
     messages.sort(key=lambda x: x["ts"], reverse=False)
     ts_mapper: Dict[str, str] = {}
+    progress_bar: tqdm.tqdm
+    if isinstance(progress, bool):
+        progress_bar = tqdm.tqdm(total=len(messages), disable=not progress)
+    else:
+        progress_bar = progress
     for message in messages:
         file_ids = []
         file_permalinks = []
@@ -248,6 +256,7 @@ def data_insert(
                 ts_mapper[message["thread_ts"]] = response["message"]["ts"]
         else:
             ts_mapper[message["ts"]] = response["message"]["ts"]
+        progress_bar.update(n=1)
 
 
 def check_upload_conflict(

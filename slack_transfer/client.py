@@ -2,6 +2,7 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import Union
 
 import tqdm
 
@@ -80,6 +81,7 @@ class UploaderClient(UploaderClientABC):
         old_members_dict: Dict[str, str],
         old_channel_name: Optional[str] = None,
         time_zone: str = "Asia/Tokyo",
+        progress: Union[bool, tqdm.tqdm] = True,
     ) -> None:
         return data_insert(
             client=self,
@@ -87,6 +89,7 @@ class UploaderClient(UploaderClientABC):
             old_members_dict=old_members_dict,
             old_channel_name=old_channel_name,
             time_zone=time_zone,
+            progress=progress,
         )
 
     def check_upload_conflict(
