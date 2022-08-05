@@ -44,3 +44,7 @@ format-black:
 .PHONY: format-isort
 format-isort:
 	$(RUN) isort --force-single-line-imports --quiet .
+
+.PHONY: doc
+doc:
+	@cd docs && make html

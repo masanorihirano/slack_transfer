@@ -215,12 +215,21 @@ def data_insert(
                     message[
                         "text"
                     ] = "[Migration Error] this thread is missing (possibly due to original slack limitation)"
+                attachments: List[Dict] = (
+                    message["attachments"] if "attachments" in message else []
+                )
+                for i_attachment in range(len(attachments)):
+                    if "blocks" in attachments[i_attachment]:
+                        attachments[i_attachment]["blocks"] = list(
+                            filter(
+                                lambda x: x["type"] not in ["call"],
+                                attachments[i_attachment]["blocks"],
+                            )
+                        )
                 response: SlackResponse = client.chat_postMessage(
                     channel=new_channel_id,
                     text=message["text"],
-                    attachments=(
-                        message["attachments"] if "attachments" in message else []
-                    ),
+                    attachments=attachments,
                     blocks=blocks,
                     thread_ts=new_thread_ts,
                     reply_broadcast=(
