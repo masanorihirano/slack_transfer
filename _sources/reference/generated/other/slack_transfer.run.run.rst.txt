@@ -1,0 +1,6 @@
+﻿slack\_transfer.run.run
+=======================
+
+.. currentmodule:: slack_transfer.run
+
+.. autofunction:: run

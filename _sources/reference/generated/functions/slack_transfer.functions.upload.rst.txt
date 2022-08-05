@@ -1,0 +1,32 @@
+﻿slack\_transfer.functions.upload
+================================
+
+.. automodule:: slack_transfer.functions.upload
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      check_upload_conflict
+      create_all_channels
+      data_insert
+      upload_file
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

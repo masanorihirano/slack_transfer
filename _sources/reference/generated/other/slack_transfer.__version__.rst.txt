@@ -1,0 +1,6 @@
+﻿slack\_transfer.\_\_version\_\_
+===============================
+
+.. currentmodule:: slack_transfer
+
+.. autodata:: __version__

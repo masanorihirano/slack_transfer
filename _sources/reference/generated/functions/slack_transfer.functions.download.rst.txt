@@ -1,0 +1,32 @@
+﻿slack\_transfer.functions.download
+==================================
+
+.. automodule:: slack_transfer.functions.download
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      download_channel_history
+      download_channels_list
+      download_file
+      download_members_list
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
