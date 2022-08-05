@@ -20,6 +20,7 @@ def run(
     override: bool = False,
     skip_download: bool = False,
     skip_upload: bool = False,
+    name_mappings: Optional[Dict[str, str]] = None,
 ) -> None:
     os.makedirs(local_data_dir, exist_ok=True)
     if not skip_download:
@@ -49,7 +50,9 @@ def run(
         uploader = UploaderClient(
             local_data_dir=local_data_dir, token=uploader_token, timeout=300
         )
-        name_mappings = {"general": "_general", "random": "_random"}
+        if name_mappings is None:
+            name_mappings = {}
+
         conflicts = uploader.check_upload_conflict(name_mappings=name_mappings)
         if len(conflicts) > 0 and not override:
             raise ValueError(
@@ -69,12 +72,15 @@ def run(
         channel_files: List[str] = glob.glob(
             os.path.join(uploader.local_data_dir, "channels", "*.json")
         )
-        for channel_file_path in channel_files:
+        for i, channel_file_path in enumerate(channel_files):
             old_channel_name = os.path.basename(channel_file_path).replace(".json", "")
             if old_channel_name in name_mappings:
                 new_channel_name = name_mappings[old_channel_name]
             else:
                 new_channel_name = old_channel_name
+            print(
+                f"{i + 1}/{len(channel_files)}: {old_channel_name} -> {new_channel_name}"
+            )
             uploader.data_insert(
                 channel_name=new_channel_name,
                 old_members_dict=old_members_dict,
@@ -129,7 +135,24 @@ if __name__ == "__main__":
         action="store_true",
         help="Skip upload. This is usually used when only the download is necessary.",
     )
+    parser.add_argument(
+        "--name_mappings",
+        type=str,
+        default=None,
+        help="You can set name mappings between the channel names of the original and destination workspaces. "
+        + "Comma-separated dictionaries (key:value) are available. For example, `old_name1:new_name1,old_name2:new_name2`.",
+    )
     args = parser.parse_args()
+    name_mappings = None
+    if args.name_mappings:
+        name_mappings = dict(
+            [
+                (dict_input.split(":")[0], dict_input.split(":")[1])
+                for dict_input in args.name_mappings.split(",")
+            ]
+        )
+    if name_mappings:
+        print(f"name mappings: {name_mappings}")
     run(
         local_data_dir=args.data_dir,
         downloader_token=args.downloader_token,
@@ -137,4 +160,5 @@ if __name__ == "__main__":
         override=args.override,
         skip_download=args.skip_download,
         skip_upload=args.skip_upload,
+        name_mappings=name_mappings,
     )

@@ -1,6 +1,6 @@
-def cli() -> None:
+def token_test() -> None:
     raise NotImplemented
 
 
 if __name__ == "__main__":
-    cli()
+    token_test()
