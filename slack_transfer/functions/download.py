@@ -11,27 +11,13 @@ import tqdm.std
 from slack_sdk.errors import SlackApiError
 from slack_sdk.web import SlackResponse
 
-from slack_transfer.commons.client import DownloaderClient
+from .._base import DownloaderClientABC
+from .common import get_channels_list
+from .common import get_replies
 
 
-def download_channels_list(client: DownloaderClient) -> List[Dict]:
-    channels: List[Dict] = []
-    next_cursor: Optional[str] = None
-
-    while True:
-        response: SlackResponse = client.conversations_list(
-            cursor=next_cursor, types="public_channel, private_channel"
-        )
-        if not response["ok"]:
-            raise IOError("channel list cannot be fetched in downloading WS data.")
-        channels.extend(response["channels"])
-
-        if "response_metadata" in response:
-            next_cursor = response["response_metadata"]["next_cursor"]
-            if next_cursor == "":
-                break
-        else:
-            break
+def download_channels_list(client: DownloaderClientABC) -> List[Dict]:
+    channels: List[Dict] = get_channels_list(client=client)
 
     json.dump(
         channels,
@@ -45,30 +31,8 @@ def download_channels_list(client: DownloaderClient) -> List[Dict]:
     return channels
 
 
-def get_replies(client: DownloaderClient, channel_id: str, ts: str) -> List[Dict]:
-    messages: List[Dict] = []
-    next_cursor: Optional[str] = None
-    while True:
-        response = client.conversations_replies(
-            channel=channel_id, ts=ts, cursor=next_cursor
-        )
-        if not response["ok"]:
-            raise IOError(
-                f"replies cannot be fetched in downloading WS data. (channel_id: {channel_id}, ts: {ts})"
-            )
-        messages.extend(response["messages"])
-
-        if "response_metadata" in response:
-            next_cursor = response["response_metadata"]["next_cursor"]
-            if next_cursor == "":
-                break
-        else:
-            break
-    return messages
-
-
 def download_file(
-    client: DownloaderClient, file_id: str, file_name: str, url_private: str
+    client: DownloaderClientABC, file_id: str, file_name: str, url_private: str
 ) -> None:
     res = requests.get(
         url=url_private,
@@ -86,11 +50,11 @@ def download_file(
 
 
 def download_channel_history(
-    client: DownloaderClient,
+    client: DownloaderClientABC,
     channel_id: str,
     channel_name: str,
     latest: Optional[str] = None,
-    ts_progress_bar: Optional[tqdm.std.tqdm] = None,
+    ts_progress_bar: Optional[tqdm.tqdm] = None,
     ts_now: Optional[int] = None,
     auto_join: bool = True,
 ) -> None:
@@ -178,3 +142,32 @@ def download_channel_history(
         ),
         indent=4,
     )
+
+
+def download_members_list(client: DownloaderClientABC) -> List[Dict]:
+    members: List[Dict] = []
+    next_cursor: Optional[str] = None
+
+    while True:
+        response: SlackResponse = client.users_list(cursor=next_cursor)
+        if not response["ok"]:
+            raise IOError("user list cannot be fetched in downloading WS data.")
+        members.extend(response["members"])
+
+        if "response_metadata" in response:
+            next_cursor = response["response_metadata"]["next_cursor"]
+            if next_cursor == "":
+                break
+        else:
+            break
+
+    json.dump(
+        members,
+        open(
+            os.path.join(client.local_data_dir, "members.json"),
+            mode="w",
+            encoding="utf-8",
+        ),
+        indent=4,
+    )
+    return members

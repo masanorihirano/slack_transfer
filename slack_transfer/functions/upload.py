@@ -10,15 +10,14 @@ from typing import Tuple
 
 from dateutil import tz
 from slack_sdk.errors import SlackApiError
-from slack_sdk.models.attachments import Attachment
 from slack_sdk.web import SlackResponse
 
-from slack_transfer.commons.client import UploaderClient
-from slack_transfer.uploader.checker import get_channels_list
+from .._base import UploaderClientABC
+from .common import get_channels_list
 
 
 def create_all_channels(
-    client: UploaderClient, name_mappings: Optional[Dict[str, str]] = None
+    client: UploaderClientABC, name_mappings: Optional[Dict[str, str]] = None
 ) -> None:
     downloaded_channels = json.load(
         open(
@@ -57,7 +56,7 @@ def create_all_channels(
 
 
 def upload_file(
-    client: UploaderClient,
+    client: UploaderClientABC,
     old_file_id: str,
     file_name: str,
     channel_id: Optional[str] = None,
@@ -86,7 +85,7 @@ def upload_file(
 
 
 def data_insert(
-    client: UploaderClient,
+    client: UploaderClientABC,
     channel_name: str,
     old_members_dict: Dict[str, str],
     old_channel_name: Optional[str] = None,
@@ -249,3 +248,26 @@ def data_insert(
                 ts_mapper[message["thread_ts"]] = response["message"]["ts"]
         else:
             ts_mapper[message["ts"]] = response["message"]["ts"]
+
+
+def check_upload_conflict(
+    client: UploaderClientABC, name_mappings: Optional[Dict[str, str]] = None
+) -> List[str]:
+    existing_channels = get_channels_list(client=client)
+    downloaded_channels = json.load(
+        open(
+            os.path.join(client.local_data_dir, "channels.json"),
+            mode="r",
+            encoding="utf-8",
+        )
+    )
+    existing_channels_name = set(map(lambda x: x["name"], existing_channels))
+    downloaded_channels_name = set(
+        map(
+            lambda x: name_mappings[x["name"]]
+            if name_mappings is not None and x["name"] in name_mappings
+            else x["name"],
+            downloaded_channels,
+        )
+    )
+    return list(existing_channels_name & downloaded_channels_name)

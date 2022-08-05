@@ -1,11 +1,15 @@
 import logging
 import os
 from ssl import SSLContext
+from typing import Dict
 from typing import List
 from typing import Optional
 
 from slack_sdk import WebClient
 from slack_sdk.http_retry import RetryHandler
+
+from .functions.common import get_channels_list
+from .functions.common import get_replies
 
 
 class CommonClient(WebClient):
@@ -43,10 +47,16 @@ class CommonClient(WebClient):
         os.makedirs(os.path.join(self.local_data_dir, "files"), exist_ok=True)
         os.makedirs(os.path.join(self.local_data_dir, "channels"), exist_ok=True)
 
+    def get_channels_list(self) -> List[Dict]:
+        return get_channels_list(client=self)
 
-class DownloaderClient(CommonClient):
+    def get_replies(self, channel_id: str, ts: str) -> List[Dict]:
+        return get_replies(client=self, channel_id=channel_id, ts=ts)
+
+
+class UploaderClientABC(CommonClient):
     pass
 
 
-class UploaderClient(CommonClient):
+class DownloaderClientABC(CommonClient):
     pass
