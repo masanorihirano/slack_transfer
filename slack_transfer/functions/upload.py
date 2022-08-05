@@ -195,7 +195,7 @@ def data_insert(
                     + (
                         list(
                             filter(
-                                lambda x: x["type"] not in ["rich_text"],
+                                lambda x: x["type"] not in ["rich_text", "call"],
                                 message["blocks"],
                             )
                         )
