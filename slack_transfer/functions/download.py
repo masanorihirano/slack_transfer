@@ -63,7 +63,7 @@ def download_channel_history(
         if ts_now is None:
             ts_now = int(time.time())
 
-    def download_files_in_message(message: Dict):
+    def _download_files_in_message(message: Dict) -> None:
         if "files" in message:
             for file in message["files"]:
                 url_private: str = file["url_private"]
@@ -103,13 +103,13 @@ def download_channel_history(
                 f"channel history cannot be fetched in downloading WS data. (channel_id: {channel_id}, channel_name: {channel_name}, latest: {latest})"
             )
         for _message in response["messages"]:
-            download_files_in_message(message=_message)
+            _download_files_in_message(message=_message)
             if "reply_count" in _message and _message["reply_count"] > 0:
                 ts: str = _message["ts"]
                 replies = get_replies(client=client, channel_id=channel_id, ts=ts)
                 messages.extend(replies)
                 for reply in replies:
-                    download_files_in_message(message=reply)
+                    _download_files_in_message(message=reply)
             else:
                 messages.append(_message)
 
