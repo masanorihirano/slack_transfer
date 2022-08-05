@@ -1,4 +1,4 @@
-def token_test():
+def token_test() -> None:
     raise NotImplemented
 
 
