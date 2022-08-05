@@ -116,14 +116,45 @@ def data_insert(
                 file_name = file["name"]
                 title = file["title"]
                 file_type = file["filetype"]
-                upload_results = upload_file(
-                    client=client,
-                    old_file_id=old_file_id,
-                    file_name=file_name,
-                    channel_id=None,
-                    title=title,
-                    filetype=file_type,
-                )
+                upload_start_st = int(time.time())
+                try:
+                    upload_results = upload_file(
+                        client=client,
+                        old_file_id=old_file_id,
+                        file_name=file_name,
+                        channel_id=None,
+                        title=title,
+                        filetype=file_type,
+                    )
+                except SlackApiError as e:
+                    # ToDo: workaround for #11
+                    for i_try in range(5):
+                        try:
+                            time.sleep(30 * i_try)
+                            _response = client.files_list(
+                                channel=None, ts_from=str(upload_start_st)
+                            )
+                            # ToDo: paging: たぶんほとんどの場合不要
+                            if not _response["ok"] or len(_response["files"]) == 0:
+                                raise IOError(f"Error in uploading file {file_name}")
+                            file_candidates = list(
+                                filter(
+                                    lambda x: x["name"] == file_name
+                                    and x["title"] == title,
+                                    _response["files"],
+                                )
+                            )
+                            if len(file_candidates) == 0:
+                                raise IOError(f"Error in uploading file {file_name}")
+                            upload_results = (
+                                file_candidates[-1]["id"],
+                                file_candidates[-1]["permalink"],
+                            )
+                            break
+                        except Exception as e2:
+                            if i_try == 4:
+                                raise e2
+
                 if upload_results:
                     new_file_id, new_file_permalink = upload_results
                     file_ids.append(new_file_id)
