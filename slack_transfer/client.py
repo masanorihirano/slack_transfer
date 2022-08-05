@@ -20,6 +20,8 @@ from .functions.upload import upload_file
 
 
 class DownloaderClient(DownloaderClientABC):
+    """DownloaderClient"""
+
     def download_channels_list(self) -> List[Dict]:
         return download_channels_list(client=self)
 
@@ -52,6 +54,8 @@ class DownloaderClient(DownloaderClientABC):
 
 
 class UploaderClient(UploaderClientABC):
+    """UploaderClient"""
+
     def create_all_channels(
         self, name_mappings: Optional[Dict[str, str]] = None
     ) -> None:
