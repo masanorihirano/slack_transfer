@@ -89,13 +89,6 @@ def run(
 
 
 if __name__ == "__main__":
-    """
-    downloader_token: Optional[str] = None,
-    uploader_token: Optional[str] = None,
-    override: bool = False,
-    skip_download: bool = False,
-    skip_upload: bool = False,
-    """
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--data_dir",

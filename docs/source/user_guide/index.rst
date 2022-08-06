@@ -1,15 +1,16 @@
 User Guide
 ==========
 
-slack_transfer.run (General usage)
+**This repository is under development. No one other than developers is recommended to use this repository.**
+
+General usage
 ------------------------------------
 
 .. toctree::
    :maxdepth: 2
 
+　　environment
    run
-   run_ja
-
 
 CLI
 ------------------

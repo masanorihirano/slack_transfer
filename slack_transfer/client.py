@@ -6,7 +6,6 @@ from typing import Union
 
 import tqdm
 
-from ._base import CommonClient
 from ._base import DownloaderClientABC
 from ._base import UploaderClientABC
 from .functions.download import download_channel_history
