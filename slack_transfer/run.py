@@ -88,8 +88,7 @@ def run(
             )
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+def set_parser_run(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--data_dir",
         "-d",
@@ -135,7 +134,9 @@ if __name__ == "__main__":
         help="You can set name mappings between the channel names of the original and destination workspaces. "
         + "Comma-separated dictionaries (key:value) are available. For example, `old_name1:new_name1,old_name2:new_name2`.",
     )
-    args = parser.parse_args()
+
+
+def main_run(args: argparse.Namespace) -> None:
     name_mappings = None
     if args.name_mappings:
         name_mappings = dict(
@@ -155,3 +156,10 @@ if __name__ == "__main__":
         skip_upload=args.skip_upload,
         name_mappings=name_mappings,
     )
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    set_parser_run(parser=parser)
+    args = parser.parse_args()
+    main_run(args=args)

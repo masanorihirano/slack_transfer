@@ -33,6 +33,9 @@ build-backend = "poetry.core.masonry.api"
 [tool.black]
 skip-magic-trailing-comma = true
 
+[tool.poetry.scripts]
+slack_transfer = 'slack_transfer.cli.main:main'
+
 [tool.isort]
 profile = 'black'
 force_single_line = true
