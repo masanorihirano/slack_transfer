@@ -10,8 +10,8 @@
 slack_transfer is a tool for transferring messages to the other slack workspace.
 
 Documentations are available on [readthedoc](https://slack-transfer.readthedocs.io).
- -   [User guide (en)](https://slack-transfer.readthedocs.io/en/latest/user_guide/index.html)
- -   [ユーザーガイド (日本語)](https://slack-transfer.readthedocs.io/en/latest/user_guide/index_ja.html)
+-   [User guide (en)](https://slack-transfer.readthedocs.io/en/latest/user_guide/index.html)
+-   [ユーザーガイド (日本語)](https://slack-transfer.readthedocs.io/en/latest/user_guide/index_ja.html)
 
 ## Install
 This package is available on pypi as [`slack-transfer`](https://pypi.org/project/slack-transfer/)
@@ -24,11 +24,10 @@ Please note that you have to user `slack_transfer` instead of `slack-transfer` f
 
 ## Issues and Contribution
 About issues (bugs):
- -   You can report issues [here](https://github.com/masanorihirano/slack_transfer/issues).
- -   日本語でissueを立てて構いません．
- -   There are no guarantee to support or fix those issues.
+-   You can report issues [here](https://github.com/masanorihirano/slack_transfer/issues).
+-   日本語でissueを立てて構いません．
+-   There are no guarantee to support or fix those issues.
 
 Contributions:
- -   You can send pull requests (PRs) to this repository.
- -   But, there are no guarantee to merge your PRs.
-
+-   You can send pull requests (PRs) to this repository.
+-   But, there are no guarantee to merge your PRs.
