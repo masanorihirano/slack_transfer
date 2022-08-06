@@ -17,25 +17,20 @@ Install:
    python
    >> import slack_transfer
 
-User Guide
-==================
+
 .. toctree::
    :maxdepth: 1
 
    user_guide/index
    user_guide/index_ja
 
-API
-==================
 .. toctree::
    :maxdepth: 2
-   :caption: API:
 
    reference/index
 
+:ref:`genindex`
 
-Others
-==================
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+:ref:`modindex`
+
+:ref:`search`
