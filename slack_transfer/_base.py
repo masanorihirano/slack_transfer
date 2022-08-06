@@ -4,15 +4,41 @@ from ssl import SSLContext
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Union
 
 from slack_sdk import WebClient
 from slack_sdk.http_retry import RetryHandler
 
 from .functions.common import get_channels_list
+from .functions.common import get_file_volumes
 from .functions.common import get_replies
 
 
-class CommonClient(WebClient):
+class CommonDryRunClient(WebClient):
+    def get_channels_list(self) -> List[Dict]:
+        return get_channels_list(client=self)
+
+    def get_replies(self, channel_id: str, ts: str) -> List[Dict]:
+        return get_replies(client=self, channel_id=channel_id, ts=ts)
+
+    def get_file_volumes(
+        self, channel_ids: Optional[Union[str, List[str]]] = None
+    ) -> float:
+        return get_file_volumes(client=self, channel_ids=channel_ids, auto_join=False)
+
+
+class CommonNoLocalVolumeClient(CommonDryRunClient):
+    def get_file_volumes(
+        self,
+        channel_ids: Optional[Union[str, List[str]]] = None,
+        auto_join: bool = False,
+    ) -> float:
+        return get_file_volumes(
+            client=self, channel_ids=channel_ids, auto_join=auto_join
+        )
+
+
+class CommonClient(CommonNoLocalVolumeClient):
     BASE_URL = "https://www.slack.com/api/"
 
     def __init__(
@@ -46,12 +72,6 @@ class CommonClient(WebClient):
         self.local_data_dir: str = local_data_dir
         os.makedirs(os.path.join(self.local_data_dir, "files"), exist_ok=True)
         os.makedirs(os.path.join(self.local_data_dir, "channels"), exist_ok=True)
-
-    def get_channels_list(self) -> List[Dict]:
-        return get_channels_list(client=self)
-
-    def get_replies(self, channel_id: str, ts: str) -> List[Dict]:
-        return get_replies(client=self, channel_id=channel_id, ts=ts)
 
 
 class UploaderClientABC(CommonClient):
