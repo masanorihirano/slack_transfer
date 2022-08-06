@@ -25,7 +25,7 @@ Please note that you have to user `slack_transfer` instead of `slack-transfer` f
 ## Issues and Contribution
 About issues (bugs):
  - You can report issues [here](https://github.com/masanorihirano/slack_transfer/issues).
- - 日本語でもissueを立てて構いません．
+ - 日本語でissueを立てて構いません．
  - There are no guarantee to support or fix those issues.
 
 Contributions:
