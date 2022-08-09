@@ -178,6 +178,7 @@
       ~UploaderClientABC.files_sharedPublicURL
       ~UploaderClientABC.files_upload
       ~UploaderClientABC.get_channels_list
+      ~UploaderClientABC.get_file_volumes
       ~UploaderClientABC.get_replies
       ~UploaderClientABC.groups_archive
       ~UploaderClientABC.groups_create

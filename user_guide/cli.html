@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>CLI &#8212; slack_transfer 0.1.3 documentation</title>
+    <title>CLI &#8212; slack_transfer 0.1.4 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.1.3 documentation</p>
+    <p class="title logo__title">slack_transfer 0.1.4 documentation</p>
   
 </a>
     
@@ -172,9 +172,29 @@
     
     <div class="toc-item">
       
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
-    
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#run">
+   run
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#file-volume">
+   file_volume
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#download">
+   download
+  </a>
+ </li>
+</ul>
+
 </nav>
     </div>
     
@@ -194,6 +214,77 @@
                 
   <section id="cli">
 <h1>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">#</a></h1>
+<p>After pip installation, you can use <code class="code docutils literal notranslate"><span class="pre">slack_transfer</span></code> CLI command instead of <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">slack_transfer.cli.*</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install slack-transfer
+slack-transfer --help
+</pre></div>
+</div>
+<section id="run">
+<h2>run<a class="headerlink" href="#run" title="Permalink to this heading">#</a></h2>
+<p>Run message migration. No intaractive mode. All settings are given through CLI args.</p>
+<dl class="simple">
+<dt>usage:</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">slack_transfer</span> <span class="pre">run</span> <span class="pre">[-h]</span> <span class="pre">--data_dir</span> <span class="pre">DATA_DIR</span> <span class="pre">[--downloader_token</span> <span class="pre">DOWNLOADER_TOKEN]</span> <span class="pre">[--uploader_token</span> <span class="pre">UPLOADER_TOKEN]</span> <span class="pre">[--override]</span> <span class="pre">[--skip_download]</span> <span class="pre">[--skip_upload]</span> <span class="pre">[--name_mappings</span> <span class="pre">NAME_MAPPINGS]</span></code></p>
+</dd>
+<dt>optional arguments:</dt><dd><dl class="simple">
+<dt><code class="code docutils literal notranslate"><span class="pre">-h,</span> <span class="pre">--help</span></code></dt><dd><p>show this help message and exit</p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--data_dir</span> <span class="pre">DATA_DIR,</span> <span class="pre">-d</span> <span class="pre">DATA_DIR</span></code></dt><dd><p>Data directory for saving download data or loading upload data. This is required.</p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--downloader_token</span> <span class="pre">DOWNLOADER_TOKEN,</span> <span class="pre">-td</span> <span class="pre">DOWNLOADER_TOKEN</span></code></dt><dd><p>Download token obtained from slack (the original workspace). Starts with <cite>xoxb-</cite></p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--uploader_token</span> <span class="pre">UPLOADER_TOKEN,</span> <span class="pre">-tu</span> <span class="pre">UPLOADER_TOKEN</span></code></dt><dd><p>Upload token obtained from slack (the destination workspace). Starts with <cite>xoxb-</cite></p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--override</span></code></dt><dd><p>This flag enables message migration to the destination workspace even when a channel already exists. This means that additional messages are inserted after the message already sent to the channel. If you want not to do so, please delete the channel on the destination workspace first.</p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--skip_download</span></code></dt><dd><p>Skip download. This is usually used when the download is already finished.</p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--skip_upload</span></code></dt><dd><p>Skip upload. This is usually used when only the download is necessary.</p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--name_mappings</span> <span class="pre">NAME_MAPPINGS</span></code></dt><dd><p>You can set name mappings between the channel names of the original and destination workspaces. Comma-separated dictionaries (key:value) are available. For example, <cite>old_name1:new_name1,old_name2:new_name2</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="file-volume">
+<h2>file_volume<a class="headerlink" href="#file-volume" title="Permalink to this heading">#</a></h2>
+<p>Check file volumes before downloading.
+Return the total file size of given channels.</p>
+<dl class="simple">
+<dt>usage:</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">slack_transfer</span> <span class="pre">file_volume</span> <span class="pre">[-h]</span> <span class="pre">--token</span> <span class="pre">TOKEN</span> <span class="pre">[--channel_ids</span> <span class="pre">CHANNEL_IDS]</span> <span class="pre">[--auto_join]</span></code></p>
+</dd>
+<dt>optional arguments:</dt><dd><dl class="simple">
+<dt><code class="code docutils literal notranslate"><span class="pre">-h,</span> <span class="pre">--help</span></code></dt><dd><p>show this help message and exit</p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--token</span> <span class="pre">TOKEN</span></code></dt><dd><p>Token obtained from slack. Starts with <cite>xoxb-</cite></p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--channel_ids</span> <span class="pre">CHANNEL_IDS</span></code></dt><dd><p>channel ids you want to check the total volume of files. If not set, set to all available channels. Set by comma-separation for multiple inputs</p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--auto_join</span></code></dt><dd><p>if bot is not in channel automatically join when this flag is used.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="download">
+<h2>download<a class="headerlink" href="#download" title="Permalink to this heading">#</a></h2>
+<p>Download the specific channels or all channels as you want.</p>
+<dl class="simple">
+<dt>usage:</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">slack_transfer</span> <span class="pre">download</span> <span class="pre">[-h]</span> <span class="pre">--data_dir</span> <span class="pre">DATA_DIR</span> <span class="pre">--downloader_token</span> <span class="pre">DOWNLOADER_TOKEN</span> <span class="pre">[--channel_names</span> <span class="pre">CHANNEL_NAMES]</span></code></p>
+</dd>
+<dt>optional arguments:</dt><dd><dl class="simple">
+<dt><code class="code docutils literal notranslate"><span class="pre">-h,</span> <span class="pre">--help</span></code></dt><dd><p>show this help message and exit</p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--data_dir</span> <span class="pre">DATA_DIR,</span> <span class="pre">-d</span> <span class="pre">DATA_DIR</span></code></dt><dd><p>Data directory for saving download data or loading upload data. This is required.</p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--downloader_token</span> <span class="pre">DOWNLOADER_TOKEN,</span> <span class="pre">-td</span> <span class="pre">DOWNLOADER_TOKEN</span></code></dt><dd><p>Download token obtained from slack (the original workspace). Starts with <cite>xoxb-</cite></p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--channel_names</span> <span class="pre">CHANNEL_NAMES</span></code></dt><dd><p>channel names you want to check the total volume of files. If not set, set to all available channels. Set by comma-separation for multiple inputs. For example, <cite>general,random</cite></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
 </section>
 
 

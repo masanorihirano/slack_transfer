@@ -178,6 +178,7 @@
       ~CommonClient.files_sharedPublicURL
       ~CommonClient.files_upload
       ~CommonClient.get_channels_list
+      ~CommonClient.get_file_volumes
       ~CommonClient.get_replies
       ~CommonClient.groups_archive
       ~CommonClient.groups_create

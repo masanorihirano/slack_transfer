@@ -178,6 +178,7 @@
       ~DownloaderClientABC.files_sharedPublicURL
       ~DownloaderClientABC.files_upload
       ~DownloaderClientABC.get_channels_list
+      ~DownloaderClientABC.get_file_volumes
       ~DownloaderClientABC.get_replies
       ~DownloaderClientABC.groups_archive
       ~DownloaderClientABC.groups_create

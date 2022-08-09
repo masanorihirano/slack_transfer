@@ -1,0 +1,30 @@
+﻿slack\_transfer.cli.file\_volume
+================================
+
+.. automodule:: slack_transfer.cli.file_volume
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      main_file_volume
+      set_parser_file_volume
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

@@ -182,6 +182,7 @@
       ~DownloaderClient.files_sharedPublicURL
       ~DownloaderClient.files_upload
       ~DownloaderClient.get_channels_list
+      ~DownloaderClient.get_file_volumes
       ~DownloaderClient.get_replies
       ~DownloaderClient.groups_archive
       ~DownloaderClient.groups_create

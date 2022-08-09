@@ -181,6 +181,7 @@
       ~UploaderClient.files_sharedPublicURL
       ~UploaderClient.files_upload
       ~UploaderClient.get_channels_list
+      ~UploaderClient.get_file_volumes
       ~UploaderClient.get_replies
       ~UploaderClient.groups_archive
       ~UploaderClient.groups_create

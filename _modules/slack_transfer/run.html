@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slack_transfer.run &#8212; slack_transfer 0.1.3 documentation</title>
+    <title>slack_transfer.run &#8212; slack_transfer 0.1.4 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.1.3 documentation</p>
+    <p class="title logo__title">slack_transfer 0.1.4 documentation</p>
   
 </a>
     
@@ -247,8 +247,7 @@
             <span class="p">)</span></div>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">set_parser_run</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--data_dir&quot;</span><span class="p">,</span>
         <span class="s2">&quot;-d&quot;</span><span class="p">,</span>
@@ -294,7 +293,9 @@
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;You can set name mappings between the channel names of the original and destination workspaces. &quot;</span>
         <span class="o">+</span> <span class="s2">&quot;Comma-separated dictionaries (key:value) are available. For example, `old_name1:new_name1,old_name2:new_name2`.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">main_run</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">name_mappings</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">name_mappings</span><span class="p">:</span>
         <span class="n">name_mappings</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
@@ -314,6 +315,13 @@
         <span class="n">skip_upload</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">skip_upload</span><span class="p">,</span>
         <span class="n">name_mappings</span><span class="o">=</span><span class="n">name_mappings</span><span class="p">,</span>
     <span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">set_parser_run</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">main_run</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
 </pre></div>
 
               </article>
