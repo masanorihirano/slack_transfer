@@ -1,13 +1,14 @@
 import argparse
 
-from slack_transfer.cli.download import main_download
-from slack_transfer.cli.download import set_parser_download
-
 from ..run import main_run
 from ..run import set_parser_run
 from ..version import __version__
+from .download import main_download
+from .download import set_parser_download
 from .file_volume import main_file_volume
 from .file_volume import set_parser_file_volume
+from .upload import main_upload
+from .upload import set_parser_upload
 
 
 def main() -> None:
@@ -33,6 +34,10 @@ This is CLI v.{__version__}
     parser_download = subparsers.add_parser("download", help="see `download -h`")
     set_parser_download(parser=parser_download)
     parser_download.set_defaults(handler=main_download)
+
+    parser_upload = subparsers.add_parser("upload", help="see `upload -h`")
+    set_parser_upload(parser=parser_upload)
+    parser_upload.set_defaults(handler=main_upload)
 
     args = parser.parse_args()
     if hasattr(args, "handler"):

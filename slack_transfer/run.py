@@ -21,6 +21,7 @@ def run(
     skip_download: bool = False,
     skip_upload: bool = False,
     name_mappings: Optional[Dict[str, str]] = None,
+    channels_names: Optional[List[str]] = None,
 ) -> None:
     os.makedirs(local_data_dir, exist_ok=True)
     if not skip_download:
@@ -29,6 +30,11 @@ def run(
         )
         channels_list: List[Dict] = downloader.download_channels_list()
         downloader.download_members_list()
+
+        if channels_names:
+            channels_list = list(
+                filter(lambda x: (x["name"] in channels_names), channels_list)  # type: ignore
+            )
 
         ts_now = int(time.time())
         times_to_rest = list(map(lambda x: ts_now - x["created"], channels_list))
@@ -54,6 +60,8 @@ def run(
             name_mappings = {}
 
         conflicts = uploader.check_upload_conflict(name_mappings=name_mappings)
+        if channels_names:
+            conflicts = list(filter(lambda x: (x in channels_names), conflicts))  # type: ignore
         if len(conflicts) > 0 and not override:
             raise ValueError(
                 f"channels: {', '.join(conflicts)} are already exist. please set mapping or override=True"
@@ -72,6 +80,13 @@ def run(
         channel_files: List[str] = glob.glob(
             os.path.join(uploader.local_data_dir, "channels", "*.json")
         )
+        if channels_names:
+            channel_files = list(
+                filter(
+                    lambda x: (os.path.basename(x)[:-5] in channels_names),  # type: ignore
+                    channel_files,
+                )
+            )
         for i, channel_file_path in enumerate(channel_files):
             old_channel_name = os.path.basename(channel_file_path).replace(".json", "")
             if old_channel_name in name_mappings:
@@ -128,6 +143,13 @@ def set_parser_run(parser: argparse.ArgumentParser) -> None:
         help="Skip upload. This is usually used when only the download is necessary.",
     )
     parser.add_argument(
+        "--channel_names",
+        type=str,
+        default=None,
+        help="channel names you want to process. If not set, set to all available channels. "
+        + "Set by comma-separation for multiple inputs. For example, `general,random`",
+    )
+    parser.add_argument(
         "--name_mappings",
         type=str,
         default=None,
@@ -145,6 +167,10 @@ def main_run(args: argparse.Namespace) -> None:
                 for dict_input in args.name_mappings.split(",")
             ]
         )
+    if args.channel_names is not None:
+        channel_names = args.channel_names.split(",")
+    else:
+        channel_names = None
     if name_mappings:
         print(f"name mappings: {name_mappings}")
     run(
@@ -154,6 +180,7 @@ def main_run(args: argparse.Namespace) -> None:
         override=args.override,
         skip_download=args.skip_download,
         skip_upload=args.skip_upload,
+        channels_names=channel_names,
         name_mappings=name_mappings,
     )
 

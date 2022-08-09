@@ -96,13 +96,14 @@ Windowsの場合
 
 .. code-block:: bash
 
-    $ poetry run python -m slack_transfer.run --data_dir=<local_data_dir> --downloader_token=<downloader_token> --uploader_token=<uploader_token> --name_mappings=<name_mappings> [--override]
+    $ poetry run python -m slack_transfer.run --data_dir=<local_data_dir> --downloader_token=<downloader_token> --uploader_token=<uploader_token> --channel_names=<channel_names> --name_mappings=<name_mappings> [--override]
 
 などと実行します．
 それぞれのパラメータは以下の通りです．
  - :mod:`<local_data_dir>`: ダウンロードしたデータを端末内に一時保存するディレクトリです．相対ディレクトリ，絶対ディレクトリのどちらでも設定できます．存在しない場合は自動生成されます．わからなければ， :mod:`local_data_dir` などと設定してください．
  - :mod:`<downloader_token>`: 2で取得したdownload側WSのAPI tokenです． xoxb-から始まります．
  - :mod:`<uploader_token>`: 3で取得したupload側WSのAPI tokenです． xoxb-から始まります．
+ - :mod:`<channel_names>`: 処理の対象にしたいチャンネル名を指定します．カンマ区切りで，Download側WSの名前で指定します．指定せず，すべてを対象にする場合は，:mod:`--channel_names=<channel_names>`を丸ごと削除します．
  - :mod:`<name_mappings>`: 4で決めたチャンネル名のマッピングを設定します．不要な場合は :mod:`\-\-name_mappings=<name_mappings>` を丸っと削除してください．なお，設定方法は :mod:`old_name1:new_name1,old_name2:new_name2` などと設定します．old_nameがdownload側，new_nameがupload側のチャンネル名で，マッピングが必要なものだけを記載すれば充分です．(そのままの名前でよい場合は設定不用意)
  - :mod:`--override`: 4で「そのままこれまでの投稿の末尾に追加する」を選択した場合には，これを付与してください．不要な場合は削除します．
 

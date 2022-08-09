@@ -30,6 +30,8 @@ optional arguments:
         Skip download. This is usually used when the download is already finished.
     :code:`--skip_upload`
         Skip upload. This is usually used when only the download is necessary.
+    :code:`--channel_names CHANNEL_NAMES`
+        channel names you want to process. If not set, set to all available channels. Set by comma-separation for multiple inputs. For example, `general,random`
     :code:`--name_mappings NAME_MAPPINGS`
         You can set name mappings between the channel names of the original and destination workspaces. Comma-separated dictionaries (key:value) are available. For example, `old_name1:new_name1,old_name2:new_name2`.
 
@@ -69,3 +71,25 @@ optional arguments:
         Download token obtained from slack (the original workspace). Starts with `xoxb-`
     :code:`--channel_names CHANNEL_NAMES`
         channel names you want to download. If not set, set to all available channels. Set by comma-separation for multiple inputs. For example, `general,random`
+
+
+uploader
+----------------
+Upload the specific channels or all channels as you want.
+
+usage:
+    :code:`slack_transfer upload [-h] --data_dir DATA_DIR --uploader_token UPLOADER_TOKEN [--old_channel_names OLD_CHANNEL_NAMES] [--override] [--name_mappings NAME_MAPPINGS]`
+
+optional arguments:
+    :code:`-h, --help`
+        show this help message and exit
+    :doce:`--data_dir DATA_DIR, -d DATA_DIR`
+        Data directory for saving upload data or loading upload data. This is required.
+    :code:`--uploader_token UPLOADER_TOKEN, -td UPLOADER_TOKEN`
+        upload token obtained from slack (the original workspace). Starts with `xoxb-`
+    :code:`--old_channel_names OLD_CHANNEL_NAMES`
+        channel names you want to upload. Name is selected among downloaded WS. If not set, set to all available channels. Set by comma-separation for multiple inputs. For example, `general,random`
+    :code:`--override`
+        This flag enables message migration to the destination workspace even when a channel already exists. This means that additional messages are inserted after the message already sent to the channel. If you want not to do so, please delete the channel on the destination workspace first.
+    :code:`--name_mappings NAME_MAPPINGS`
+        You can set name mappings between the channel names of the original and destination workspaces. Comma-separated dictionaries (key:value) are available. For example, `old_name1:new_name1,old_name2:new_name2`.
