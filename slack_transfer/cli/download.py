@@ -28,7 +28,7 @@ def set_parser_download(parser: argparse.ArgumentParser) -> None:
         "--channel_names",
         type=str,
         default=None,
-        help="channel names you want to check the total volume of files. If not set, set to all available channels. "
+        help="channel names you want to download. If not set, set to all available channels. "
         + "Set by comma-separation for multiple inputs. For example, `general,random`",
     )
 

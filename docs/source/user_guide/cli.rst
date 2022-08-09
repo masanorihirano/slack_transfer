@@ -68,4 +68,4 @@ optional arguments:
     :code:`--downloader_token DOWNLOADER_TOKEN, -td DOWNLOADER_TOKEN`
         Download token obtained from slack (the original workspace). Starts with `xoxb-`
     :code:`--channel_names CHANNEL_NAMES`
-        channel names you want to check the total volume of files. If not set, set to all available channels. Set by comma-separation for multiple inputs. For example, `general,random`
+        channel names you want to download. If not set, set to all available channels. Set by comma-separation for multiple inputs. For example, `general,random`
