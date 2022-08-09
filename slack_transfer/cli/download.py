@@ -39,7 +39,7 @@ def main_download(args: argparse.Namespace) -> None:
         local_data_dir=args.data_dir,
         downloader_token=args.downloader_token,
         skip_upload=True,
-        channels_names=channel_names,
+        channel_names=channel_names,
     )
 
 

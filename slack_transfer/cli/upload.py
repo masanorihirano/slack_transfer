@@ -66,7 +66,7 @@ def main_upload(args: argparse.Namespace) -> None:
         override=args.override,
         skip_download=True,
         name_mappings=name_mappings,
-        channels_names=channel_names,
+        channel_names=channel_names,
     )
 
 

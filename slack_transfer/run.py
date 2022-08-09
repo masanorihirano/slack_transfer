@@ -21,7 +21,7 @@ def run(
     skip_download: bool = False,
     skip_upload: bool = False,
     name_mappings: Optional[Dict[str, str]] = None,
-    channels_names: Optional[List[str]] = None,
+    channel_names: Optional[List[str]] = None,
 ) -> None:
     os.makedirs(local_data_dir, exist_ok=True)
     if not skip_download:
@@ -31,9 +31,9 @@ def run(
         channels_list: List[Dict] = downloader.download_channels_list()
         downloader.download_members_list()
 
-        if channels_names:
+        if channel_names:
             channels_list = list(
-                filter(lambda x: (x["name"] in channels_names), channels_list)  # type: ignore
+                filter(lambda x: (x["name"] in channel_names), channels_list)  # type: ignore
             )
 
         ts_now = int(time.time())
@@ -60,13 +60,26 @@ def run(
             name_mappings = {}
 
         conflicts = uploader.check_upload_conflict(name_mappings=name_mappings)
-        if channels_names:
-            conflicts = list(filter(lambda x: (x in channels_names), conflicts))  # type: ignore
+        if channel_names:
+            conflicts = list(
+                filter(
+                    lambda x: (  # type: ignore
+                        x
+                        in [
+                            name_mappings[y] if y in name_mappings else y
+                            for y in channel_names
+                        ]
+                    ),
+                    conflicts,
+                )
+            )
         if len(conflicts) > 0 and not override:
             raise ValueError(
                 f"channels: {', '.join(conflicts)} are already exist. please set mapping or override=True"
             )
-        uploader.create_all_channels(name_mappings=name_mappings)
+        uploader.create_all_channels(
+            channel_names=channel_names, name_mappings=name_mappings
+        )
         old_members = json.load(
             open(
                 os.path.join(uploader.local_data_dir, "members.json"),
@@ -80,10 +93,10 @@ def run(
         channel_files: List[str] = glob.glob(
             os.path.join(uploader.local_data_dir, "channels", "*.json")
         )
-        if channels_names:
+        if channel_names:
             channel_files = list(
                 filter(
-                    lambda x: (os.path.basename(x)[:-5] in channels_names),  # type: ignore
+                    lambda x: (os.path.basename(x)[:-5] in channel_names),  # type: ignore
                     channel_files,
                 )
             )
@@ -180,7 +193,7 @@ def main_run(args: argparse.Namespace) -> None:
         override=args.override,
         skip_download=args.skip_download,
         skip_upload=args.skip_upload,
-        channels_names=channel_names,
+        channel_names=channel_names,
         name_mappings=name_mappings,
     )
 

@@ -19,7 +19,9 @@ from .common import get_channels_list
 
 
 def create_all_channels(
-    client: UploaderClientABC, name_mappings: Optional[Dict[str, str]] = None
+    client: UploaderClientABC,
+    channel_names: Optional[List[str]] = None,
+    name_mappings: Optional[Dict[str, str]] = None,
 ) -> None:
     downloaded_channels = json.load(
         open(
@@ -28,6 +30,10 @@ def create_all_channels(
             encoding="utf-8",
         )
     )
+    if channel_names:
+        downloaded_channels = list(
+            filter(lambda x: (x["name"] in channel_names), downloaded_channels)  # type: ignore
+        )
     channels_list: List[Dict] = get_channels_list(client=client)
     for old_channel_info in downloaded_channels:
         new_channel_name = (

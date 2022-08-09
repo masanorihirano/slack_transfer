@@ -56,9 +56,13 @@ class UploaderClient(UploaderClientABC):
     """UploaderClient"""
 
     def create_all_channels(
-        self, name_mappings: Optional[Dict[str, str]] = None
+        self,
+        channel_names: Optional[List[str]] = None,
+        name_mappings: Optional[Dict[str, str]] = None,
     ) -> None:
-        return create_all_channels(client=self, name_mappings=name_mappings)
+        return create_all_channels(
+            client=self, channel_names=channel_names, name_mappings=name_mappings
+        )
 
     def upload_file(
         self,
