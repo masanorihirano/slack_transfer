@@ -183,13 +183,11 @@ def data_insert(
                     (
                         [
                             {
-                                "type": "context",
-                                "elements": [
-                                    {"type": "mrkdwn", "text": message["text"]}
-                                ],
+                                "type": "section",
+                                "text": {"type": "mrkdwn", "text": message["text"]},
                             }
                         ]
-                        if message["text"] and len(file_ids) != 0
+                        if message["text"]
                         else []
                     )
                     + (

@@ -40,6 +40,7 @@ CLI
     :recursive:
 
     cli.token_test
+    cli.file_volume
 
 Others
 ~~~~~~~~~~~~~~~~~~
