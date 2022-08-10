@@ -72,6 +72,7 @@ class CommonClient(CommonNoLocalVolumeClient):
         self.local_data_dir: str = local_data_dir
         os.makedirs(os.path.join(self.local_data_dir, "files"), exist_ok=True)
         os.makedirs(os.path.join(self.local_data_dir, "channels"), exist_ok=True)
+        os.makedirs(os.path.join(self.local_data_dir, "bookmarks"), exist_ok=True)
 
 
 class UploaderClientABC(CommonClient):

@@ -22,6 +22,7 @@ def run(
     skip_upload: bool = False,
     name_mappings: Optional[Dict[str, str]] = None,
     channel_names: Optional[List[str]] = None,
+    skip_bookmarks: bool = False,
 ) -> None:
     os.makedirs(local_data_dir, exist_ok=True)
     if not skip_download:
@@ -49,6 +50,10 @@ def run(
             )
             pbar.close()
             time.sleep(1)
+            if not skip_bookmarks:
+                downloader.download_bookmark(
+                    channel_id=channel["id"], channel_name=channel["name"]
+                )
 
     if not skip_upload:
         if uploader_token is None:
@@ -120,12 +125,16 @@ def run(
             print(
                 f"{i + 1}/{len(channel_files)}: {old_channel_name} -> {new_channel_name}"
             )
-            uploader.data_insert(
+            new_channel_id = uploader.data_insert(
                 channel_name=new_channel_name,
                 old_members_dict=old_members_dict,
                 old_members_icon_url_dict=old_members_icon_url_dict,
                 old_channel_name=old_channel_name,
             )
+            if not skip_bookmarks:
+                uploader.insert_bookmarks(
+                    channel_id=new_channel_id, old_channel_name=old_channel_name
+                )
 
 
 def set_parser_run(parser: argparse.ArgumentParser) -> None:
@@ -181,6 +190,9 @@ def set_parser_run(parser: argparse.ArgumentParser) -> None:
         help="You can set name mappings between the channel names of the original and destination workspaces. "
         + "Comma-separated dictionaries (key:value) are available. For example, `old_name1:new_name1,old_name2:new_name2`.",
     )
+    parser.add_argument(
+        "--skip_bookmarks", action="store_true", help="Skip process bookmarks."
+    )
 
 
 def main_run(args: argparse.Namespace) -> None:
@@ -207,6 +219,7 @@ def main_run(args: argparse.Namespace) -> None:
         skip_upload=args.skip_upload,
         channel_names=channel_names,
         name_mappings=name_mappings,
+        skip_bookmarks=args.skip_bookmarks,
     )
 
 

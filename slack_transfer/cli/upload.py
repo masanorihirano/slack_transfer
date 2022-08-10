@@ -41,6 +41,9 @@ def set_parser_upload(parser: argparse.ArgumentParser) -> None:
         help="You can set name mappings between the channel names of the original and destination workspaces. "
         + "Comma-separated dictionaries (key:value) are available. For example, `old_name1:new_name1,old_name2:new_name2`.",
     )
+    parser.add_argument(
+        "--skip_bookmarks", action="store_true", help="Skip process bookmarks."
+    )
 
 
 def main_upload(args: argparse.Namespace) -> None:
@@ -67,6 +70,7 @@ def main_upload(args: argparse.Namespace) -> None:
         skip_download=True,
         name_mappings=name_mappings,
         channel_names=channel_names,
+        skip_bookmarks=args.skip_bookmarks,
     )
 
 

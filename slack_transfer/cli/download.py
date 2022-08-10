@@ -26,6 +26,9 @@ def set_parser_download(parser: argparse.ArgumentParser) -> None:
         help="channel names you want to download. If not set, set to all available channels. "
         + "Set by comma-separation for multiple inputs. For example, `general,random`",
     )
+    parser.add_argument(
+        "--skip_bookmarks", action="store_true", help="Skip process bookmarks."
+    )
 
 
 def main_download(args: argparse.Namespace) -> None:
@@ -40,6 +43,7 @@ def main_download(args: argparse.Namespace) -> None:
         downloader_token=args.downloader_token,
         skip_upload=True,
         channel_names=channel_names,
+        skip_bookmarks=args.skip_bookmarks,
     )
 
 

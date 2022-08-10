@@ -121,7 +121,7 @@ def data_insert(
     old_channel_name: Optional[str] = None,
     time_zone: str = "Asia/Tokyo",
     progress: Union[bool, tqdm.tqdm] = True,
-) -> None:
+) -> str:
     if old_members_icon_url_dict is None:
         old_members_icon_url_dict = {}
     tz_delta = tz.gettz(time_zone)
@@ -308,6 +308,7 @@ def data_insert(
         else:
             ts_mapper[message["ts"]] = response["message"]["ts"]
         progress_bar.update(n=1)
+    return new_channel_id
 
 
 def check_upload_conflict(
@@ -331,3 +332,17 @@ def check_upload_conflict(
         )
     )
     return list(existing_channels_name & downloaded_channels_name)
+
+
+def insert_bookmarks(
+    client: UploaderClientABC, channel_id: str, old_channel_name: str = None
+) -> None:
+    data_file_path = os.path.join(
+        client.local_data_dir, "bookmarks", f"{old_channel_name}.json"
+    )
+    if not os.path.exists(data_file_path):
+        return
+    bookmarks: List[Dict] = json.load(open(data_file_path, mode="r", encoding="utf-8"))
+    for bookmark in bookmarks:
+        del bookmark["channel_id"]
+        client.bookmarks_add(channel_id=channel_id, **bookmark)
