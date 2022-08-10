@@ -110,3 +110,34 @@ def get_file_volumes(
             else:
                 break
     return sum(volume_dict.values())
+
+
+def test_connection(client: WebClient, test_target_channels: List[str]) -> None:
+    response = client.auth_test()
+    if not response["ok"]:
+        raise IOError("slack token is invalid.")
+    print(f"Successfully access to {response['team']}")
+    needed_scope = ","
+    for test_target_channel in test_target_channels:
+        # channels:read,groups:read,mpim:read,im:read
+        response = client.conversations_list(types="public_channel, private_channel")
+        channel_cand = list(
+            filter(lambda x: x["name"] == test_target_channel, response["channels"])
+        )
+        if len(channel_cand) == 0:
+            raise ValueError(
+                f"test target channel doesn't exist: {test_target_channel}"
+            )
+        if len(channel_cand) != 1:
+            raise AssertionError
+        # channels:join
+        try:
+            response = client.conversations_join(channel=channel_cand[0]["id"])
+        except SlackApiError as e:
+            if e.response["error"] != "method_not_supported_for_channel_type":
+                raise e
+        # channels:history for public
+        # groups:history for private
+        client.conversations_history(channel=channel_cand[0]["id"], ts="1")
+        # files:read
+        client.files_list()

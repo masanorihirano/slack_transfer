@@ -12,6 +12,7 @@ from slack_sdk.http_retry import RetryHandler
 from .functions.common import get_channels_list
 from .functions.common import get_file_volumes
 from .functions.common import get_replies
+from .functions.common import test_connection
 
 
 class CommonDryRunClient(WebClient):
@@ -36,6 +37,9 @@ class CommonNoLocalVolumeClient(CommonDryRunClient):
         return get_file_volumes(
             client=self, channel_ids=channel_ids, auto_join=auto_join
         )
+
+    def test_connection(self, test_target_channels: List[str]) -> None:
+        return test_connection(client=self, test_target_channels=test_target_channels)
 
 
 class CommonClient(CommonNoLocalVolumeClient):
