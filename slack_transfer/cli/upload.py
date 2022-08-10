@@ -14,10 +14,10 @@ def set_parser_upload(parser: argparse.ArgumentParser) -> None:
     )
     parser.add_argument(
         "--uploader_token",
-        "-td",
+        "-tu",
         type=str,
         required=True,
-        help="upload token obtained from slack (the original workspace). Starts with `xoxb-`",
+        help="upload token obtained from slack (the destination workspace). Starts with `xoxb-`",
     )
     parser.add_argument(
         "--old_channel_names",

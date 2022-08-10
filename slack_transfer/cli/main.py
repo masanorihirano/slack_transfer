@@ -3,6 +3,8 @@ import argparse
 from ..run import main_run
 from ..run import set_parser_run
 from ..version import __version__
+from .bookmark import main_bookmark
+from .bookmark import set_parser_bookmark
 from .download import main_download
 from .download import set_parser_download
 from .file_volume import main_file_volume
@@ -38,6 +40,10 @@ This is CLI v.{__version__}
     parser_upload = subparsers.add_parser("upload", help="see `upload -h`")
     set_parser_upload(parser=parser_upload)
     parser_upload.set_defaults(handler=main_upload)
+
+    parser_bookmark = subparsers.add_parser("bookmark", help="see `bookmark -h`")
+    set_parser_bookmark(parser=parser_bookmark)
+    parser_bookmark.set_defaults(handler=main_bookmark)
 
     args = parser.parse_args()
     if hasattr(args, "handler"):
