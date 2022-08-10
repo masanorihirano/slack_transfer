@@ -11,6 +11,7 @@ from typing import Union
 
 import tqdm
 from dateutil import tz
+from markdownify import markdownify
 from slack_sdk.errors import SlackApiError
 from slack_sdk.web import SlackResponse
 
@@ -70,13 +71,33 @@ def upload_file(
     channel_id: Optional[str] = None,
     title: Optional[str] = None,
     filetype: Optional[str] = None,
+    is_slack_post: bool = False,
 ) -> Optional[Tuple[str, str]]:
-    file_path = os.path.join(
+    file_path: Optional[str] = os.path.join(
         client.local_data_dir, "files", f"{old_file_id}--{file_name}"
     )
+    content = None
+    if is_slack_post:
+        filetype = "post"
+        if file_path is None:
+            raise AssertionError
+        # ToDo: better support of slack post
+        content = (
+            markdownify(
+                json.load(open(file_path, mode="r"))["full"]
+                .replace("<pre>", "```")
+                .replace("</pre>", "```")
+                .replace("<p>", "")
+                .replace("</p>", "")
+            )
+            .replace("\n\n\n", "\n")
+            .replace("\n\n", "\n")
+        )
+        file_path = None
     try:
         response: SlackResponse = client.files_upload(
             file=file_path,
+            content=content,
             filename=file_name,
             filetype=filetype,
             title=title,
@@ -138,6 +159,9 @@ def data_insert(
                         channel_id=None,
                         title=title,
                         filetype=file_type,
+                        is_slack_post=(
+                            file["mimetype"] == "application/vnd.slack-docs"
+                        ),
                     )
                 except SlackApiError as e:
                     # ToDo: workaround for #11
