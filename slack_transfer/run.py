@@ -90,6 +90,17 @@ def run(
         old_members_dict = dict(
             [(member["id"], member["profile"]["real_name"]) for member in old_members]
         )
+        old_members_icon_url_dict = dict(
+            [
+                (
+                    member["id"],
+                    member["profile"]["image_original"]
+                    if "image_original" in member["profile"]
+                    else member["profile"]["image_512"],
+                )
+                for member in old_members
+            ]
+        )
         channel_files: List[str] = glob.glob(
             os.path.join(uploader.local_data_dir, "channels", "*.json")
         )
@@ -112,6 +123,7 @@ def run(
             uploader.data_insert(
                 channel_name=new_channel_name,
                 old_members_dict=old_members_dict,
+                old_members_icon_url_dict=old_members_icon_url_dict,
                 old_channel_name=old_channel_name,
             )
 
