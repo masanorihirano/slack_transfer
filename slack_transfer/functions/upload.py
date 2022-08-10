@@ -286,6 +286,13 @@ def data_insert(
         if not response["ok"]:
             raise IOError(f"Error in posting message {message['text']}")
 
+        if "pinned_to" in message:
+            channels_ids_pined = message["pinned_to"]
+            if len(channels_ids_pined) > 1:
+                # ToDo: "pined to multiple channels is not supported"
+                raise NotImplemented
+            client.pins_add(channel=new_channel_id, timestamp=response["ts"])
+
         if "thread_ts" in message.keys() and message["thread_ts"] != "":
             if message["thread_ts"] in ts_mapper:
                 pass
