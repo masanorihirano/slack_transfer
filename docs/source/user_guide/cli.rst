@@ -34,7 +34,8 @@ optional arguments:
         channel names you want to process. If not set, set to all available channels. Set by comma-separation for multiple inputs. For example, `general,random`
     :code:`--name_mappings NAME_MAPPINGS`
         You can set name mappings between the channel names of the original and destination workspaces. Comma-separated dictionaries (key:value) are available. For example, `old_name1:new_name1,old_name2:new_name2`.
-
+    :code:`--skip_bookmarks`
+        Skip process bookmarks.
 
 file_volume
 ----------------
@@ -71,7 +72,8 @@ optional arguments:
         Download token obtained from slack (the original workspace). Starts with `xoxb-`
     :code:`--channel_names CHANNEL_NAMES`
         channel names you want to download. If not set, set to all available channels. Set by comma-separation for multiple inputs. For example, `general,random`
-
+    :code:`--skip_bookmarks`
+        Skip process bookmarks.
 
 uploader
 ----------------
@@ -93,3 +95,46 @@ optional arguments:
         This flag enables message migration to the destination workspace even when a channel already exists. This means that additional messages are inserted after the message already sent to the channel. If you want not to do so, please delete the channel on the destination workspace first.
     :code:`--name_mappings NAME_MAPPINGS`
         You can set name mappings between the channel names of the original and destination workspaces. Comma-separated dictionaries (key:value) are available. For example, `old_name1:new_name1,old_name2:new_name2`.
+    :code:`--skip_bookmarks`
+        Skip process bookmarks.
+
+bookmark
+----------------
+Move bookmarks of the specific channels from the original WS to the destination WS.
+
+usage:
+    :code:`slack_transfer bookmark [-h] --data_dir DATA_DIR --downloader_token DOWNLOADER_TOKEN --uploader_token UPLOADER_TOKEN [--channel_names CHANNEL_NAMES] [--name_mappings NAME_MAPPINGS]`
+
+optional arguments:
+    :code:`-h, --help`
+        show this help message and exit
+    :code:`--data_dir DATA_DIR, -d DATA_DIR`
+        Data directory for saving download data or loading upload data. This is required.
+    :code:`--downloader_token DOWNLOADER_TOKEN, -td DOWNLOADER_TOKEN`
+        Download token obtained from slack (the original workspace). Starts with `xoxb-`
+    :code:`--uploader_token UPLOADER_TOKEN, -tu UPLOADER_TOKEN`
+        upload token obtained from slack (the destination workspace). Starts with `xoxb-`
+    :code:`--channel_names CHANNEL_NAMES`
+        channel names you want to move bookmarks. If not set, set to all available channels. Set by comma-separation for multiple inputs. For example, `general,random`
+    :code:`--name_mappings NAME_MAPPINGS`
+        You can set name mappings between the channel names of the original and destination workspaces. Comma-separated dictionaries (key:value) are available. For example, `old_name1:new_name1,old_name2:new_name2`.
+
+
+token_test
+----------------
+Test your token by bootstrap. It means that if the token has not enough scope, it will be pointed out step by step of each tests.
+
+usage:
+    :code:`slack_transfer token_test [-h] --token TOKEN --test_channels TEST_CHANNELS [--as_downloader] [--as_uploader]`
+
+optional arguments:
+    :code:`-h, --help`
+        show this help message and exit
+    :code:`--token TOKEN`
+        Token obtained from slack. Starts with `xoxb-`
+    :code:`--test_channels TEST_CHANNELS`
+        Test channel names. Multiple channels can be set by comma-separation like `general,private`
+    :code:`--as_downloader`
+        for checking as downloader
+    :code:`--as_uploader`
+        for checking as uploader
