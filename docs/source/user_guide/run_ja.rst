@@ -40,9 +40,39 @@ slack_transfer.run の使い方
 2. slackトークンの取得(download側)
 ---------------------
 
+Download側に必要になるScopeは以下です．
+
+【Downloader/Uploader共通で必要】
+ - channels:history
+ - channels:join
+ - channels:read
+ - files:read
+ - groups:history
+ - groups:read
+
+【Downloaderに必要】
+ - bookmarks:read
+ - users:read
 
 3. slackトークンの取得(upload側)
 ---------------------
+
+Upload側に必要になるScopeは以下です．
+
+【Downloader/Uploader共通で必要】
+ - channels:history
+ - channels:join
+ - channels:read
+ - files:read
+ - groups:history
+ - groups:read
+
+【Uploaderに必要】
+ - channels:manage
+ - files:write
+ - chat:write
+ - pins:write
+ - bookmarks:write
 
 
 4. チャンネル名のマッピングの検討

@@ -29,6 +29,16 @@ def run(
         downloader = DownloaderClient(
             local_data_dir=local_data_dir, token=downloader_token
         )
+        downloader.test_connection()
+        downloader.test_downloader()
+    if not skip_upload:
+        if uploader_token is None:
+            raise ValueError("uploader_token is required")
+        uploader = UploaderClient(
+            local_data_dir=local_data_dir, token=uploader_token, timeout=300
+        )
+        uploader.test_uploader()
+    if not skip_download:
         channels_list: List[Dict] = downloader.download_channels_list()
         downloader.download_members_list()
 
@@ -56,11 +66,6 @@ def run(
                 )
 
     if not skip_upload:
-        if uploader_token is None:
-            raise ValueError("uploader_token is required")
-        uploader = UploaderClient(
-            local_data_dir=local_data_dir, token=uploader_token, timeout=300
-        )
         if name_mappings is None:
             name_mappings = {}
 

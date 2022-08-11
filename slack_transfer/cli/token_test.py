@@ -1,5 +1,4 @@
 import argparse
-import math
 
 from .._base import CommonNoLocalVolumeClient
 
@@ -30,7 +29,13 @@ def set_parser_token_test(parser: argparse.ArgumentParser) -> None:
 def main_token_test(args: argparse.Namespace) -> None:
     """See token_test section in :doc:`../../../user_guide/cli`"""
     client = CommonNoLocalVolumeClient(token=args.token)
-    client.test_connection(test_target_channels=args.test_channels.split(","))
+    client.test_connection()
+
+    if args.as_downloader:
+        client.test_downloader()
+
+    if args.as_uploader:
+        client.test_uploader()
 
 
 if __name__ == "__main__":
