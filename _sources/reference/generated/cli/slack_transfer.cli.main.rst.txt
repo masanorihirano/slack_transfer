@@ -1,0 +1,29 @@
+﻿slack\_transfer.cli.main
+========================
+
+.. automodule:: slack_transfer.cli.main
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      main
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

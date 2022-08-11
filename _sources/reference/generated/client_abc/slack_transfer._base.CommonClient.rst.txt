@@ -280,6 +280,7 @@
    .. autosummary::
    
       ~CommonClient.BASE_URL
+      ~CommonClient.TYPE
       ~CommonClient.token
       ~CommonClient.base_url
       ~CommonClient.timeout

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>CLI &#8212; slack_transfer 0.1.5 documentation</title>
+    <title>CLI &#8212; slack_transfer 0.1.6a0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.1.5 documentation</p>
+    <p class="title logo__title">slack_transfer 0.1.6a0 documentation</p>
   
 </a>
     
@@ -201,6 +201,11 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#bookmark">
    bookmark
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#emoji">
+   emoji
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -349,6 +354,24 @@ Return the total file size of given channels.</p>
 <dt><code class="code docutils literal notranslate"><span class="pre">--channel_names</span> <span class="pre">CHANNEL_NAMES</span></code></dt><dd><p>channel names you want to move bookmarks. If not set, set to all available channels. Set by comma-separation for multiple inputs. For example, <cite>general,random</cite></p>
 </dd>
 <dt><code class="code docutils literal notranslate"><span class="pre">--name_mappings</span> <span class="pre">NAME_MAPPINGS</span></code></dt><dd><p>You can set name mappings between the channel names of the original and destination workspaces. Comma-separated dictionaries (key:value) are available. For example, <cite>old_name1:new_name1,old_name2:new_name2</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="emoji">
+<h2>emoji<a class="headerlink" href="#emoji" title="Permalink to this heading">#</a></h2>
+<p>Download emojis specific to the workspace. Only download is available.
+Thus, after downloading, you have to add them to the destination WS.</p>
+<dl class="simple">
+<dt>usage:</dt><dd><p><code class="code docutils literal notranslate"><span class="pre">slack_transfer</span> <span class="pre">emoji</span> <span class="pre">[-h]</span> <span class="pre">--data_dir</span> <span class="pre">DATA_DIR</span> <span class="pre">--downloader_token</span> <span class="pre">DOWNLOADER_TOKEN</span></code></p>
+</dd>
+<dt>optional arguments:</dt><dd><dl class="simple">
+<dt><code class="code docutils literal notranslate"><span class="pre">-h,</span> <span class="pre">--help</span></code></dt><dd><p>show this help message and exit</p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--data_dir</span> <span class="pre">DATA_DIR,</span> <span class="pre">-d</span> <span class="pre">DATA_DIR</span></code></dt><dd><p>Data directory for saving download data or loading upload data. This is required.</p>
+</dd>
+<dt><code class="code docutils literal notranslate"><span class="pre">--downloader_token</span> <span class="pre">DOWNLOADER_TOKEN,</span> <span class="pre">-td</span> <span class="pre">DOWNLOADER_TOKEN</span></code></dt><dd><p>Download token obtained from slack (the original workspace). Starts with <cite>xoxb-</cite></p>
 </dd>
 </dl>
 </dd>

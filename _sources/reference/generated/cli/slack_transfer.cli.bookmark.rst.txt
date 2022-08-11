@@ -1,0 +1,30 @@
+﻿slack\_transfer.cli.bookmark
+============================
+
+.. automodule:: slack_transfer.cli.bookmark
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      main_bookmark
+      set_parser_bookmark
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

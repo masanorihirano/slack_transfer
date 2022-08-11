@@ -1,0 +1,30 @@
+﻿slack\_transfer.cli.download
+============================
+
+.. automodule:: slack_transfer.cli.download
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      main_download
+      set_parser_download
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

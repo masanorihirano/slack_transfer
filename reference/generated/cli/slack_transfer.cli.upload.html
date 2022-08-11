@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>slack_transfer.functions.upload &#8212; slack_transfer 0.1.6a0 documentation</title>
+    <title>slack_transfer.cli.upload &#8212; slack_transfer 0.1.6a0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -36,8 +36,8 @@
     <script src="../../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="slack_transfer.cli.bookmark" href="../cli/slack_transfer.cli.bookmark.html" />
-    <link rel="prev" title="slack_transfer.functions.download" href="slack_transfer.functions.download.html" />
+    <link rel="next" title="slack_transfer.__version__" href="../other/slack_transfer.__version__.html" />
+    <link rel="prev" title="slack_transfer.cli.token_test" href="slack_transfer.cli.token_test.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
   </head>
@@ -165,51 +165,51 @@
   </a>
  </li>
 </ul>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="slack_transfer.functions.common.html">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.html">
    slack_transfer.functions.common
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="slack_transfer.functions.download.html">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.html">
    slack_transfer.functions.download
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.html">
    slack_transfer.functions.upload
   </a>
  </li>
 </ul>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../cli/slack_transfer.cli.bookmark.html">
+  <a class="reference internal" href="slack_transfer.cli.bookmark.html">
    slack_transfer.cli.bookmark
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../cli/slack_transfer.cli.download.html">
+  <a class="reference internal" href="slack_transfer.cli.download.html">
    slack_transfer.cli.download
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../cli/slack_transfer.cli.file_volume.html">
+  <a class="reference internal" href="slack_transfer.cli.file_volume.html">
    slack_transfer.cli.file_volume
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../cli/slack_transfer.cli.main.html">
+  <a class="reference internal" href="slack_transfer.cli.main.html">
    slack_transfer.cli.main
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../cli/slack_transfer.cli.token_test.html">
+  <a class="reference internal" href="slack_transfer.cli.token_test.html">
    slack_transfer.cli.token_test
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../cli/slack_transfer.cli.upload.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    slack_transfer.cli.upload
   </a>
  </li>
@@ -263,25 +263,16 @@
               
               <article class="bd-article" role="main">
                 
-  <section id="module-slack_transfer.functions.upload">
-<span id="slack-transfer-functions-upload"></span><h1>slack_transfer.functions.upload<a class="headerlink" href="#module-slack_transfer.functions.upload" title="Permalink to this heading">#</a></h1>
+  <section id="module-slack_transfer.cli.upload">
+<span id="slack-transfer-cli-upload"></span><h1>slack_transfer.cli.upload<a class="headerlink" href="#module-slack_transfer.cli.upload" title="Permalink to this heading">#</a></h1>
 <p class="rubric">Functions</p>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_upload_conflict</span></code>(client[, name_mappings])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">main_upload</span></code>(args)</p></td>
+<td><p>See upload section in <a class="reference internal" href="../../../user_guide/cli.html"><span class="doc">CLI</span></a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_all_channels</span></code>(client[, channel_names, ...])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_insert</span></code>(client, channel_name, ...[, ...])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">insert_bookmarks</span></code>(client, channel_id[, ...])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">upload_file</span></code>(client, old_file_id, file_name)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_parser_upload</span></code>(parser)</p></td>
+<td><p>See upload section in <a class="reference internal" href="../../../user_guide/cli.html"><span class="doc">CLI</span></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -295,17 +286,17 @@
               <footer class="bd-footer-article">
                   <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="slack_transfer.functions.download.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="slack_transfer.cli.token_test.html" title="previous page">
       <i class="fas fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">slack_transfer.functions.download</p>
+          <p class="prev-next-title">slack_transfer.cli.token_test</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="../cli/slack_transfer.cli.bookmark.html" title="next page">
+  <a class='right-next' id="next-link" href="../other/slack_transfer.__version__.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">slack_transfer.cli.bookmark</p>
+      <p class="prev-next-title">slack_transfer.__version__</p>
   </div>
   <i class="fas fa-angle-right"></i>
   </a>

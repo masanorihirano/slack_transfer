@@ -166,6 +166,7 @@
       ~DownloaderClient.download_bookmark
       ~DownloaderClient.download_channel_history
       ~DownloaderClient.download_channels_list
+      ~DownloaderClient.download_emoji
       ~DownloaderClient.download_file
       ~DownloaderClient.download_members_list
       ~DownloaderClient.emoji_list
@@ -285,6 +286,7 @@
    .. autosummary::
    
       ~DownloaderClient.BASE_URL
+      ~DownloaderClient.TYPE
       ~DownloaderClient.token
       ~DownloaderClient.base_url
       ~DownloaderClient.timeout

@@ -16,6 +16,7 @@
       download_bookmark
       download_channel_history
       download_channels_list
+      download_emoji
       download_file
       download_members_list
    

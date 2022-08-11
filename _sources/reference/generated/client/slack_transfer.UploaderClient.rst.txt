@@ -285,6 +285,7 @@
    .. autosummary::
    
       ~UploaderClient.BASE_URL
+      ~UploaderClient.TYPE
       ~UploaderClient.token
       ~UploaderClient.base_url
       ~UploaderClient.timeout

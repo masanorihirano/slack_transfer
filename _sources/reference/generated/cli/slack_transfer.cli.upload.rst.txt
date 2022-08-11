@@ -1,0 +1,30 @@
+﻿slack\_transfer.cli.upload
+==========================
+
+.. automodule:: slack_transfer.cli.upload
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      main_upload
+      set_parser_upload
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

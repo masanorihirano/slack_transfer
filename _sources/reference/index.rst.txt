@@ -39,8 +39,13 @@ CLI
     :toctree: generated/cli/
     :recursive:
 
-    cli.token_test
+    cli.bookmark
+    cli.download
     cli.file_volume
+    cli.main
+    cli.token_test
+    cli.upload
+
 
 Others
 ~~~~~~~~~~~~~~~~~~

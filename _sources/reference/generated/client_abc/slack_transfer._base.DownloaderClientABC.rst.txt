@@ -280,6 +280,7 @@
    .. autosummary::
    
       ~DownloaderClientABC.BASE_URL
+      ~DownloaderClientABC.TYPE
       ~DownloaderClientABC.token
       ~DownloaderClientABC.base_url
       ~DownloaderClientABC.timeout

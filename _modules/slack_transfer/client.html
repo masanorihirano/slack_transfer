@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slack_transfer.client &#8212; slack_transfer 0.1.5 documentation</title>
+    <title>slack_transfer.client &#8212; slack_transfer 0.1.6a0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.1.5 documentation</p>
+    <p class="title logo__title">slack_transfer 0.1.6a0 documentation</p>
   
 </a>
     
@@ -170,6 +170,7 @@
 <span class="kn">from</span> <span class="nn">.functions.download</span> <span class="kn">import</span> <span class="n">download_bookmark</span>
 <span class="kn">from</span> <span class="nn">.functions.download</span> <span class="kn">import</span> <span class="n">download_channel_history</span>
 <span class="kn">from</span> <span class="nn">.functions.download</span> <span class="kn">import</span> <span class="n">download_channels_list</span>
+<span class="kn">from</span> <span class="nn">.functions.download</span> <span class="kn">import</span> <span class="n">download_emoji</span>
 <span class="kn">from</span> <span class="nn">.functions.download</span> <span class="kn">import</span> <span class="n">download_file</span>
 <span class="kn">from</span> <span class="nn">.functions.download</span> <span class="kn">import</span> <span class="n">download_members_list</span>
 <span class="kn">from</span> <span class="nn">.functions.upload</span> <span class="kn">import</span> <span class="n">check_upload_conflict</span>
@@ -220,7 +221,10 @@
             <span class="n">channel_id</span><span class="o">=</span><span class="n">channel_id</span><span class="p">,</span>
             <span class="n">channel_name</span><span class="o">=</span><span class="n">channel_name</span><span class="p">,</span>
             <span class="n">auto_join</span><span class="o">=</span><span class="n">auto_join</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">download_emoji</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">download_emoji</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="UploaderClient"><a class="viewcode-back" href="../../reference/generated/client/slack_transfer.UploaderClient.html#slack_transfer.UploaderClient">[docs]</a><span class="k">class</span> <span class="nc">UploaderClient</span><span class="p">(</span><span class="n">UploaderClientABC</span><span class="p">):</span>
