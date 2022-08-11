@@ -38,6 +38,7 @@ slack_transfer.run の使い方
     - Slack postを移植した場合に，フォーマット崩れする可能性があることと，readonlyで移植される (Slack　APIの設計上不可能)
     - reactionの移植 (APIではbotがreactionのemojiを押すことしかできないので，)
     - 3000文字を越える投稿におけるフォーマット崩れの可能性 (APIの制限のため，分割投稿となるから．)
+    - emojiのアップロード (APIの制限のため，ダウンロードはできますが，アップロードはできません．)
  - メッセージの移植はAPIによる代理投稿として行われるので，タイムスタンプは移植時の物に変わります．代わりに，投稿者名の末尾にオリジナルのタイムスタンプを付与しています．
  - MITライセンスで提供されており，なんら保証はありません．
  - Channelしか移植できません．DMは移植できません．
@@ -64,7 +65,107 @@ Upload側でユーザーが行わなければいけない作業(=このツール
 
 2. slackトークンの取得(download側)
 ---------------------
+まず， https://api.slack.com/apps/ に進みます．
 
+.. image:: assets/create-app-dl-01.png
+
+「Create New App」をクリックします．
+
+.. image:: assets/create-app-dl-02.png
+    :scale: 70%
+
+ここで，どちらを選択してもかまわないのですが，「From an app manifest」を選択すると，一気に設定を負えることができるので，お勧めです．
+
+選択肢A: 「From an app manifest」を選んだ場合
+~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: assets/create-app-dl-a-03.png
+    :scale: 70%
+
+Select a workspaceからDownload側のワークスペースを選択します．
+
+.. image:: assets/create-app-dl-a-04.png
+    :scale: 70%
+
+次に進みます．
+
+.. image:: assets/create-app-dl-a-05.png
+    :scale: 70%
+
+このような画面がでてくるので，タブはYAMLのままで，中のコードを削除します．
+そのうえで， `こちらのリンク <../_static/downloader.yml>`_ の内容をコピペします．
+
+.. image:: assets/create-app-dl-a-06.png
+    :scale: 70%
+
+これで次へ進みます．
+
+.. image:: assets/create-app-dl-a-07.png
+    :scale: 70%
+
+レビューを要求されるので， :ref:`scope_dl` も参考にしながら確認をします．
+
+.. image:: assets/create-app-dl-a-08.png
+
+「Install to Workspace」をクリックします．
+
+.. image:: assets/create-app-dl-a-09.png
+    :scale: 70%
+
+許可を要求されるので許可します．(Allow)
+
+.. image:: assets/create-app-dl-a-10.png
+
+画面が戻るので，「OAuth & Permissions」をクリックします．
+
+.. image:: assets/create-app-dl-a-11.png
+
+「Bot User OAuth Token」が今回欲しいTokenです．「xoxb-」からはじまることを確認してください．
+
+選択肢B: 「From scratch」を選択した場合
+~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: assets/create-app-dl-a-03.png
+    :scale: 70%
+
+APIの名前と，ワークスペースの選択を求められますので，入力します．
+
+.. image:: assets/create-app-dl-a-04.png
+    :scale: 70%
+
+入力後，次に進みます．
+
+.. image:: assets/create-app-dl-a-10.png
+
+画面が戻るので，「OAuth & Permissions」をクリックします．
+
+.. image:: assets/create-app-dl-b-06.png
+
+「Bot Token Scopes」まで下に進み，:ref:`scope_dl` のリストにあるスコープを「Add permission by Scope or API method...」のところで選択し，「Add an OAuth Scope」を押して，追加していきます．
+全部完了したら，上の方にある，「Install to Workspace」のボタンが押せるようになるので，クリックします．
+
+.. image:: assets/create-app-dl-a-08.png
+
+「Install to Workspace」をクリックします．
+
+.. image:: assets/create-app-dl-a-09.png
+    :scale: 70%
+
+許可を要求されるので許可します．(Allow)
+
+.. image:: assets/create-app-dl-a-10.png
+
+画面が戻るので，「OAuth & Permissions」をクリックします．
+
+.. image:: assets/create-app-dl-a-11.png
+
+「Bot User OAuth Token」が今回欲しいTokenです．「xoxb-」からはじまることを確認してください．
+
+
+.. _scope_dl:
+
+Download側に必要なScope
+~~~~~~~~~~~~~~~~~~~~~
 Download側に必要になるScopeは以下です．
 
 【Downloader/Uploader共通で必要】
@@ -77,6 +178,7 @@ Download側に必要になるScopeは以下です．
 
 【Downloaderに必要】
  - bookmarks:read
+ - emoji:read
  - users:read
 
 3. slackトークンの取得(upload側)
@@ -100,7 +202,11 @@ Upload側に必要になるScopeは以下です．
  - bookmarks:write
 
 
-4. チャンネル名のマッピングの検討
+4. Upload側WSのPrivateチャンネルにAPI botの追加
+---------------------
+
+
+5. チャンネル名のマッピングの検討
 ---------------------
 generalチャンネル(あるいはそれを改称した場合も)は，特別な取扱いをされ，privateへの変更ができないだけでなく，Slack connectができません．
 そのため，Upload側WSのgeneralチャンネルにデータを流し込むことには慎重になるべきです．
@@ -113,9 +219,6 @@ generalチャンネル(あるいはそれを改称した場合も)は，特別�
  - 別チャンネルとして新しく作りたい → チャンネルマッピングを設定します．後述の引数で設定します．
 
 これらの基準に基づき，マッピングを行うチャンネルを選定して，旧チャンネルに対応する新チャンネルのマッピングを決めてください．
-
-5. Upload側WSのPrivateチャンネルにAPI botの追加
----------------------
 
 6. :code:`slack_transfer.run` の実行
 ---------------------
@@ -174,3 +277,7 @@ Windowsの場合
 
     $ slack_transfer　run --data_dir=local_data_dir --downloader_token=xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token=xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings=general:_general,random:_random
 
+7. emojiの移植
+---------------------
+emojiは指定したディレクトリのemojisフォルダー内にダウンロードされます．必要に応じて，Uploader側の管理画面からアップロードして追加してください．
+ただし，emoji pack (slackの標準で追加可能)も含まれていますので，その場合は，emoji packを先に追加してください．

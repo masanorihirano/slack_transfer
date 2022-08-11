@@ -120,6 +120,23 @@ optional arguments:
         You can set name mappings between the channel names of the original and destination workspaces. Comma-separated dictionaries (key:value) are available. For example, `old_name1:new_name1,old_name2:new_name2`.
 
 
+emoji
+----------------
+Download emojis specific to the workspace. Only download is available.
+Thus, after downloading, you have to add them to the destination WS.
+
+usage:
+    :code:`slack_transfer emoji [-h] --data_dir DATA_DIR --downloader_token DOWNLOADER_TOKEN`
+
+optional arguments:
+    :code:`-h, --help`
+        show this help message and exit
+    :code:`--data_dir DATA_DIR, -d DATA_DIR`
+        Data directory for saving download data or loading upload data. This is required.
+    :code:`--downloader_token DOWNLOADER_TOKEN, -td DOWNLOADER_TOKEN`
+        Download token obtained from slack (the original workspace). Starts with `xoxb-`
+
+
 token_test
 ----------------
 Test your token by bootstrap. It means that if the token has not enough scope, it will be pointed out step by step of each tests.

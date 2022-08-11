@@ -1,12 +1,16 @@
 import argparse
 
-from ..run import main_run
-from ..run import set_parser_run
-from ..version import __version__
+from slack_transfer.interactive import interactive
+from slack_transfer.run import main_run
+from slack_transfer.run import set_parser_run
+from slack_transfer.version import __version__
+
 from .bookmark import main_bookmark
 from .bookmark import set_parser_bookmark
 from .download import main_download
 from .download import set_parser_download
+from .emoji import main_emoji
+from .emoji import set_parser_emoji
 from .file_volume import main_file_volume
 from .file_volume import set_parser_file_volume
 from .token_test import main_token_test
@@ -47,9 +51,17 @@ This is CLI v.{__version__}
     set_parser_bookmark(parser=parser_bookmark)
     parser_bookmark.set_defaults(handler=main_bookmark)
 
+    parser_emoji = subparsers.add_parser("emoji", help="see `emoji -h`")
+    set_parser_emoji(parser=parser_emoji)
+    parser_emoji.set_defaults(handler=main_emoji)
+
     parser_token_test = subparsers.add_parser("token_test", help="see `token_test -h`")
     set_parser_token_test(parser=parser_token_test)
     parser_token_test.set_defaults(handler=main_token_test)
+
+    interactive_wrap = lambda _: interactive()
+    parser_interactive = subparsers.add_parser("interactive", help="interactive mode.")
+    parser_interactive.set_defaults(handler=interactive_wrap)
 
     args = parser.parse_args()
     if hasattr(args, "handler"):

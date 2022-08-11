@@ -11,6 +11,7 @@ from ._base import UploaderClientABC
 from .functions.download import download_bookmark
 from .functions.download import download_channel_history
 from .functions.download import download_channels_list
+from .functions.download import download_emoji
 from .functions.download import download_file
 from .functions.download import download_members_list
 from .functions.upload import check_upload_conflict
@@ -62,6 +63,9 @@ class DownloaderClient(DownloaderClientABC):
             channel_name=channel_name,
             auto_join=auto_join,
         )
+
+    def download_emoji(self) -> None:
+        return download_emoji(client=self)
 
 
 class UploaderClient(UploaderClientABC):
