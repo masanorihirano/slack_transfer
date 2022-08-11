@@ -1,0 +1,20 @@
+name: License check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  doc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel pip-licenses
+          python -m pip install poetry
+          poetry install --no-dev
+      - run: poetry run pip-licenses --order=license
