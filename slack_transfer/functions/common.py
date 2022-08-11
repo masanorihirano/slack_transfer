@@ -186,7 +186,7 @@ def test_uploader(client: WebClient) -> None:
         client.conversations_create(name=":::", is_private=False)
     except SlackApiError as e:
         if e.response["error"] == "missing_scope":
-            raise AttributeError(f"missing scope: channels:manage")
+            raise AttributeError("missing scope: channels:manage")
         elif e.response["error"] == "invalid_name_specials":
             pass
         else:
@@ -215,7 +215,7 @@ def test_uploader(client: WebClient) -> None:
         client.chat_postMessage(channel=":::::", text="test")
     except SlackApiError as e:
         if e.response["error"] == "missing_scope":
-            raise AttributeError(f"missing scope: chat:write")
+            raise AttributeError("missing scope: chat:write")
 
     # pins:write
     try:
