@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>slack_transfer.run の使い方 &#8212; slack_transfer 0.1.4 documentation</title>
+    <title>slack_transfer.run の使い方 &#8212; slack_transfer 0.1.5 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.1.4 documentation</p>
+    <p class="title logo__title">slack_transfer 0.1.5 documentation</p>
   
 </a>
     
@@ -211,7 +211,7 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#id4">
    6.
-   <code class="xref py py-mod docutils literal notranslate">
+   <code class="code docutils literal notranslate">
     <span class="pre">
      slack_transfer.run
     </span>
@@ -243,7 +243,7 @@
 <p><a class="reference internal" href="environment_ja.html"><span class="doc">環境構築</span></a> のステップが完了している前提で説明します．</p>
 <section id="id1">
 <h2>0. 全体像と用語定義<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
-<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">slack_transfer.run</span></code> を用いることで，移行元のSlack workspaceから移行先のSlack workspaceにデータを移行することができます．</p>
+<p><code class="code docutils literal notranslate"><span class="pre">slack_transfer.run</span></code> を用いることで，移行元のSlack workspaceから移行先のSlack workspaceにデータを移行することができます．</p>
 <dl class="simple">
 <dt>まず，ここでは以下のように用語を定義します．</dt><dd><ul class="simple">
 <li><p>WS: slack workspaceのことを意味します．</p></li>
@@ -255,9 +255,9 @@
 </dd>
 </dl>
 <p>このレポジトリでは，同じWSでもdownload側とupload側を間違えてしまうと，大事故の原因なので，明示的に分離を行っており，tokenの権限なども役割に合わせて，read/writeを使い分けるなどして，事故が起きないようにします．</p>
-<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">slack_transfer.run</span></code> は基本的に移行作業をall-in-oneで実施します．
+<p><code class="code docutils literal notranslate"><span class="pre">slack_transfer.run</span></code> は基本的に移行作業をall-in-oneで実施します．
 さまざまな対策はしているとはいえ，slackサーバーの挙動や，子のレポジトリに存在する潜在的なバグにより，一発で成功しない場合もあることは，あらかじめご承知おきください．
-<code class="xref py py-mod docutils literal notranslate"><span class="pre">slack_transfer.run</span></code> が実施する作業は以下です．</p>
+<code class="code docutils literal notranslate"><span class="pre">slack_transfer.run</span></code> が実施する作業は以下です．</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>┌────────────┐                ┌────────────┐              ┌────────────┐
 │download側WS│  --download-&gt;  │    端末    │  --upload-&gt;  │ Upload側WS │
 └────────────┘                └────────────┘              └────────────┘
@@ -272,18 +272,94 @@
 <h2>1. 注意事項<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
 <blockquote>
 <div><ul class="simple">
-<li><p>移植といっても，完全な移植はできません．できる限り多くを移植できるようには努めていますが，一部Slack APIの仕様上できないものがあります．</p></li>
+<li><dl class="simple">
+<dt>移植といっても，完全な移植はできません．できる限り多くを移植できるようには努めていますが，一部Slack APIの仕様上できないものがあります．現時点で対応していないものは以下です．</dt><dd><ul>
+<li><p>Slack connectの移植 (Slack connectは，connect元につなぎなおしを依頼してください)</p></li>
+<li><p>Bookmarkの移植におけるフォルダー分けの維持 (Slack APIの設計上不可能)</p></li>
+<li><p>Slack postを移植した場合に，フォーマット崩れする可能性があることと，readonlyで移植される (Slack　APIの設計上不可能)</p></li>
+<li><p>reactionの移植 (APIではbotがreactionのemojiを押すことしかできないので，)</p></li>
+<li><p>3000文字を越える投稿におけるフォーマット崩れの可能性 (APIの制限のため，分割投稿となるから．)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
 <li><p>メッセージの移植はAPIによる代理投稿として行われるので，タイムスタンプは移植時の物に変わります．代わりに，投稿者名の末尾にオリジナルのタイムスタンプを付与しています．</p></li>
 <li><p>MITライセンスで提供されており，なんら保証はありません．</p></li>
 <li><p>Channelしか移植できません．DMは移植できません．</p></li>
 </ul>
 </div></blockquote>
+<p>なお，このツールは，できる限り，破壊的操作を行わないように設計されています．</p>
+<dl class="simple">
+<dt>Download側WSで実施されうる変更：</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>このツールで使用するSlack botがすべてのPublic channelに意図せず自ら自動参加をする</dt><dd><ul>
+<li><p>token_test時には，general相当のデフォルトチャンネルに自動で自ら参加します．</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>Download側でユーザーが行わなければいけない作業:</dt><dd><ul class="simple">
+<li><p>このツールを用いて移植したいprivate channelにたいして，このツールで使用するbotを追加する</p></li>
+</ul>
+</dd>
+<dt>Upload側WSで実施される変更：</dt><dd><ul class="simple">
+<li><p>チャンネルの作成を含む，ファイルアップロード，bookmarkの追加，メッセージの投稿，ピンの作成などの新規追加作業</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">--override</span></code> フラグを使用した場合に，既存のチャンネルに対して，ファイルやbookmark，メッセージの追加，チャンネルの説明と目的の変更，pinの追加など．</p></li>
+</ul>
+</dd>
+<dt>Upload側でユーザーが行わなければいけない作業(=このツールが実施しないこと):</dt><dd><ul class="simple">
+<li><p>不要チャンネルの削除</p></li>
+<li><p>データ移行に失敗した場合に，再度実施する際のチャンネルを削除する操作 (<code class="code docutils literal notranslate"><span class="pre">--override</span></code> フラグを使う選択肢もありますが，二重にデータが入り得ります)</p></li>
+<li><p>移行完了後に，public channelから希望に応じてprivate channelに変える操作</p></li>
+<li><p>希望に応じて他人をチャンネルに追加する操作</p></li>
+</ul>
+</dd>
+</dl>
 </section>
 <section id="slack-download">
 <h2>2. slackトークンの取得(download側)<a class="headerlink" href="#slack-download" title="Permalink to this heading">#</a></h2>
+<p>Download側に必要になるScopeは以下です．</p>
+<dl class="simple">
+<dt>【Downloader/Uploader共通で必要】</dt><dd><ul class="simple">
+<li><p>channels:history</p></li>
+<li><p>channels:join</p></li>
+<li><p>channels:read</p></li>
+<li><p>files:read</p></li>
+<li><p>groups:history</p></li>
+<li><p>groups:read</p></li>
+</ul>
+</dd>
+<dt>【Downloaderに必要】</dt><dd><ul class="simple">
+<li><p>bookmarks:read</p></li>
+<li><p>users:read</p></li>
+</ul>
+</dd>
+</dl>
 </section>
 <section id="slack-upload">
 <h2>3. slackトークンの取得(upload側)<a class="headerlink" href="#slack-upload" title="Permalink to this heading">#</a></h2>
+<p>Upload側に必要になるScopeは以下です．</p>
+<dl class="simple">
+<dt>【Downloader/Uploader共通で必要】</dt><dd><ul class="simple">
+<li><p>channels:history</p></li>
+<li><p>channels:join</p></li>
+<li><p>channels:read</p></li>
+<li><p>files:read</p></li>
+<li><p>groups:history</p></li>
+<li><p>groups:read</p></li>
+</ul>
+</dd>
+<dt>【Uploaderに必要】</dt><dd><ul class="simple">
+<li><p>channels:manage</p></li>
+<li><p>files:write</p></li>
+<li><p>chat:write</p></li>
+<li><p>pins:write</p></li>
+<li><p>bookmarks:write</p></li>
+</ul>
+</dd>
+</dl>
 </section>
 <section id="id3">
 <h2>4. チャンネル名のマッピングの検討<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
@@ -304,7 +380,7 @@
 <h2>5. Upload側WSのPrivateチャンネルにAPI botの追加<a class="headerlink" href="#uploadwsprivateapi-bot" title="Permalink to this heading">#</a></h2>
 </section>
 <section id="id4">
-<h2>6. <code class="xref py py-mod docutils literal notranslate"><span class="pre">slack_transfer.run</span></code> の実行<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<h2>6. <code class="code docutils literal notranslate"><span class="pre">slack_transfer.run</span></code> の実行<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
 <p>ここまで準備したら，いよいよデータの移行を開始します．</p>
 <dl class="simple">
 <dt>大体の時間の目安としては，メッセージ数をMとすると，</dt><dd><ul class="simple">
@@ -328,24 +404,27 @@
 </pre></div>
 </div>
 <p>そのうえで，</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry run python -m slack_transfer.run --data_dir<span class="o">=</span>&lt;local_data_dir&gt; --downloader_token<span class="o">=</span>&lt;downloader_token&gt; --uploader_token<span class="o">=</span>&lt;uploader_token&gt; --name_mappings<span class="o">=</span>&lt;name_mappings&gt; <span class="o">[</span>--override<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer　run --data_dir<span class="o">=</span>&lt;local_data_dir&gt; --downloader_token<span class="o">=</span>&lt;downloader_token&gt; --uploader_token<span class="o">=</span>&lt;uploader_token&gt; --channel_names<span class="o">=</span>&lt;channel_names&gt; --name_mappings<span class="o">=</span>&lt;name_mappings&gt; <span class="o">[</span>--override<span class="o">]</span> <span class="o">[</span>--skip_bookmarks<span class="o">]</span>
 </pre></div>
 </div>
 <p>などと実行します．
-それぞれのパラメータは以下の通りです．</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">&lt;local_data_dir&gt;</span></code>: ダウンロードしたデータを端末内に一時保存するディレクトリです．相対ディレクトリ，絶対ディレクトリのどちらでも設定できます．存在しない場合は自動生成されます．わからなければ， <code class="xref py py-mod docutils literal notranslate"><span class="pre">local_data_dir</span></code> などと設定してください．</p></li>
-<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">&lt;downloader_token&gt;</span></code>: 2で取得したdownload側WSのAPI tokenです． xoxb-から始まります．</p></li>
-<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">&lt;uploader_token&gt;</span></code>: 3で取得したupload側WSのAPI tokenです． xoxb-から始まります．</p></li>
-<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">&lt;name_mappings&gt;</span></code>: 4で決めたチャンネル名のマッピングを設定します．不要な場合は <code class="xref py py-mod docutils literal notranslate"><span class="pre">--name_mappings=</span></code> を丸っと削除してください．なお，設定方法は <code class="xref py py-mod docutils literal notranslate"><span class="pre">old_name1:new_name1,old_name2:new_name2</span></code> などと設定します．old_nameがdownload側，new_nameがupload側のチャンネル名で，マッピングが必要なものだけを記載すれば充分です．(そのままの名前でよい場合は設定不用意)</p></li>
-<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">--override</span></code>: 4で「そのままこれまでの投稿の末尾に追加する」を選択した場合には，これを付与してください．不要な場合は削除します．</p></li>
+<code class="code docutils literal notranslate"><span class="pre">slack_transfer</span></code> が実行できない場合には，代わりに <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">slack_transfer.run</span></code> を使用することもできます．</p>
+<dl class="simple">
+<dt>それぞれのパラメータは以下の通りです．</dt><dd><ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;local_data_dir&gt;</span></code>: ダウンロードしたデータを端末内に一時保存するディレクトリです．相対ディレクトリ，絶対ディレクトリのどちらでも設定できます．存在しない場合は自動生成されます．わからなければ， <code class="code docutils literal notranslate"><span class="pre">local_data_dir</span></code> などと設定してください．</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;downloader_token&gt;</span></code>: 2で取得したdownload側WSのAPI tokenです． xoxb-から始まります．</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;uploader_token&gt;</span></code>: 3で取得したupload側WSのAPI tokenです． xoxb-から始まります．</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;channel_names&gt;</span></code>: 処理の対象にしたいチャンネル名を指定します．カンマ区切りで，Download側WSの名前で指定します．指定せず，すべてを対象にする場合は，:code:<a href="#id5"><span class="problematic" id="id6">`</span></a>–channel_names=&lt;channel_names&gt;`を丸ごと削除します．</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;name_mappings&gt;</span></code>: 4で決めたチャンネル名のマッピングを設定します．不要な場合は <code class="code docutils literal notranslate"><span class="pre">--name_mappings=&lt;name_mappings&gt;</span></code> を丸っと削除してください．なお，設定方法は <code class="code docutils literal notranslate"><span class="pre">old_name1:new_name1,old_name2:new_name2</span></code> などと設定します．old_nameがdownload側，new_nameがupload側のチャンネル名で，マッピングが必要なものだけを記載すれば充分です．(そのままの名前でよい場合は設定不用意)</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">--override</span></code>: 4で「そのままこれまでの投稿の末尾に追加する」を選択した場合には，これを付与してください．不要な場合は削除します．</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">--skip_bookmarks</span></code>: bookmarkの移植を行わない場合に使用するフラグです．bookmarkも移植する場合は削除します．</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 <p>それ以外の詳細な引数に関しては，
 <a class="reference internal" href="../reference/generated/other/slack_transfer.run.run.html"><span class="doc">slack_transfer.run.run</span></a> を参照してください．</p>
 <p>これらを総合すると，実行すべきコマンド例は以下のような形になります．</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ poetry run python -m slack_transfer.run --data_dir<span class="o">=</span>local_data_dir --downloader_token<span class="o">=</span>xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token<span class="o">=</span>xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings<span class="o">=</span>general:_general,random:_random
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer　run --data_dir<span class="o">=</span>local_data_dir --downloader_token<span class="o">=</span>xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token<span class="o">=</span>xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings<span class="o">=</span>general:_general,random:_random
 </pre></div>
 </div>
 </section>

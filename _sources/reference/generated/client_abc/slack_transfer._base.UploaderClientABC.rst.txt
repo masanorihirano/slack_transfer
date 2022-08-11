@@ -241,6 +241,9 @@
       ~UploaderClientABC.team_integrationLogs
       ~UploaderClientABC.team_preferences_list
       ~UploaderClientABC.team_profile_get
+      ~UploaderClientABC.test_connection
+      ~UploaderClientABC.test_downloader
+      ~UploaderClientABC.test_uploader
       ~UploaderClientABC.usergroups_create
       ~UploaderClientABC.usergroups_disable
       ~UploaderClientABC.usergroups_enable

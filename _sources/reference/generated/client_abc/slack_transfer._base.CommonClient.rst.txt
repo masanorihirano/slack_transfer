@@ -241,6 +241,9 @@
       ~CommonClient.team_integrationLogs
       ~CommonClient.team_preferences_list
       ~CommonClient.team_profile_get
+      ~CommonClient.test_connection
+      ~CommonClient.test_downloader
+      ~CommonClient.test_uploader
       ~CommonClient.usergroups_create
       ~CommonClient.usergroups_disable
       ~CommonClient.usergroups_enable

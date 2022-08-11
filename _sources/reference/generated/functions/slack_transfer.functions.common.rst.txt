@@ -16,6 +16,9 @@
       get_channels_list
       get_file_volumes
       get_replies
+      test_connection
+      test_downloader
+      test_uploader
    
    
 

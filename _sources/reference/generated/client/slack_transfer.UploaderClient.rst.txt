@@ -205,6 +205,7 @@
       ~UploaderClient.im_mark
       ~UploaderClient.im_open
       ~UploaderClient.im_replies
+      ~UploaderClient.insert_bookmarks
       ~UploaderClient.migration_exchange
       ~UploaderClient.mpim_close
       ~UploaderClient.mpim_history
@@ -244,6 +245,9 @@
       ~UploaderClient.team_integrationLogs
       ~UploaderClient.team_preferences_list
       ~UploaderClient.team_profile_get
+      ~UploaderClient.test_connection
+      ~UploaderClient.test_downloader
+      ~UploaderClient.test_uploader
       ~UploaderClient.upload_file
       ~UploaderClient.usergroups_create
       ~UploaderClient.usergroups_disable

@@ -16,6 +16,7 @@
       check_upload_conflict
       create_all_channels
       data_insert
+      insert_bookmarks
       upload_file
    
    

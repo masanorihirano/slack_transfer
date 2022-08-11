@@ -241,6 +241,9 @@
       ~DownloaderClientABC.team_integrationLogs
       ~DownloaderClientABC.team_preferences_list
       ~DownloaderClientABC.team_profile_get
+      ~DownloaderClientABC.test_connection
+      ~DownloaderClientABC.test_downloader
+      ~DownloaderClientABC.test_uploader
       ~DownloaderClientABC.usergroups_create
       ~DownloaderClientABC.usergroups_disable
       ~DownloaderClientABC.usergroups_enable

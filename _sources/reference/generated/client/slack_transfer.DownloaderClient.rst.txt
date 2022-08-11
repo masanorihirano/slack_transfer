@@ -163,6 +163,7 @@
       ~DownloaderClient.dnd_info
       ~DownloaderClient.dnd_setSnooze
       ~DownloaderClient.dnd_teamInfo
+      ~DownloaderClient.download_bookmark
       ~DownloaderClient.download_channel_history
       ~DownloaderClient.download_channels_list
       ~DownloaderClient.download_file
@@ -245,6 +246,9 @@
       ~DownloaderClient.team_integrationLogs
       ~DownloaderClient.team_preferences_list
       ~DownloaderClient.team_profile_get
+      ~DownloaderClient.test_connection
+      ~DownloaderClient.test_downloader
+      ~DownloaderClient.test_uploader
       ~DownloaderClient.usergroups_create
       ~DownloaderClient.usergroups_disable
       ~DownloaderClient.usergroups_enable
