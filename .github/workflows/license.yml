@@ -18,4 +18,4 @@ jobs:
           python -m pip install poetry
           poetry install --no-dev
       - run: poetry run pip-licenses --order=license
-      - run: poetry run pip-licenses --allow-only="MIT License;BSD License;"
+      - run: poetry run pip-licenses --allow-only="MIT License;BSD License;ISC License (ISCL);"
