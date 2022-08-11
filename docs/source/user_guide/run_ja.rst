@@ -4,7 +4,7 @@ slack_transfer.run の使い方
 
 0. 全体像と用語定義
 ---------------------
-:mod:`slack_transfer.run` を用いることで，移行元のSlack workspaceから移行先のSlack workspaceにデータを移行することができます．
+:code:`slack_transfer.run` を用いることで，移行元のSlack workspaceから移行先のSlack workspaceにデータを移行することができます．
 
 まず，ここでは以下のように用語を定義します．
  - WS: slack workspaceのことを意味します．
@@ -15,9 +15,9 @@ slack_transfer.run の使い方
 
 このレポジトリでは，同じWSでもdownload側とupload側を間違えてしまうと，大事故の原因なので，明示的に分離を行っており，tokenの権限なども役割に合わせて，read/writeを使い分けるなどして，事故が起きないようにします．
 
-:mod:`slack_transfer.run` は基本的に移行作業をall-in-oneで実施します．
+:code:`slack_transfer.run` は基本的に移行作業をall-in-oneで実施します．
 さまざまな対策はしているとはいえ，slackサーバーの挙動や，子のレポジトリに存在する潜在的なバグにより，一発で成功しない場合もあることは，あらかじめご承知おきください．
-:mod:`slack_transfer.run` が実施する作業は以下です．
+:code:`slack_transfer.run` が実施する作業は以下です．
 
 .. code-block:: none
 
@@ -37,6 +37,7 @@ slack_transfer.run の使い方
     - Bookmarkの移植におけるフォルダー分けの維持 (Slack APIの設計上不可能)
     - Slack postを移植した場合に，フォーマット崩れする可能性があることと，readonlyで移植される (Slack　APIの設計上不可能)
     - reactionの移植 (APIではbotがreactionのemojiを押すことしかできないので，)
+    - 3000文字を越える投稿におけるフォーマット崩れの可能性 (APIの制限のため，分割投稿となるから．)
  - メッセージの移植はAPIによる代理投稿として行われるので，タイムスタンプは移植時の物に変わります．代わりに，投稿者名の末尾にオリジナルのタイムスタンプを付与しています．
  - MITライセンスで提供されており，なんら保証はありません．
  - Channelしか移植できません．DMは移植できません．
@@ -116,7 +117,7 @@ generalチャンネル(あるいはそれを改称した場合も)は，特別�
 5. Upload側WSのPrivateチャンネルにAPI botの追加
 ---------------------
 
-6. :mod:`slack_transfer.run` の実行
+6. :code:`slack_transfer.run` の実行
 ---------------------
 ここまで準備したら，いよいよデータの移行を開始します．
 
@@ -150,16 +151,19 @@ Windowsの場合
 
 .. code-block:: bash
 
-    $ poetry run python -m slack_transfer.run --data_dir=<local_data_dir> --downloader_token=<downloader_token> --uploader_token=<uploader_token> --channel_names=<channel_names> --name_mappings=<name_mappings> [--override]
+    $ slack_transfer　run --data_dir=<local_data_dir> --downloader_token=<downloader_token> --uploader_token=<uploader_token> --channel_names=<channel_names> --name_mappings=<name_mappings> [--override] [--skip_bookmarks]
 
 などと実行します．
+:code:`slack_transfer` が実行できない場合には，代わりに :code:`python -m slack_transfer.run` を使用することもできます．
+
 それぞれのパラメータは以下の通りです．
- - :mod:`<local_data_dir>`: ダウンロードしたデータを端末内に一時保存するディレクトリです．相対ディレクトリ，絶対ディレクトリのどちらでも設定できます．存在しない場合は自動生成されます．わからなければ， :mod:`local_data_dir` などと設定してください．
- - :mod:`<downloader_token>`: 2で取得したdownload側WSのAPI tokenです． xoxb-から始まります．
- - :mod:`<uploader_token>`: 3で取得したupload側WSのAPI tokenです． xoxb-から始まります．
- - :mod:`<channel_names>`: 処理の対象にしたいチャンネル名を指定します．カンマ区切りで，Download側WSの名前で指定します．指定せず，すべてを対象にする場合は，:mod:`--channel_names=<channel_names>`を丸ごと削除します．
- - :mod:`<name_mappings>`: 4で決めたチャンネル名のマッピングを設定します．不要な場合は :mod:`\-\-name_mappings=<name_mappings>` を丸っと削除してください．なお，設定方法は :mod:`old_name1:new_name1,old_name2:new_name2` などと設定します．old_nameがdownload側，new_nameがupload側のチャンネル名で，マッピングが必要なものだけを記載すれば充分です．(そのままの名前でよい場合は設定不用意)
- - :mod:`--override`: 4で「そのままこれまでの投稿の末尾に追加する」を選択した場合には，これを付与してください．不要な場合は削除します．
+ - :code:`<local_data_dir>`: ダウンロードしたデータを端末内に一時保存するディレクトリです．相対ディレクトリ，絶対ディレクトリのどちらでも設定できます．存在しない場合は自動生成されます．わからなければ， :code:`local_data_dir` などと設定してください．
+ - :code:`<downloader_token>`: 2で取得したdownload側WSのAPI tokenです． xoxb-から始まります．
+ - :code:`<uploader_token>`: 3で取得したupload側WSのAPI tokenです． xoxb-から始まります．
+ - :code:`<channel_names>`: 処理の対象にしたいチャンネル名を指定します．カンマ区切りで，Download側WSの名前で指定します．指定せず，すべてを対象にする場合は，:code:`--channel_names=<channel_names>`を丸ごと削除します．
+ - :code:`<name_mappings>`: 4で決めたチャンネル名のマッピングを設定します．不要な場合は :code:`\-\-name_mappings=<name_mappings>` を丸っと削除してください．なお，設定方法は :code:`old_name1:new_name1,old_name2:new_name2` などと設定します．old_nameがdownload側，new_nameがupload側のチャンネル名で，マッピングが必要なものだけを記載すれば充分です．(そのままの名前でよい場合は設定不用意)
+ - :code:`--override`: 4で「そのままこれまでの投稿の末尾に追加する」を選択した場合には，これを付与してください．不要な場合は削除します．
+ - :code:`--skip_bookmarks`: bookmarkの移植を行わない場合に使用するフラグです．bookmarkも移植する場合は削除します．
 
 それ以外の詳細な引数に関しては，
 :doc:`../reference/generated/other/slack_transfer.run.run` を参照してください．
@@ -168,5 +172,5 @@ Windowsの場合
 
 .. code-block:: bash
 
-    $ poetry run python -m slack_transfer.run --data_dir=local_data_dir --downloader_token=xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token=xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings=general:_general,random:_random
+    $ slack_transfer　run --data_dir=local_data_dir --downloader_token=xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token=xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings=general:_general,random:_random
 

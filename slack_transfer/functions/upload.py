@@ -217,8 +217,17 @@ def data_insert(
                         [
                             {
                                 "type": "section",
-                                "text": {"type": "mrkdwn", "text": message["text"]},
+                                "text": {
+                                    "type": "mrkdwn",
+                                    "text": message["text"][
+                                        i
+                                        * 3000 : min(
+                                            len(message["text"]), (i + 1) * 3000
+                                        )
+                                    ],
+                                },
                             }
+                            for i in range((len(message["text"]) - 1) // 3000 + 1)
                         ]
                         if message["text"]
                         else []

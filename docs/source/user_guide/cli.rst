@@ -13,7 +13,7 @@ run
 Run message migration. No intaractive mode. All settings are given through CLI args.
 
 usage:
-    :code:`slack_transfer run [-h] --data_dir DATA_DIR [--downloader_token DOWNLOADER_TOKEN] [--uploader_token UPLOADER_TOKEN] [--override] [--skip_download] [--skip_upload] [--name_mappings NAME_MAPPINGS]`
+    :code:`slack_transfer run [-h] --data_dir DATA_DIR [--downloader_token DOWNLOADER_TOKEN] [--uploader_token UPLOADER_TOKEN] [--override] [--skip_download] [--skip_upload] [--name_mappings NAME_MAPPINGS] [--skip_bookmarks]`
 
 optional arguments:
     :code:`-h, --help`
@@ -61,7 +61,7 @@ download
 Download the specific channels or all channels as you want.
 
 usage:
-    :code:`slack_transfer download [-h] --data_dir DATA_DIR --downloader_token DOWNLOADER_TOKEN [--channel_names CHANNEL_NAMES]`
+    :code:`slack_transfer download [-h] --data_dir DATA_DIR --downloader_token DOWNLOADER_TOKEN [--channel_names CHANNEL_NAMES] [--skip_bookmarks]`
 
 optional arguments:
     :code:`-h, --help`
@@ -80,7 +80,7 @@ uploader
 Upload the specific channels or all channels as you want.
 
 usage:
-    :code:`slack_transfer upload [-h] --data_dir DATA_DIR --uploader_token UPLOADER_TOKEN [--old_channel_names OLD_CHANNEL_NAMES] [--override] [--name_mappings NAME_MAPPINGS]`
+    :code:`slack_transfer upload [-h] --data_dir DATA_DIR --uploader_token UPLOADER_TOKEN [--old_channel_names OLD_CHANNEL_NAMES] [--override] [--name_mappings NAME_MAPPINGS] [--skip_bookmarks]`
 
 optional arguments:
     :code:`-h, --help`
