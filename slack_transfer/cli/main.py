@@ -1,5 +1,6 @@
 import argparse
 
+from slack_transfer.interactive import interactive
 from slack_transfer.run import main_run
 from slack_transfer.run import set_parser_run
 from slack_transfer.version import __version__
@@ -57,6 +58,10 @@ This is CLI v.{__version__}
     parser_token_test = subparsers.add_parser("token_test", help="see `token_test -h`")
     set_parser_token_test(parser=parser_token_test)
     parser_token_test.set_defaults(handler=main_token_test)
+
+    interactive_wrap = lambda _: interactive()
+    parser_interactive = subparsers.add_parser("interactive", help="interactive mode.")
+    parser_interactive.set_defaults(handler=interactive_wrap)
 
     args = parser.parse_args()
     if hasattr(args, "handler"):

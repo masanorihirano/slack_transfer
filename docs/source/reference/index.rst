@@ -39,7 +39,7 @@ CLI
     :toctree: generated/cli/
     :recursive:
 
-    cli.bookmarks
+    cli.bookmark
     cli.download
     cli.file_volume
     cli.main
