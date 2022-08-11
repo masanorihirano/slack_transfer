@@ -176,6 +176,8 @@ def test_downloader(client: WebClient) -> None:
         raise AssertionError
     # bookmarks:read
     client.bookmarks_list(channel_id=channel_cand_public[0]["id"])
+    # emoji:read
+    client.emoji_list()
     print("test for downloader is finished!")
 
 

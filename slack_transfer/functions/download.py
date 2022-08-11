@@ -1,4 +1,5 @@
 import json
+import mimetypes
 import os
 import time
 import warnings
@@ -215,3 +216,35 @@ def download_bookmark(
                 indent=4,
             )
         break
+
+
+def download_emoji(client: DownloaderClientABC) -> None:
+    response = client.emoji_list()
+    if "emoji" in response:
+        json.dump(
+            response["emoji"],
+            open(
+                os.path.join(client.local_data_dir, "emoji.json"),
+                mode="w",
+                encoding="utf-8",
+            ),
+            indent=4,
+        )
+        for key, url in response["emoji"].items():
+            if not url.startswith("alias:"):
+                res = requests.get(
+                    url=url,
+                    allow_redirects=True,
+                    headers={"Authorization": f"Bearer {client.token}"},
+                    stream=True,
+                )
+                extension = mimetypes.guess_extension(
+                    res.headers.get("content-type", default="image/png")
+                )
+                file_name = f"{key}{extension}"
+                if res.status_code != 200:
+                    warnings.warn(f"failed to download: {url} as {file_name}")
+                    return None
+                file_path = os.path.join(client.local_data_dir, "emojis", file_name)
+                with open(file_path, mode="wb") as f:
+                    f.write(res.content)

@@ -52,6 +52,7 @@ class CommonNoLocalVolumeClient(CommonDryRunClient):
 
 class CommonClient(CommonNoLocalVolumeClient):
     BASE_URL = "https://www.slack.com/api/"
+    TYPE = "bot"
 
     def __init__(
         self,
@@ -68,6 +69,10 @@ class CommonClient(CommonNoLocalVolumeClient):
         logger: Optional[logging.Logger] = None,
         retry_handlers: Optional[List[RetryHandler]] = None,
     ):
+        if token is not None and self.TYPE == "bot" and not token.startswith("xoxb-"):
+            raise ValueError("token have to be start with xoxb-")
+        if token is not None and self.TYPE == "user" and not token.startswith("xoxp-"):
+            raise ValueError("token have to be start with xoxp-")
         super().__init__(
             token=token,
             base_url=base_url,
@@ -85,6 +90,7 @@ class CommonClient(CommonNoLocalVolumeClient):
         os.makedirs(os.path.join(self.local_data_dir, "files"), exist_ok=True)
         os.makedirs(os.path.join(self.local_data_dir, "channels"), exist_ok=True)
         os.makedirs(os.path.join(self.local_data_dir, "bookmarks"), exist_ok=True)
+        os.makedirs(os.path.join(self.local_data_dir, "emojis"), exist_ok=True)
 
 
 class UploaderClientABC(CommonClient):

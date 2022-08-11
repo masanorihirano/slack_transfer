@@ -38,6 +38,7 @@ slack_transfer.run の使い方
     - Slack postを移植した場合に，フォーマット崩れする可能性があることと，readonlyで移植される (Slack　APIの設計上不可能)
     - reactionの移植 (APIではbotがreactionのemojiを押すことしかできないので，)
     - 3000文字を越える投稿におけるフォーマット崩れの可能性 (APIの制限のため，分割投稿となるから．)
+    - emojiのアップロード (APIの制限のため，ダウンロードはできますが，アップロードはできません．)
  - メッセージの移植はAPIによる代理投稿として行われるので，タイムスタンプは移植時の物に変わります．代わりに，投稿者名の末尾にオリジナルのタイムスタンプを付与しています．
  - MITライセンスで提供されており，なんら保証はありません．
  - Channelしか移植できません．DMは移植できません．
@@ -77,6 +78,7 @@ Download側に必要になるScopeは以下です．
 
 【Downloaderに必要】
  - bookmarks:read
+ - emoji:read
  - users:read
 
 3. slackトークンの取得(upload側)
@@ -174,3 +176,7 @@ Windowsの場合
 
     $ slack_transfer　run --data_dir=local_data_dir --downloader_token=xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token=xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings=general:_general,random:_random
 
+7. emojiの移植
+---------------------
+emojiは指定したディレクトリのemojisフォルダー内にダウンロードされます．必要に応じて，Uploader側の管理画面からアップロードして追加してください．
+ただし，emoji pack (slackの標準で追加可能)も含まれていますので，その場合は，emoji packを先に追加してください．
