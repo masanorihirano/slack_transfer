@@ -7,8 +7,6 @@ from typing import List
 from slack_transfer import DownloaderClient
 from slack_transfer import UploaderClient
 
-from ..run import run
-
 
 def set_parser_bookmark(parser: argparse.ArgumentParser) -> None:
     """See bookmark section in :doc:`../../../user_guide/cli`"""
