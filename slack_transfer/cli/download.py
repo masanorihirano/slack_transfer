@@ -1,11 +1,6 @@
 import argparse
-import time
-from typing import Dict
-from typing import List
 
-import tqdm
-
-from slack_transfer import DownloaderClient
+from ..run import run
 
 
 def set_parser_download(parser: argparse.ArgumentParser) -> None:
@@ -28,38 +23,28 @@ def set_parser_download(parser: argparse.ArgumentParser) -> None:
         "--channel_names",
         type=str,
         default=None,
-        help="channel names you want to check the total volume of files. If not set, set to all available channels. "
+        help="channel names you want to download. If not set, set to all available channels. "
         + "Set by comma-separation for multiple inputs. For example, `general,random`",
+    )
+    parser.add_argument(
+        "--skip_bookmarks", action="store_true", help="Skip process bookmarks."
     )
 
 
 def main_download(args: argparse.Namespace) -> None:
     """See download section in :doc:`../../../user_guide/cli`"""
-    downloader = DownloaderClient(
-        local_data_dir=args.data_dir, token=args.downloader_token
-    )
-    channels_list: List[Dict] = downloader.download_channels_list()
-    downloader.download_members_list()
-
     if args.channel_names is not None:
-        channels = args.channel_names.split(",")
-        channels_list = list(filter(lambda x: x["name"] in channels, channels_list))
-    if len(channels_list):
-        raise ValueError("channels not found.")
+        channel_names = args.channel_names.split(",")
+    else:
+        channel_names = None
 
-    ts_now = int(time.time())
-    times_to_rest = list(map(lambda x: ts_now - x["created"], channels_list))
-    for i, (channel, time_to_rest) in enumerate(zip(channels_list, times_to_rest)):
-        print(f"{i + 1}/{len(channels_list)}: {channel['name']}")
-        pbar = tqdm.tqdm(total=time_to_rest)
-        downloader.download_channel_history(
-            channel_id=channel["id"],
-            channel_name=channel["name"],
-            ts_progress_bar=pbar,
-            ts_now=ts_now,
-        )
-        pbar.close()
-        time.sleep(1)
+    run(
+        local_data_dir=args.data_dir,
+        downloader_token=args.downloader_token,
+        skip_upload=True,
+        channel_names=channel_names,
+        skip_bookmarks=args.skip_bookmarks,
+    )
 
 
 if __name__ == "__main__":

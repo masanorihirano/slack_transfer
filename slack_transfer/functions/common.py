@@ -15,7 +15,7 @@ def get_channels_list(client: WebClient) -> List[Dict]:
 
     while True:
         response: SlackResponse = client.conversations_list(
-            cursor=next_cursor, types="public_channel, private_channel"
+            cursor=next_cursor, types="public_channel,private_channel"
         )
         if not response["ok"]:
             raise IOError("channel list cannot be fetched in downloading WS data.")
@@ -110,3 +110,124 @@ def get_file_volumes(
             else:
                 break
     return sum(volume_dict.values())
+
+
+def test_connection(client: WebClient) -> None:
+    response = client.auth_test()
+    if not response["ok"]:
+        raise IOError("slack token is invalid.")
+    print(f"Successfully access to `{response['team']}`")
+
+    # channels:read,groups:read
+    try:
+        response = client.conversations_list(types="public_channel,private_channel")
+    except SlackApiError as e:
+        if e.response["error"] == "missing_scope":
+            raise AttributeError("missing scope: channels:read,groups:read")
+        else:
+            raise e
+
+    channel_cand_public = list(filter(lambda x: x["is_general"], response.data["channels"]))  # type: ignore
+    if len(channel_cand_public) == 0:
+        raise ValueError("general type channel doesn't exist.")
+    if len(channel_cand_public) != 1:
+        raise AssertionError
+
+    # channels:join
+    try:
+        client.conversations_join(channel=channel_cand_public[0]["id"])
+    except SlackApiError as e:
+        if e.response["error"] != "method_not_supported_for_channel_type":
+            raise e
+    # channels:history for public
+    try:
+        client.conversations_history(channel=channel_cand_public[0]["id"], ts="1")
+    except SlackApiError as e:
+        if e.response["error"] == "missing_scope":
+            raise AttributeError("missing scope: channels:history")
+        else:
+            raise e
+    # files:read
+    client.files_list()
+
+    channel_cand_private = list(filter(lambda x: x["is_private"], response.data["channels"]))  # type: ignore
+    if len(channel_cand_private) == 0:
+        warnings.warn("No private channel is tested")
+        return
+    # groups:history for private
+    try:
+        client.conversations_history(channel=channel_cand_private[0]["id"], ts="1")
+    except SlackApiError as e:
+        if e.response["error"] == "missing_scope":
+            raise AttributeError("missing scope: groups:history")
+        else:
+            raise e
+
+
+def test_downloader(client: WebClient) -> None:
+    client.users_list()
+
+    # channels:read,groups:read
+    response = client.conversations_list(types="public_channel,private_channel")
+    channel_cand_public = list(filter(lambda x: x["is_general"], response.data["channels"]))  # type: ignore
+    if len(channel_cand_public) == 0:
+        raise ValueError("general type channel doesn't exist.")
+    if len(channel_cand_public) != 1:
+        raise AssertionError
+    # bookmarks:read
+    client.bookmarks_list(channel_id=channel_cand_public[0]["id"])
+    print("test for downloader is finished!")
+
+
+def test_uploader(client: WebClient) -> None:
+    # channels:manage
+    # conversations_setTopic and conversations_setPurpose is also the same scope
+    try:
+        client.conversations_create(name=":::", is_private=False)
+    except SlackApiError as e:
+        if e.response["error"] == "missing_scope":
+            raise AttributeError("missing scope: channels:manage")
+        elif e.response["error"] == "invalid_name_specials":
+            pass
+        else:
+            raise e
+    # try:
+    #     client.conversations_create(name=":::", is_private=True)
+    # except SlackApiError as e:
+    #     if e.response["error"] == "missing_scope":
+    #         raise AttributeError(f"missing scope: groups:write")
+    #     elif e.response["error"] == "invalid_name_specials":
+    #         pass
+    #     else:
+    #         raise e
+
+    # files:write
+    try:
+        client.files_upload(content="aaa", channels=":::::")
+    except SlackApiError as e:
+        if e.response["error"] == "missing_scope":
+            raise e
+
+    # files_list is tested in test_connection
+
+    # chat:write
+    try:
+        client.chat_postMessage(channel=":::::", text="test")
+    except SlackApiError as e:
+        if e.response["error"] == "missing_scope":
+            raise AttributeError("missing scope: chat:write")
+
+    # pins:write
+    try:
+        client.pins_add(channel=":::::", timestamp="1")
+    except SlackApiError as e:
+        if e.response["error"] == "missing_scope":
+            raise e
+
+    # bookmarks:write
+    try:
+        client.bookmarks_add(channel_id=":::::", title="test", type="link")
+    except SlackApiError as e:
+        if e.response["error"] == "missing_scope":
+            raise e
+    print("test for uploader is finished!")

@@ -8,6 +8,7 @@ import tqdm
 
 from ._base import DownloaderClientABC
 from ._base import UploaderClientABC
+from .functions.download import download_bookmark
 from .functions.download import download_channel_history
 from .functions.download import download_channels_list
 from .functions.download import download_file
@@ -15,6 +16,7 @@ from .functions.download import download_members_list
 from .functions.upload import check_upload_conflict
 from .functions.upload import create_all_channels
 from .functions.upload import data_insert
+from .functions.upload import insert_bookmarks
 from .functions.upload import upload_file
 
 
@@ -51,14 +53,28 @@ class DownloaderClient(DownloaderClientABC):
     def download_members_list(self) -> List[Dict]:
         return download_members_list(client=self)
 
+    def download_bookmark(
+        self, channel_id: str, channel_name: str, auto_join: bool = True
+    ) -> None:
+        return download_bookmark(
+            client=self,
+            channel_id=channel_id,
+            channel_name=channel_name,
+            auto_join=auto_join,
+        )
+
 
 class UploaderClient(UploaderClientABC):
     """UploaderClient"""
 
     def create_all_channels(
-        self, name_mappings: Optional[Dict[str, str]] = None
+        self,
+        channel_names: Optional[List[str]] = None,
+        name_mappings: Optional[Dict[str, str]] = None,
     ) -> None:
-        return create_all_channels(client=self, name_mappings=name_mappings)
+        return create_all_channels(
+            client=self, channel_names=channel_names, name_mappings=name_mappings
+        )
 
     def upload_file(
         self,
@@ -82,14 +98,16 @@ class UploaderClient(UploaderClientABC):
         self,
         channel_name: str,
         old_members_dict: Dict[str, str],
+        old_members_icon_url_dict: Optional[Dict[str, str]] = None,
         old_channel_name: Optional[str] = None,
         time_zone: str = "Asia/Tokyo",
         progress: Union[bool, tqdm.tqdm] = True,
-    ) -> None:
+    ) -> str:
         return data_insert(
             client=self,
             channel_name=channel_name,
             old_members_dict=old_members_dict,
+            old_members_icon_url_dict=old_members_icon_url_dict,
             old_channel_name=old_channel_name,
             time_zone=time_zone,
             progress=progress,
@@ -99,3 +117,8 @@ class UploaderClient(UploaderClientABC):
         self, name_mappings: Optional[Dict[str, str]] = None
     ) -> List[str]:
         return check_upload_conflict(client=self, name_mappings=name_mappings)
+
+    def insert_bookmarks(self, channel_id: str, old_channel_name: str = None) -> None:
+        return insert_bookmarks(
+            client=self, channel_id=channel_id, old_channel_name=old_channel_name
+        )

@@ -175,3 +175,43 @@ def download_members_list(client: DownloaderClientABC) -> List[Dict]:
         indent=4,
     )
     return members
+
+
+def download_bookmark(
+    client: DownloaderClientABC,
+    channel_id: str,
+    channel_name: str,
+    auto_join: bool = True,
+) -> None:
+    for _ in range(3):
+        try:
+            response = client.bookmarks_list(channel_id=channel_id)
+        except SlackApiError as e:
+            if e.response["error"] == "not_in_channel":
+                if auto_join:
+                    try:
+                        client.conversations_join(channel=channel_id)
+                        continue
+                    except:
+                        pass
+                warnings.warn(f"slack bot is not in `{channel_name}`. Skip this.")
+                return None
+            else:
+                raise e
+        if not response["ok"]:
+            raise IOError(
+                f"bookmarks cannot be fetched in downloading WS data. (channel_id: {channel_id}, channel_name: {channel_name})"
+            )
+        if "bookmarks" in response:
+            json.dump(
+                response["bookmarks"],
+                open(
+                    os.path.join(
+                        client.local_data_dir, "bookmarks", f"{channel_name}.json"
+                    ),
+                    mode="w",
+                    encoding="utf-8",
+                ),
+                indent=4,
+            )
+        break

@@ -11,6 +11,7 @@ from typing import Union
 
 import tqdm
 from dateutil import tz
+from markdownify import markdownify
 from slack_sdk.errors import SlackApiError
 from slack_sdk.web import SlackResponse
 
@@ -19,7 +20,9 @@ from .common import get_channels_list
 
 
 def create_all_channels(
-    client: UploaderClientABC, name_mappings: Optional[Dict[str, str]] = None
+    client: UploaderClientABC,
+    channel_names: Optional[List[str]] = None,
+    name_mappings: Optional[Dict[str, str]] = None,
 ) -> None:
     downloaded_channels = json.load(
         open(
@@ -28,6 +31,10 @@ def create_all_channels(
             encoding="utf-8",
         )
     )
+    if channel_names:
+        downloaded_channels = list(
+            filter(lambda x: (x["name"] in channel_names), downloaded_channels)  # type: ignore
+        )
     channels_list: List[Dict] = get_channels_list(client=client)
     for old_channel_info in downloaded_channels:
         new_channel_name = (
@@ -64,13 +71,33 @@ def upload_file(
     channel_id: Optional[str] = None,
     title: Optional[str] = None,
     filetype: Optional[str] = None,
+    is_slack_post: bool = False,
 ) -> Optional[Tuple[str, str]]:
-    file_path = os.path.join(
+    file_path: Optional[str] = os.path.join(
         client.local_data_dir, "files", f"{old_file_id}--{file_name}"
     )
+    content = None
+    if is_slack_post:
+        filetype = "post"
+        if file_path is None:
+            raise AssertionError
+        # ToDo: better support of slack post
+        content = (
+            markdownify(
+                json.load(open(file_path, mode="r"))["full"]
+                .replace("<pre>", "```")
+                .replace("</pre>", "```")
+                .replace("<p>", "")
+                .replace("</p>", "")
+            )
+            .replace("\n\n\n", "\n")
+            .replace("\n\n", "\n")
+        )
+        file_path = None
     try:
         response: SlackResponse = client.files_upload(
             file=file_path,
+            content=content,
             filename=file_name,
             filetype=filetype,
             title=title,
@@ -90,10 +117,13 @@ def data_insert(
     client: UploaderClientABC,
     channel_name: str,
     old_members_dict: Dict[str, str],
+    old_members_icon_url_dict: Optional[Dict[str, str]] = None,
     old_channel_name: Optional[str] = None,
     time_zone: str = "Asia/Tokyo",
     progress: Union[bool, tqdm.tqdm] = True,
-) -> None:
+) -> str:
+    if old_members_icon_url_dict is None:
+        old_members_icon_url_dict = {}
     tz_delta = tz.gettz(time_zone)
     channels_list: List[Dict] = get_channels_list(client=client)
     new_channel_info = list(filter(lambda x: x["name"] == channel_name, channels_list))[
@@ -132,6 +162,9 @@ def data_insert(
                         channel_id=None,
                         title=title,
                         filetype=file_type,
+                        is_slack_post=(
+                            file["mimetype"] == "application/vnd.slack-docs"
+                        ),
                     )
                 except SlackApiError as e:
                     # ToDo: workaround for #11
@@ -184,8 +217,17 @@ def data_insert(
                         [
                             {
                                 "type": "section",
-                                "text": {"type": "mrkdwn", "text": message["text"]},
+                                "text": {
+                                    "type": "mrkdwn",
+                                    "text": message["text"][
+                                        i
+                                        * 3000 : min(
+                                            len(message["text"]), (i + 1) * 3000
+                                        )
+                                    ],
+                                },
                             }
+                            for i in range((len(message["text"]) - 1) // 3000 + 1)
                         ]
                         if message["text"]
                         else []
@@ -243,6 +285,10 @@ def data_insert(
                     + " ["
                     + date_time
                     + "]",
+                    icon_url=old_members_icon_url_dict[message["user"]]
+                    if "user" in message
+                    and message["user"] in old_members_icon_url_dict
+                    else None,
                 )
                 break
             except SlackApiError as e:
@@ -256,6 +302,13 @@ def data_insert(
         if not response["ok"]:
             raise IOError(f"Error in posting message {message['text']}")
 
+        if "pinned_to" in message:
+            channels_ids_pined = message["pinned_to"]
+            if len(channels_ids_pined) > 1:
+                # ToDo: "pined to multiple channels is not supported"
+                raise NotImplemented
+            client.pins_add(channel=new_channel_id, timestamp=response["ts"])
+
         if "thread_ts" in message.keys() and message["thread_ts"] != "":
             if message["thread_ts"] in ts_mapper:
                 pass
@@ -264,6 +317,7 @@ def data_insert(
         else:
             ts_mapper[message["ts"]] = response["message"]["ts"]
         progress_bar.update(n=1)
+    return new_channel_id
 
 
 def check_upload_conflict(
@@ -287,3 +341,17 @@ def check_upload_conflict(
         )
     )
     return list(existing_channels_name & downloaded_channels_name)
+
+
+def insert_bookmarks(
+    client: UploaderClientABC, channel_id: str, old_channel_name: str = None
+) -> None:
+    data_file_path = os.path.join(
+        client.local_data_dir, "bookmarks", f"{old_channel_name}.json"
+    )
+    if not os.path.exists(data_file_path):
+        return
+    bookmarks: List[Dict] = json.load(open(data_file_path, mode="r", encoding="utf-8"))
+    for bookmark in bookmarks:
+        del bookmark["channel_id"]
+        client.bookmarks_add(channel_id=channel_id, **bookmark)
