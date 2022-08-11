@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  doc:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,3 +18,4 @@ jobs:
           python -m pip install poetry
           poetry install --no-dev
       - run: poetry run pip-licenses --order=license
+      - run: poetry run pip-licenses --allow-only="MIT License;BSD License;"
