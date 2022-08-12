@@ -20,5 +20,5 @@ jobs:
           poetry add pyinstaller
       - run: poetry run pip-licenses --order=license
       - run: poetry run pip-licenses -au | sed -e "s/\s\+/ /g"
-      - run: poetry run pip-licenses --allow-only="MIT License;BSD License;ISC License (ISCL);Python Software Foundation License;Apache Software License;Public Domain;Mozilla Public License 2.0 (MPL 2.0);"
+      - run: poetry run pip-licenses --allow-only="MIT License;BSD License;ISC License (ISCL);Python Software Foundation License;Apache Software License;Public Domain;Mozilla Public License 2.0 (MPL 2.0);GNU General Public License v2 (GPLv2);GNU General Public License v3 (GPLv3);"
 
