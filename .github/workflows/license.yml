@@ -19,3 +19,4 @@ jobs:
           poetry install --no-dev
       - run: poetry run pip-licenses --order=license
       - run: poetry run pip-licenses --allow-only="MIT License;BSD License;ISC License (ISCL);"
+      - run: poetry run pip-licenses -au | sed -e "s/\t/ /"
