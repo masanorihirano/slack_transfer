@@ -20,7 +20,6 @@ from slack_transfer._base import CommonNoLocalVolumeClient
 from slack_transfer.run import run
 from slack_transfer.version import __version__
 
-os.environ["REQUESTS_CA_BUNDLE"] = certifi.where()
 T = TypeVar("T")
 style = Style.from_dict({"dialog.body": "bg:#cccccc #000000"})
 
@@ -282,7 +281,6 @@ def interactive() -> None:
 
 
 if __name__ == "__main__":
-
     print(
         f"slack_transfer {__version__} Copyright (C) M.HIRANO\nThis program comes with ABSOLUTELY NO WARRANTY"
     )
@@ -294,4 +292,16 @@ if __name__ == "__main__":
             print(
                 f"{porg_license['Name']} {porg_license['Version']} Copyright (C)  {porg_license['Author']}"
             )
+
+    CA_candidates = [
+        certifi.where(),
+        "/etc/ssl/cert.pem",
+        "/etc/ssl/certs/ca-certificates.crt",
+    ]
+    for ca in CA_candidates:
+        if os.path.exists(ca):
+            os.environ["REQUESTS_CA_BUNDLE"] = ca
+            break
+    print("\nsystem setting:")
+    print(f"CA:{os.environ['REQUESTS_CA_BUNDLE']}\n")
     interactive()
