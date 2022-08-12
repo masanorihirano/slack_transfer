@@ -1,11 +1,9 @@
-import glob
 import json
 import os.path
-import time
+import tkinter
 from tkinter import filedialog
 from typing import Dict
 from typing import List
-from typing import Optional
 from typing import Tuple
 from typing import TypeVar
 
@@ -19,6 +17,7 @@ from prompt_toolkit.styles import Style
 
 from slack_transfer._base import CommonNoLocalVolumeClient
 from slack_transfer.run import run
+from slack_transfer.version import __version__
 
 T = TypeVar("T")
 style = Style.from_dict({"dialog.body": "bg:#cccccc #000000"})
@@ -92,7 +91,9 @@ def interactive() -> None:
         }[language],
     )
 
+    tk = tkinter.Tk()
     local_data_dir = filedialog.askdirectory()
+    tk.destroy()
 
     already_downloaded = os.path.exists(
         os.path.join(local_data_dir, "channels.json")
@@ -279,4 +280,15 @@ def interactive() -> None:
 
 
 if __name__ == "__main__":
+    print(
+        f"slack_transfer {__version__} Copyright (C) M.HIRANO\nThis program comes with ABSOLUTELY NO WARRANTY"
+    )
+    license_file = os.path.join(os.path.dirname(__file__), "license.json")
+    if os.path.exists(license_file):
+        print("\nThis program including following programs:")
+        license_data = json.load(open(license_file, mode="r"))
+        for porg_license in license_data:
+            print(
+                f"{porg_license['Name']} {porg_license['Version']} Copyright (C)  {porg_license['Author']}"
+            )
     interactive()
