@@ -242,7 +242,7 @@ jobs:
     - name: Generate checksum
       if: runner.os == 'macOS'
       run: |
-        cd dist; gsha256sum slack_transfer-${{ matrix.platform }}-${{ needs.release.outputs.version }}.zip > checksums.txt; cd -
+        cd dist; shasum -a 256 slack_transfer-${{ matrix.platform }}-${{ needs.release.outputs.version }}.zip > checksums.txt; cd -
     - name: Generate checksum
       if: runner.os == 'Windows'
       run: |
