@@ -230,6 +230,11 @@ jobs:
       run: |
         poetry run pyinstaller slack_transfer/interactive.py --onefile --add-data "slack_transfer/license.json:."
     - name: download license file
+      if: runner.os == 'Windows'
+      run: |
+        Invoke-WebRequest -Uri "https://www.gnu.org/licenses/gpl-3.0.txt" -OutFile "./dist/LICENSE"
+    - name: download license file
+      if: runner.os == 'Linux' || runner.os == 'macOS'
       run: |
         wget https://www.gnu.org/licenses/gpl-3.0.txt -o ./dist/LICENSE
     - name: create zip
