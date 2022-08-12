@@ -7,6 +7,7 @@ from typing import List
 from typing import Tuple
 from typing import TypeVar
 
+import certifi
 from prompt_toolkit import cursor_shapes
 from prompt_toolkit.shortcuts import button_dialog
 from prompt_toolkit.shortcuts import checkboxlist_dialog
@@ -19,6 +20,7 @@ from slack_transfer._base import CommonNoLocalVolumeClient
 from slack_transfer.run import run
 from slack_transfer.version import __version__
 
+os.environ["REQUESTS_CA_BUNDLE"] = certifi.where()
 T = TypeVar("T")
 style = Style.from_dict({"dialog.body": "bg:#cccccc #000000"})
 
@@ -280,6 +282,7 @@ def interactive() -> None:
 
 
 if __name__ == "__main__":
+
     print(
         f"slack_transfer {__version__} Copyright (C) M.HIRANO\nThis program comes with ABSOLUTELY NO WARRANTY"
     )
