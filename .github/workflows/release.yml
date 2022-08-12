@@ -162,6 +162,8 @@ jobs:
           This release is automatically generated.
           Please see the pull request.
           [${{ github.event.pull_request.html_url }}](${{ github.event.pull_request.html_url }})
+          
+          For the security reason, please be careful to doenload and use attached zips.
     - name: Generate checksum
       run: |
         cd dist; sha256sum * > checksums.txt; cd -
