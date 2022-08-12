@@ -220,7 +220,7 @@ generalチャンネル(あるいはそれを改称した場合も)は，特別�
 
 これらの基準に基づき，マッピングを行うチャンネルを選定して，旧チャンネルに対応する新チャンネルのマッピングを決めてください．
 
-6. :code:`slack_transfer.run` の実行
+6. データ移行の実行
 ---------------------
 ここまで準備したら，いよいよデータの移行を開始します．
 
@@ -250,7 +250,14 @@ Windowsの場合
 
     $ . .venv\Scripts\activate
 
-そのうえで，
+なお以降の操作は2パターンあります．
+ 1. runコマンドを使用して，すべての設定をCLIから流し込む方法
+ 2. interactiveコマンドを使用して，すべて画面操作で設定を進める方法
+
+どちらでも構いませんが2は環境によってはまれに動かない場合があるので，その場合は，1を選んでください．
+
+6-1. runコマンドを使用して，すべての設定をCLIから流し込む方法
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -276,6 +283,16 @@ Windowsの場合
 .. code-block:: bash
 
     $ slack_transfer　run --data_dir=local_data_dir --downloader_token=xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token=xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings=general:_general,random:_random
+
+6-2. interactiveコマンドを使用して，すべて画面操作で設定を進める方法
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+    $ slack_transfer　interactive
+
+でプログラムを開始できます．あとは，指示に従って進めるだけです．
+
 
 7. emojiの移植
 ---------------------
