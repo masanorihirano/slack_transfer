@@ -1,5 +1,6 @@
 import json
 import os.path
+import ssl
 import tkinter
 from tkinter import filedialog
 from typing import Dict
@@ -72,6 +73,9 @@ def confirmation(title: str, text: str) -> None:
 
 
 def interactive() -> None:
+    ssl_context = ssl.create_default_context(
+        ssl.Purpose.SERVER_AUTH, cafile=certifi.where(), capath=certifi.where()
+    )
     confirmation(
         title="Start",
         text="In this system, all selection can be done using mouse pointer.\nこのシステムではすべての選択をマウスで行うことができます．",
@@ -126,7 +130,7 @@ def interactive() -> None:
         ).run()
         if downloader_token is None:
             raise KeyboardInterrupt
-        client = CommonNoLocalVolumeClient(token=downloader_token)
+        client = CommonNoLocalVolumeClient(token=downloader_token, ssl=ssl_context)
         client.test_connection()
         client.test_downloader()
 
@@ -155,7 +159,7 @@ def interactive() -> None:
         ).run()
         if uploader_token is None:
             raise KeyboardInterrupt
-        client = CommonNoLocalVolumeClient(token=uploader_token)
+        client = CommonNoLocalVolumeClient(token=uploader_token, ssl=ssl_context)
         client.test_connection()
         client.test_uploader()
 
@@ -183,7 +187,7 @@ def interactive() -> None:
     if not target_all_channels:
         channels: List[Dict]
         if not skip_download:
-            client = CommonNoLocalVolumeClient(token=downloader_token)
+            client = CommonNoLocalVolumeClient(token=downloader_token, ssl=ssl_context)
             channels = client.get_channels_list()
         else:
             channels = json.load(
@@ -277,6 +281,7 @@ def interactive() -> None:
         channel_names=channel_names,
         name_mappings=name_mappings,
         skip_bookmarks=skip_bookmarks,
+        ssl=ssl_context,
     )
 
 
@@ -292,16 +297,4 @@ if __name__ == "__main__":
             print(
                 f"{porg_license['Name']} {porg_license['Version']} Copyright (C)  {porg_license['Author']}"
             )
-
-    CA_candidates = [
-        certifi.where(),
-        "/etc/ssl/cert.pem",
-        "/etc/ssl/certs/ca-certificates.crt",
-    ]
-    for ca in CA_candidates:
-        if os.path.exists(ca):
-            os.environ["REQUESTS_CA_BUNDLE"] = ca
-            break
-    print("\nsystem setting:")
-    print(f"CA:{os.environ['REQUESTS_CA_BUNDLE']}\n")
     interactive()
