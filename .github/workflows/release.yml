@@ -224,11 +224,13 @@ jobs:
     - name: create exe
       if: runner.os == 'Windows'
       run: |
-        poetry run pyinstaller slack_transfer/interactive.py --onefile --add-data "slack_transfer/license.json;." --additional-hooks-dir "pyinstaller_hook"
+        $PEM = poetry run python -c "import certifi; print(certifi.where())"
+        poetry run pyinstaller slack_transfer/interactive.py --onefile --add-data "slack_transfer/license.json;." --add-data "$PEM;."
     - name: create exe
       if: runner.os == 'Linux' || runner.os == 'macOS'
       run: |
-        poetry run pyinstaller slack_transfer/interactive.py --onefile --add-data "slack_transfer/license.json:." --additional-hooks-dir "pyinstaller_hook"
+        PEM=`poetry run python -c "import certifi; print(certifi.where())"`
+        poetry run pyinstaller slack_transfer/interactive.py --onefile --add-data "slack_transfer/license.json:." --add-data "$PEM:."
     - name: download license file
       if: runner.os == 'Windows'
       run: |
