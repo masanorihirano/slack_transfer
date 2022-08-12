@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "slack-transfer"
-version = "0.1.6a8"
+version = "0.1.6a9"
 description = ""
 authors = ["Masanori HIRANO <masa.hirano.1996@gmail.com>"]
 license = "MIT"
