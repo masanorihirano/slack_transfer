@@ -223,7 +223,7 @@ jobs:
         poetry install --no-dev
         poetry add pyinstaller
     - name: license check
-      run: poetry run pip-licenses --allow-only="MIT License;BSD License;ISC License (ISCL);Python Software Foundation License;Apache Software License;Public Domain;Mozilla Public License 2.0 (MPL 2.0);GNU General Public License v2 (GPLv2);GNU General Public License v3 (GPLv3);"
+      run: poetry run pip-licenses --allow-only="MIT License;BSD License;ISC License (ISCL);Python Software Foundation License;Apache Software License;Public Domain;Mozilla Public License 2.0 (MPL 2.0);GNU General Public License v2 (GPLv2);GNU General Public License v3 (GPLv3);UNKNOWN;"
     - name: generate json file
       run: pip-licenses -a -f json --output-file slack_transfer/license.json
     - name: create exe
