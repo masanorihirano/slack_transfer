@@ -238,6 +238,11 @@ jobs:
       run: |
         wget https://www.gnu.org/licenses/gpl-3.0.txt -o ./dist/LICENSE
     - name: create zip
+      if: runner.os == 'Windows'
+      run: |
+        cd dist; compress-archive ./* slack_transfer-${{ matrix.platform }}-${{ needs.release.outputs.version }}.zip; cd -
+    - name: create zip
+      if: runner.os == 'Linux' || runner.os == 'macOS'
       run: |
         cd dist; zip -r slack_transfer-${{ matrix.platform }}-${{ needs.release.outputs.version }}.zip ./; cd -
     - name: Generate checksum
