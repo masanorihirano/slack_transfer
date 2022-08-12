@@ -222,8 +222,13 @@ jobs:
     - name: generate json file
       run: pip-licenses -a -f json --output-file slack_transfer/license.json
     - name: create exe
+      if: runner.os == 'Windows'
       run: |
         poetry run pyinstaller slack_transfer/interactive.py --onefile --add-data "slack_transfer/license.json;."
+    - name: create exe
+      if: runner.os == 'Linux' || runner.os == 'macOS'
+      run: |
+        poetry run pyinstaller slack_transfer/interactive.py --onefile --add-data "slack_transfer/license.json:."
     - name: download license file
       run: |
         wget https://www.gnu.org/licenses/gpl-3.0.txt -o ./dist/LICENSE
