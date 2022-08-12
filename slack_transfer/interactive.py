@@ -17,6 +17,7 @@ from prompt_toolkit.styles import Style
 
 from slack_transfer._base import CommonNoLocalVolumeClient
 from slack_transfer.run import run
+from slack_transfer.version import __version__
 
 T = TypeVar("T")
 style = Style.from_dict({"dialog.body": "bg:#cccccc #000000"})
@@ -279,4 +280,15 @@ def interactive() -> None:
 
 
 if __name__ == "__main__":
+    print(
+        f"slack_transfer {__version__} Copyright (C) M.HIRANO\nThis program comes with ABSOLUTELY NO WARRANTY"
+    )
+    license_file = os.path.join(os.path.dirname(__file__), "license.json")
+    if os.path.exists(license_file):
+        print("\nThis program including following programs:")
+        license_data = json.load(open(license_file, mode="r"))
+        for porg_license in license_data:
+            print(
+                f"{porg_license['Name']} {porg_license['Version']} Copyright (C)  {porg_license['Author']}"
+            )
     interactive()
