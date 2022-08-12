@@ -3,6 +3,7 @@ import glob
 import json
 import os.path
 import time
+from ssl import SSLContext
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -23,11 +24,12 @@ def run(
     name_mappings: Optional[Dict[str, str]] = None,
     channel_names: Optional[List[str]] = None,
     skip_bookmarks: bool = False,
+    ssl: Optional[SSLContext] = None,
 ) -> None:
     os.makedirs(local_data_dir, exist_ok=True)
     if not skip_download:
         downloader = DownloaderClient(
-            local_data_dir=local_data_dir, token=downloader_token
+            local_data_dir=local_data_dir, token=downloader_token, ssl=ssl
         )
         downloader.test_connection()
         downloader.test_downloader()
@@ -35,7 +37,7 @@ def run(
         if uploader_token is None:
             raise ValueError("uploader_token is required")
         uploader = UploaderClient(
-            local_data_dir=local_data_dir, token=uploader_token, timeout=300
+            local_data_dir=local_data_dir, token=uploader_token, timeout=300, ssl=ssl
         )
         uploader.test_uploader()
     if not skip_download:

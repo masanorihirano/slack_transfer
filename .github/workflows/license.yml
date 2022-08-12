@@ -1,11 +1,19 @@
 name: License check
 
 on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main, develop ]
   workflow_dispatch:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on:  ${{ matrix.platform }}
+    strategy:
+      max-parallel: 3
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.9
@@ -19,6 +27,5 @@ jobs:
           poetry install --no-dev
           poetry add pyinstaller
       - run: poetry run pip-licenses --order=license
-      - run: poetry run pip-licenses -au | sed -e "s/\s\+/ /g"
-      - run: poetry run pip-licenses --allow-only="MIT License;BSD License;ISC License (ISCL);Python Software Foundation License;Apache Software License;Public Domain;Mozilla Public License 2.0 (MPL 2.0);GNU General Public License v2 (GPLv2);GNU General Public License v3 (GPLv3);"
+      - run: poetry run pip-licenses --allow-only="MIT License;BSD License;ISC License (ISCL);Python Software Foundation License;Apache Software License;Public Domain;Mozilla Public License 2.0 (MPL 2.0);GNU General Public License v2 (GPLv2);GNU General Public License v3 (GPLv3);UNKNOWN;BSD;MIT;"
 
