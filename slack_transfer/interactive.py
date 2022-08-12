@@ -1,11 +1,9 @@
-import glob
 import json
 import os.path
-import time
+import tkinter
 from tkinter import filedialog
 from typing import Dict
 from typing import List
-from typing import Optional
 from typing import Tuple
 from typing import TypeVar
 
@@ -92,7 +90,9 @@ def interactive() -> None:
         }[language],
     )
 
+    tk = tkinter.Tk()
     local_data_dir = filedialog.askdirectory()
+    tk.destroy()
 
     already_downloaded = os.path.exists(
         os.path.join(local_data_dir, "channels.json")
