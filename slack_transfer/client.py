@@ -14,6 +14,8 @@ from .functions.download import download_channels_list
 from .functions.download import download_emoji
 from .functions.download import download_file
 from .functions.download import download_members_list
+from .functions.upload import check_channel_exists
+from .functions.upload import check_insert_finished
 from .functions.upload import check_upload_conflict
 from .functions.upload import create_all_channels
 from .functions.upload import data_insert
@@ -126,3 +128,21 @@ class UploaderClient(UploaderClientABC):
         return insert_bookmarks(
             client=self, channel_id=channel_id, old_channel_name=old_channel_name
         )
+
+    def check_insert_finished(
+        self,
+        channel_name: str,
+        old_members_dict: Dict[str, str],
+        old_channel_name: Optional[str] = None,
+        time_zone: str = "Asia/Tokyo",
+    ) -> bool:
+        return check_insert_finished(
+            client=self,
+            channel_name=channel_name,
+            old_members_dict=old_members_dict,
+            old_channel_name=old_channel_name,
+            time_zone=time_zone,
+        )
+
+    def check_channel_exists(self, channel_name: str) -> bool:
+        return check_channel_exists(client=self, channel_name=channel_name)

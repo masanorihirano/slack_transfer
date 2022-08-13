@@ -71,27 +71,6 @@ def run(
         if name_mappings is None:
             name_mappings = {}
 
-        conflicts = uploader.check_upload_conflict(name_mappings=name_mappings)
-        if channel_names:
-            conflicts = list(
-                filter(
-                    lambda x: (  # type: ignore
-                        x
-                        in [
-                            name_mappings[y] if y in name_mappings else y
-                            for y in channel_names
-                        ]
-                    ),
-                    conflicts,
-                )
-            )
-        if len(conflicts) > 0 and not override:
-            raise ValueError(
-                f"channels: {', '.join(conflicts)} are already exist. please set mapping or override=True"
-            )
-        uploader.create_all_channels(
-            channel_names=channel_names, name_mappings=name_mappings
-        )
         old_members = json.load(
             open(
                 os.path.join(uploader.local_data_dir, "members.json"),
@@ -113,6 +92,44 @@ def run(
                 for member in old_members
             ]
         )
+
+        conflicts = uploader.check_upload_conflict(name_mappings=name_mappings)
+        reverse_name_mappings = dict([(v, k) for k, v in name_mappings.items()])
+        conflicts = list(
+            filter(
+                lambda x: (  # type: ignore
+                    (
+                        x
+                        in [
+                            name_mappings[y] if y in name_mappings else y
+                            for y in channel_names
+                        ]
+                    )
+                    if channel_names
+                    else True
+                    and uploader.check_channel_exists(channel_name=x)
+                    and not uploader.check_insert_finished(
+                        channel_name=x,
+                        old_members_dict=old_members_dict,
+                        old_channel_name=(
+                            reverse_name_mappings[x]
+                            if x in reverse_name_mappings
+                            else x
+                        ),
+                    )
+                ),
+                conflicts,
+            )
+        )
+        if len(conflicts) > 0 and not override:
+            raise ValueError(
+                f"channels: {', '.join(conflicts)} are already exist. please set mapping or override=True"
+            )
+
+        uploader.create_all_channels(
+            channel_names=channel_names, name_mappings=name_mappings
+        )
+
         channel_files: List[str] = glob.glob(
             os.path.join(uploader.local_data_dir, "channels", "*.json")
         )
@@ -132,6 +149,15 @@ def run(
             print(
                 f"{i + 1}/{len(channel_files)}: {old_channel_name} -> {new_channel_name}"
             )
+            if uploader.check_channel_exists(
+                channel_name=new_channel_name
+            ) and uploader.check_insert_finished(
+                channel_name=new_channel_name,
+                old_members_dict=old_members_dict,
+                old_channel_name=old_channel_name,
+            ):
+                print("already finished. skip.")
+                continue
             new_channel_id = uploader.data_insert(
                 channel_name=new_channel_name,
                 old_members_dict=old_members_dict,

@@ -113,6 +113,85 @@ def upload_file(
     return response["file"]["id"], response["file"]["permalink"]
 
 
+def check_channel_exists(client: UploaderClientABC, channel_name: str) -> bool:
+    channels_list: List[Dict] = get_channels_list(client=client)
+    new_channel_infos = list(filter(lambda x: x["name"] == channel_name, channels_list))
+    if len(new_channel_infos) > 1:
+        raise AssertionError
+    return len(new_channel_infos) == 1
+
+
+def check_insert_finished(
+    client: UploaderClientABC,
+    channel_name: str,
+    old_members_dict: Dict[str, str],
+    old_channel_name: Optional[str] = None,
+    time_zone: str = "Asia/Tokyo",
+) -> bool:
+    # return error when channel not exists
+    tz_delta = tz.gettz(time_zone)
+    channels_list: List[Dict] = get_channels_list(client=client)
+    new_channel_infos = list(filter(lambda x: x["name"] == channel_name, channels_list))
+    if len(new_channel_infos) != 1:
+        raise AssertionError("channel possibly does not exists")
+    new_channel_info = new_channel_infos[0]
+    new_channel_id = new_channel_info["id"]
+    data_file_name = (
+        f"{old_channel_name}.json" if old_channel_name else f"{channel_name}.json"
+    )
+    data_file_path = os.path.join(client.local_data_dir, "channels", data_file_name)
+    old_messages: List[Dict] = json.load(
+        open(data_file_path, mode="r", encoding="utf-8")
+    )
+    old_messages = list(
+        filter(
+            lambda x: "thread_ts" not in x
+            or ("subtype" in x and x["subtype"] == "thread_broadcast"),
+            old_messages,
+        )
+    )
+    old_messages.sort(key=lambda x: x["ts"], reverse=False)
+
+    response = client.conversations_history(channel=new_channel_id)
+    new_messages = response["messages"]
+    new_messages.sort(key=lambda x: x["ts"], reverse=False)
+
+    expected_username_dict: Dict[str, int] = {}
+    for i in range(1, min(len(old_messages) + 1, 10)):
+        expected_date_time = datetime.datetime.fromtimestamp(
+            float(old_messages[-i]["ts"]), tz=tz_delta
+        ).strftime("%Y/%m/%d %H:%M %Z")
+        expected: str = (
+            (
+                old_members_dict[old_messages[-i]["user"]]
+                if "user" in old_messages[-i]
+                and old_messages[-i]["user"] in old_members_dict
+                else "Unknown member"
+            )
+            + " ["
+            + expected_date_time
+            + "]"
+        )
+
+        if expected in expected_username_dict:
+            expected_username_dict[expected] += 1
+        else:
+            expected_username_dict[expected] = 1
+    for key, value in expected_username_dict.items():
+        if (
+            len(
+                list(
+                    filter(
+                        lambda x: "username" in x and x["username"] == key, new_messages
+                    )
+                )
+            )
+            < value
+        ):
+            return False
+    return True
+
+
 def data_insert(
     client: UploaderClientABC,
     channel_name: str,
@@ -345,6 +424,14 @@ def check_upload_conflict(
             os.path.join(client.local_data_dir, "channels.json"),
             mode="r",
             encoding="utf-8",
+        )
+    )
+    downloaded_channels = list(
+        filter(
+            lambda x: os.path.exists(
+                os.path.join(client.local_data_dir, "channels", f"{x['name']}.json")
+            ),
+            downloaded_channels,
         )
     )
     existing_channels_name = set(map(lambda x: x["name"], existing_channels))
