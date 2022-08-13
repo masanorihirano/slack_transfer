@@ -302,6 +302,22 @@ def data_insert(
         if not response["ok"]:
             raise IOError(f"Error in posting message {message['text']}")
 
+        if "reactions" in message:
+            for reaction in message["reactions"]:
+                try:
+                    client.reactions_add(
+                        channel=new_channel_id,
+                        name=reaction["name"],
+                        timestamp=response["ts"],
+                    )
+                except SlackApiError as e:
+                    if e.response["error"] == "invalid_name":
+                        warnings.warn(
+                            f"reaction `{reaction['name']}` doesn't exist. Skip adding this reaction."
+                        )
+                    else:
+                        raise e
+
         if "pinned_to" in message:
             channels_ids_pined = message["pinned_to"]
             if len(channels_ids_pined) > 1:

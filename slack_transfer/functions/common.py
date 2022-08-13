@@ -232,4 +232,12 @@ def test_uploader(client: WebClient) -> None:
     except SlackApiError as e:
         if e.response["error"] == "missing_scope":
             raise e
+
+    # reaction:write
+    try:
+        client.reactions_add(channel=":::::", name="test", timestamp="1")
+    except SlackApiError as e:
+        if e.response["error"] == "missing_scope":
+            raise e
+
     print("test for uploader is finished!")
