@@ -10,6 +10,15 @@ from slack_sdk.web import SlackResponse
 
 
 def get_channels_list(client: WebClient) -> List[Dict]:
+    """get channel list.
+
+    Args:
+        client (WebClient): client. If use this via any Client Class, self is automatically set. Thus, ignore this.
+
+    Yields:
+        List[Dict]: List of channel info. The details of channel info is listed: https://api.slack.com/types/channel
+        (see the dictionary corresponding to channel key.)
+    """
     channels: List[Dict] = []
     next_cursor: Optional[str] = None
 
@@ -32,6 +41,17 @@ def get_channels_list(client: WebClient) -> List[Dict]:
 
 
 def get_replies(client: WebClient, channel_id: str, ts: str) -> List[Dict]:
+    """get replies to the specific message.
+
+    Args:
+        client (WebClient): client. If use this via any Client Class, self is automatically set. Thus, ignore this.
+        channel_id (str): channel id (usually 9-digits string)
+        ts (str): ts of the specific message. ts is a unix timestamp in the format of float. But, here, string for it is accepted.
+
+
+    Yields:
+        List[Dict]: List of the reply messages. The details of message is listed: https://api.slack.com/reference/messaging/payload
+    """
     messages: List[Dict] = []
     next_cursor: Optional[str] = None
     while True:
@@ -61,9 +81,11 @@ def get_file_volumes(
     """Calculate the total file volumes (bytes)
 
     Args:
-        client (WebClient): client including DownloaderClient and UploaderClient
-        channel_ids (Optional; str or List[str]; default=None): channel id list for calculation. If not set, calculate all accessible channels.
+        client (WebClient): client. If use this via any Client Class, self is automatically set. Thus, ignore this.
+        channel_ids (Optional; str or List[str]; default=None): channel id list for calculation.
+            If not set, calculate all accessible channels.
         auto_join (bool; default=False): when bot is not in channel, automatically join if possible (public channel).
+            This feature is disabled for :class:`slack_transfer._base.CommonDryRunClient`
 
     Yields:
         float: total file volumes (bytes)
@@ -113,6 +135,23 @@ def get_file_volumes(
 
 
 def test_connection(client: WebClient) -> None:
+    """test connections to slack.
+
+    This test including common scope among all client.
+    The token set to the client use this method requires the following scope:
+     - channels:history
+     - channels:join
+     - channels:read
+     - files:read
+     - groups:history
+     - groups:read
+
+     If one of the scope is missing, this method rise an error.
+     Those tests are performed step by step. It means that missing scope appears not at once.
+
+    Args:
+        client (WebClient): client. If use this via any Client Class, self is automatically set. Thus, ignore this.
+    """
     response = client.auth_test()
     if not response["ok"]:
         raise IOError("slack token is invalid.")
@@ -165,6 +204,20 @@ def test_connection(client: WebClient) -> None:
 
 
 def test_downloader(client: WebClient) -> None:
+    """test connections to slack as downloader.
+
+    This test including common scope for DownloaderClient.
+    The token set to the client use this method requires the following scope:
+     - bookmarks:read
+     - emoji:read
+     - users:read
+
+     If one of the scope is missing, this method rise an error.
+     Those tests are performed step by step. It means that missing scope appears not at once.
+
+    Args:
+        client (WebClient): client. If use this via any Client Class, self is automatically set. Thus, ignore this.
+    """
     client.users_list()
 
     # channels:read,groups:read
@@ -182,6 +235,23 @@ def test_downloader(client: WebClient) -> None:
 
 
 def test_uploader(client: WebClient) -> None:
+    """test connections to slack as uploader.
+
+    This test including common scope for UploaderClient.
+    The token set to the client use this method requires the following scope:
+     - channels:manage
+     - files:write
+     - chat:write
+     - pins:write
+     - bookmarks:write
+     - reaction:write
+
+     If one of the scope is missing, this method rise an error.
+     Those tests are performed step by step. It means that missing scope appears not at once.
+
+    Args:
+        client (WebClient): client. If use this via any Client Class, self is automatically set. Thus, ignore this.
+    """
     # channels:manage
     # conversations_setTopic and conversations_setPurpose is also the same scope
     try:

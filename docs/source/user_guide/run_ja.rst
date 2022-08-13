@@ -1,10 +1,10 @@
-slack_transfer.run の使い方
+slack_transfer の使い方
 ============================
 :doc:`environment_ja` のステップが完了している前提で説明します．
 
 0. 全体像と用語定義
 ---------------------
-:code:`slack_transfer.run` を用いることで，移行元のSlack workspaceから移行先のSlack workspaceにデータを移行することができます．
+:code:`slack_transfer` を用いることで，移行元のSlack workspaceから移行先のSlack workspaceにデータを移行することができます．
 
 なお，Slack trialがまだ使える状態で残っていれば，一時的に有効にすることで，過去のデータをすべて回収できます．
 
@@ -17,9 +17,9 @@ slack_transfer.run の使い方
 
 このレポジトリでは，同じWSでもdownload側とupload側を間違えてしまうと，大事故の原因なので，明示的に分離を行っており，tokenの権限なども役割に合わせて，read/writeを使い分けるなどして，事故が起きないようにします．
 
-:code:`slack_transfer.run` は基本的に移行作業をall-in-oneで実施します．
+:code:`slack_transfer` は基本的に移行作業をall-in-oneで実施します．
 さまざまな対策はしているとはいえ，slackサーバーの挙動や，子のレポジトリに存在する潜在的なバグにより，一発で成功しない場合もあることは，あらかじめご承知おきください．
-:code:`slack_transfer.run` が実施する作業は以下です．
+:code:`slack_transfer` が実施する作業は以下です．
 
 .. code-block:: none
 

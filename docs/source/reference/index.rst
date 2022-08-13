@@ -8,7 +8,6 @@ Client
 ~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: generated/client/
-    :recursive:
 
     DownloaderClient
     UploaderClient
@@ -17,8 +16,9 @@ ClientABC
 ~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: generated/client_abc/
-    :recursive:
 
+    _base.CommonDryRunClient
+    _base.CommonNoLocalVolumeClient
     _base.CommonClient
     _base.DownloaderClientABC
     _base.UploaderClientABC
@@ -27,7 +27,6 @@ functions
 ~~~~~~~~~~~~~~~~~~
 .. autosummary::
     :toctree: generated/functions/
-    :recursive:
 
     functions.common
     functions.common.get_channels_list

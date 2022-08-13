@@ -74,6 +74,7 @@ def confirmation(title: str, text: str) -> None:
 
 
 def interactive() -> None:
+    """See interactive section in :doc:`/user_guide/cli`"""
     ssl_context = ssl.create_default_context(
         ssl.Purpose.SERVER_AUTH, cafile=certifi.where(), capath=certifi.where()
     )

@@ -1,8 +1,6 @@
 User Guide
 ==========
 
-**This repository is under development. No one other than developers is recommended to use this repository.**
-
 General usage
 ------------------------------------
 

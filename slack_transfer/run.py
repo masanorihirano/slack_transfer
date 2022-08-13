@@ -26,6 +26,27 @@ def run(
     skip_bookmarks: bool = False,
     ssl: Optional[SSLContext] = None,
 ) -> None:
+    """See run section in :doc:`/user_guide/cli`
+
+    Args:
+        local_data_dir (str): Data directory for saving download data or loading upload data. This is required.
+        downloader_token (str; Optional; default=None): Download token obtained from slack (the original workspace).
+            Starts with xoxb-. This is required when skip_download=False.
+        uploader_token (str; Optional; default=None): Upload token obtained from slack (the destination workspace).
+            Starts with xoxb-. This is required when skip_upload=False.
+        override (bool; Optional; default=False): This flag enables message migration to the destination workspace
+            even when a channel already exists. This means that additional messages are inserted after the message
+            already sent to the channel. If you want not to do so, please delete the channel on the destination workspace first.
+        skip_download (bool; Optional; default=False): Skip download. This is usually used when the download is already finished.
+        skip_upload (bool; Optional; default=False): Skip upload. This is usually used when only the download is necessary.
+        name_mappings (Dict[str, str]; Optional; default=None): You can set name mappings between the channel names of the
+            original and destination workspaces. For example, :code:`{"old_name1": "new_name1", "old_name2": "new_name2"}`.
+        channel_names (List[str]; Optional; default=None): channel names you want to process.
+            If not set, set to all available channels.
+        skip_bookmarks (bool; Optional; default=False): Skip process bookmarks.
+        ssl: (SSLContext; Optional; default=None): : An [`ssl.SSLContext`][1] instance, helpful for specifying
+            your own custom certificate chain.
+    """
     os.makedirs(local_data_dir, exist_ok=True)
     if not skip_download:
         downloader = DownloaderClient(

@@ -24,7 +24,43 @@ from .functions.upload import upload_file
 
 
 class DownloaderClient(DownloaderClientABC):
-    """DownloaderClient"""
+    """Downloader Client class.
+    Inherit :code:`slack_sdk.WebClient` via some classes.
+
+    .. seealso::
+        - https://github.com/slackapi/python-slack-sdk
+
+    Args:
+        local_data_dir (str): A directory you want to save and load your slack data.
+        token (str; Optional): A string specifying an `xoxp-*` or `xoxb-*` token.
+        base_url (str; Optional): A string representing the Slack API base URL.
+            Default is `'https://www.slack.com/api/'`
+        timeout (int; Optional): The maximum number of seconds the client will wait
+            to connect and receive a response from Slack.
+            Default is 30 seconds.
+        ssl (SSLContext; Optional): An [`ssl.SSLContext`][1] instance, helpful for specifying
+            your own custom certificate chain.
+        proxy (str; Optional): String representing a fully-qualified URL to a proxy through
+            which to route all requests to the Slack API. Even if this parameter
+            is not specified, if any of the following environment variables are
+            present, they will be loaded into this parameter: `HTTPS_PROXY`,
+            `https_proxy`, `HTTP_PROXY` or `http_proxy`.
+        headers (dict; Optional): Additional request headers to attach to all requests.
+
+    .. seealso::
+        - :code:`DownloaderClient.get_channels_list`: :func:`slack_transfer.functions.common.get_channels_list`
+        - :code:`DownloaderClient.get_replies`: :func:`slack_transfer.functions.common.get_replies`
+        - :code:`DownloaderClient.get_file_volumes`: :func:`slack_transfer.functions.common.get_file_volumes`
+        - :code:`DownloaderClient.test_connection`: :func:`slack_transfer.functions.common.test_connection`
+        - :code:`DownloaderClient.test_downloader`: :func:`slack_transfer.functions.common.test_downloader`
+        - :code:`DownloaderClient.test_uploader`: :func:`slack_transfer.functions.common.test_uploader`
+        - :code:`DownloaderClient.download_channels_list`: :func:`slack_transfer.functions.download.download_channels_list`
+        - :code:`DownloaderClient.download_file`: :func:`slack_transfer.functions.download.download_file`
+        - :code:`DownloaderClient.download_channel_history`: :func:`slack_transfer.functions.download.download_channel_history`
+        - :code:`DownloaderClient.download_members_list`: :func:`slack_transfer.functions.download.download_members_list`
+        - :code:`DownloaderClient.download_bookmark`: :func:`slack_transfer.functions.download.download_bookmark`
+        - :code:`DownloaderClient.download_emoji`: :func:`slack_transfer.functions.download.download_emoji`
+    """
 
     def download_channels_list(self) -> List[Dict]:
         return download_channels_list(client=self)
@@ -71,7 +107,44 @@ class DownloaderClient(DownloaderClientABC):
 
 
 class UploaderClient(UploaderClientABC):
-    """UploaderClient"""
+    """Uploader Client class.
+    Inherit :code:`slack_sdk.WebClient` via some classes.
+
+    .. seealso::
+        - https://github.com/slackapi/python-slack-sdk
+
+    Args:
+        local_data_dir (str): A directory you want to save and load your slack data.
+        token (str; Optional): A string specifying an `xoxp-*` or `xoxb-*` token.
+        base_url (str; Optional): A string representing the Slack API base URL.
+            Default is `'https://www.slack.com/api/'`
+        timeout (int; Optional): The maximum number of seconds the client will wait
+            to connect and receive a response from Slack.
+            Default is 30 seconds.
+        ssl (SSLContext; Optional): An [`ssl.SSLContext`][1] instance, helpful for specifying
+            your own custom certificate chain.
+        proxy (str; Optional): String representing a fully-qualified URL to a proxy through
+            which to route all requests to the Slack API. Even if this parameter
+            is not specified, if any of the following environment variables are
+            present, they will be loaded into this parameter: `HTTPS_PROXY`,
+            `https_proxy`, `HTTP_PROXY` or `http_proxy`.
+        headers (dict; Optional): Additional request headers to attach to all requests.
+
+    .. seealso::
+        - :code:`DownloaderClient.get_channels_list`: :func:`slack_transfer.functions.common.get_channels_list`
+        - :code:`DownloaderClient.get_replies`: :func:`slack_transfer.functions.common.get_replies`
+        - :code:`DownloaderClient.get_file_volumes`: :func:`slack_transfer.functions.common.get_file_volumes`
+        - :code:`DownloaderClient.test_connection`: :func:`slack_transfer.functions.common.test_connection`
+        - :code:`DownloaderClient.test_downloader`: :func:`slack_transfer.functions.common.test_downloader`
+        - :code:`DownloaderClient.test_uploader`: :func:`slack_transfer.functions.common.test_uploader`
+        - :code:`DownloaderClient.create_all_channels`: :func:`slack_transfer.functions.upload.create_all_channels`
+        - :code:`DownloaderClient.upload_file`: :func:`slack_transfer.functions.upload.upload_file`
+        - :code:`DownloaderClient.data_insert`: :func:`slack_transfer.functions.upload.data_insert`
+        - :code:`DownloaderClient.check_upload_conflict`: :func:`slack_transfer.functions.upload.check_upload_conflict`
+        - :code:`DownloaderClient.insert_bookmarks`: :func:`slack_transfer.functions.upload.insert_bookmarks`
+        - :code:`DownloaderClient.check_insert_finished`: :func:`slack_transfer.functions.upload.check_insert_finished`
+        - :code:`DownloaderClient.check_channel_exists`: :func:`slack_transfer.functions.upload.check_channel_exists`
+    """
 
     def create_all_channels(
         self,
