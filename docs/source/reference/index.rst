@@ -41,6 +41,7 @@ CLI
 
     cli.bookmark
     cli.download
+    cli.emoji
     cli.file_volume
     cli.main
     cli.token_test
@@ -55,3 +56,4 @@ Others
 
     __version__
     run.run
+    interactive.interactive
