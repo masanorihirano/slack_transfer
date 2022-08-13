@@ -149,12 +149,14 @@ def run(
             print(
                 f"{i + 1}/{len(channel_files)}: {old_channel_name} -> {new_channel_name}"
             )
-            if uploader.check_channel_exists(
-                channel_name=new_channel_name
-            ) and uploader.check_insert_finished(
-                channel_name=new_channel_name,
-                old_members_dict=old_members_dict,
-                old_channel_name=old_channel_name,
+            if (
+                uploader.check_channel_exists(channel_name=new_channel_name)
+                and uploader.check_insert_finished(
+                    channel_name=new_channel_name,
+                    old_members_dict=old_members_dict,
+                    old_channel_name=old_channel_name,
+                )
+                and not override
             ):
                 print("already finished. skip.")
                 continue

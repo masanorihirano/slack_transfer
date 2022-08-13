@@ -291,8 +291,22 @@ def data_insert(
                 date_time = datetime.datetime.fromtimestamp(
                     float(message["ts"]), tz=tz_delta
                 ).strftime("%Y/%m/%d %H:%M %Z")
-                blocks = (
-                    (
+                blocks: List[Dict] = (
+                    list(
+                        filter(
+                            lambda x: x["type"] not in ["rich_text", "call"],
+                            message["blocks"],
+                        )
+                    )
+                    if "blocks" in message
+                    else []
+                ) + [
+                    {"type": "file", "source": "remote", "file_id": file_id}
+                    for file_id in file_ids
+                ]
+
+                if len(blocks) != 0:
+                    blocks = (
                         [
                             {
                                 "type": "section",
@@ -310,22 +324,8 @@ def data_insert(
                         ]
                         if message["text"]
                         else []
-                    )
-                    + (
-                        list(
-                            filter(
-                                lambda x: x["type"] not in ["rich_text", "call"],
-                                message["blocks"],
-                            )
-                        )
-                        if "blocks" in message
-                        else []
-                    )
-                    + [
-                        {"type": "file", "source": "remote", "file_id": file_id}
-                        for file_id in file_ids
-                    ]
-                )
+                    ) + blocks
+
                 if (
                     len(blocks) == 0
                     and message["text"] == ""
