@@ -36,7 +36,7 @@ slack_transfer.run の使い方
     - Slack connectの移植 (Slack connectは，connect元につなぎなおしを依頼してください)
     - Bookmarkの移植におけるフォルダー分けの維持 (Slack APIの設計上不可能)
     - Slack postを移植した場合に，フォーマット崩れする可能性があることと，readonlyで移植される (Slack　APIの設計上不可能)
-    - reactionの移植 (APIではbotがreactionのemojiを押すことしかできないので，)
+    - reactionはAPIによるリアクションとして，各1種類につき1回分までしか移植されません (APIではbotがreactionのemojiを押すことしかできないので，)
     - 3000文字を越える投稿におけるフォーマット崩れの可能性 (APIの制限のため，分割投稿となるから．)
     - emojiのアップロード (APIの制限のため，ダウンロードはできますが，アップロードはできません．)
  - メッセージの移植はAPIによる代理投稿として行われるので，タイムスタンプは移植時の物に変わります．代わりに，投稿者名の末尾にオリジナルのタイムスタンプを付与しています．
@@ -200,6 +200,7 @@ Upload側に必要になるScopeは以下です．
  - chat:write
  - pins:write
  - bookmarks:write
+ - reaction:write
 
 
 4. Upload側WSのPrivateチャンネルにAPI botの追加
@@ -220,7 +221,49 @@ generalチャンネル(あるいはそれを改称した場合も)は，特別�
 
 これらの基準に基づき，マッピングを行うチャンネルを選定して，旧チャンネルに対応する新チャンネルのマッピングを決めてください．
 
-6. データ移行の実行
+6. emojiの移行
+---------------------
+emojiの移行を実施します．
+emojiを先に移行しないと，後述の手順で，reactionの一部移設ができません．
+
+管理者画面またはスタンプを押す場所でadd emojiから手動で登録することになりますが，画像の元データがない場合は，先にツールを使ってダウンロードできます．
+
+7-2で後述するinteractive modeの場合は，自動で案内が出るので，スキップ可能です．
+
+emojiは指定したディレクトリのemojisフォルダー内にダウンロードされます．必要に応じて，Uploader側の管理画面からアップロードして追加してください．
+
+7-1で述べるCLIで絵文字をダウンロードする方法は以下です．
+
+まずはpython環境に入ります．
+Mac/Linux/WSLの場合
+
+.. code-block:: bash
+
+    $ . .venv/bin/activate
+
+Windowsの場合
+
+.. code-block:: bash
+
+    $ . .venv\Scripts\activate
+
+
+そのうえで，
+
+.. code-block:: bash
+
+    $ slack_transfer emoji --data_dir <local_data_dir> --downloader_token <downloader_token>
+
+として実施します．
+ここで，各パラメータは以下の通りです．
+ - :code:`<local_data_dir>`: ダウンロードしたデータを端末内に一時保存するディレクトリです．相対ディレクトリ，絶対ディレクトリのどちらでも設定できます．存在しない場合は自動生成されます．わからなければ， :code:`local_data_dir` などと設定してください．
+ - :code:`<downloader_token>`: 2で取得したdownload側WSのAPI tokenです． xoxb-から始まります．
+
+:code:`<local_data_dir>/emojis`のフォルダーに絵文字が保存されるので，これを移行します．基本的には，そのままインポートすればemojiの名前も元の通りインポートできます．
+
+絵文字を移行するツールが存在します( https://github.com/smashwilson/slack-emojinator )が，適切に移行できる保証がないうえ，非公開APIを使用しているため，ここでは推奨しません．
+
+7. データ移行の実行
 ---------------------
 ここまで準備したら，いよいよデータの移行を開始します．
 
@@ -256,7 +299,7 @@ Windowsの場合
 
 どちらでも構いませんが2は環境によってはまれに動かない場合があるので，その場合は，1を選んでください．
 
-6-1. runコマンドを使用して，すべての設定をCLIから流し込む方法
+7-1. runコマンドを使用して，すべての設定をCLIから流し込む方法
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
@@ -284,7 +327,7 @@ Windowsの場合
 
     $ slack_transfer　run --data_dir=local_data_dir --downloader_token=xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token=xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings=general:_general,random:_random
 
-6-2. interactiveコマンドを使用して，すべて画面操作で設定を進める方法
+7-2. interactiveコマンドを使用して，すべて画面操作で設定を進める方法
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
@@ -293,8 +336,3 @@ Windowsの場合
 
 でプログラムを開始できます．あとは，指示に従って進めるだけです．
 
-
-7. emojiの移植
----------------------
-emojiは指定したディレクトリのemojisフォルダー内にダウンロードされます．必要に応じて，Uploader側の管理画面からアップロードして追加してください．
-ただし，emoji pack (slackの標準で追加可能)も含まれていますので，その場合は，emoji packを先に追加してください．

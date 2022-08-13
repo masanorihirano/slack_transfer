@@ -17,6 +17,7 @@ from prompt_toolkit.shortcuts import message_dialog
 from prompt_toolkit.shortcuts import radiolist_dialog
 from prompt_toolkit.styles import Style
 
+from slack_transfer import DownloaderClient
 from slack_transfer._base import CommonNoLocalVolumeClient
 from slack_transfer.run import run
 from slack_transfer.version import __version__
@@ -270,6 +271,21 @@ def interactive() -> None:
     )
     if not final_confirmation:
         raise KeyboardInterrupt
+
+    if not skip_download and not skip_upload:
+        downloader = DownloaderClient(
+            local_data_dir=local_data_dir, token=downloader_token
+        )
+        downloader.download_emoji()
+        confirmation(
+            title="Emoji migration required",
+            text={
+                "en": f"Emojis are downloaded in {local_data_dir}/emojis/ . \n"
+                + "If you need, please add those emojis to the destination WS **NOW**. Then, click OK.",
+                "ja": f"必要に応じて，{local_data_dir}/emojis/にダウンロードされた絵文字を移行先WSに登録してください．"
+                + "完了したら，OKを押してください．",
+            }[language],
+        )
 
     run(
         local_data_dir=local_data_dir,
