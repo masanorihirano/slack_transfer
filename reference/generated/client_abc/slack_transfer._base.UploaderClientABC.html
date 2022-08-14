@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>slack_transfer._base.UploaderClientABC &#8212; slack_transfer 0.2.0 documentation</title>
+    <title>slack_transfer._base.UploaderClientABC &#8212; slack_transfer 0.2.1 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.0 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.1 documentation</p>
   
 </a>
     
@@ -150,6 +150,16 @@
 </ul>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer._base.CommonDryRunClient.html">
+   slack_transfer._base.CommonDryRunClient
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer._base.CommonNoLocalVolumeClient.html">
+   slack_transfer._base.CommonNoLocalVolumeClient
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="slack_transfer._base.CommonClient.html">
    slack_transfer._base.CommonClient
   </a>
@@ -172,13 +182,108 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.get_channels_list.html">
+   slack_transfer.functions.common.get_channels_list
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.get_file_volumes.html">
+   slack_transfer.functions.common.get_file_volumes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.get_replies.html">
+   slack_transfer.functions.common.get_replies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.test_connection.html">
+   slack_transfer.functions.common.test_connection
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.test_downloader.html">
+   slack_transfer.functions.common.test_downloader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.test_uploader.html">
+   slack_transfer.functions.common.test_uploader
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../functions/slack_transfer.functions.download.html">
    slack_transfer.functions.download
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_bookmark.html">
+   slack_transfer.functions.download.download_bookmark
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_channel_history.html">
+   slack_transfer.functions.download.download_channel_history
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_channels_list.html">
+   slack_transfer.functions.download.download_channels_list
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_emoji.html">
+   slack_transfer.functions.download.download_emoji
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_file.html">
+   slack_transfer.functions.download.download_file
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_members_list.html">
+   slack_transfer.functions.download.download_members_list
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../functions/slack_transfer.functions.upload.html">
    slack_transfer.functions.upload
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.check_channel_exists.html">
+   slack_transfer.functions.upload.check_channel_exists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.check_insert_finished.html">
+   slack_transfer.functions.upload.check_insert_finished
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.check_upload_conflict.html">
+   slack_transfer.functions.upload.check_upload_conflict
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.create_all_channels.html">
+   slack_transfer.functions.upload.create_all_channels
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.data_insert.html">
+   slack_transfer.functions.upload.data_insert
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.insert_bookmarks.html">
+   slack_transfer.functions.upload.insert_bookmarks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.upload_file.html">
+   slack_transfer.functions.upload.upload_file
   </a>
  </li>
 </ul>
@@ -191,6 +296,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../cli/slack_transfer.cli.download.html">
    slack_transfer.cli.download
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.emoji.html">
+   slack_transfer.cli.emoji
   </a>
  </li>
  <li class="toctree-l1">
@@ -223,6 +333,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../other/slack_transfer.run.run.html">
    slack_transfer.run.run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../other/slack_transfer.interactive.interactive.html">
+   slack_transfer.interactive.interactive
   </a>
  </li>
 </ul>
@@ -268,7 +383,9 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="slack_transfer._base.UploaderClientABC">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">slack_transfer._base.</span></span><span class="sig-name descname"><span class="pre">UploaderClientABC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'https://www.slack.com/api/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">SSLContext</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent_suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Logger</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_handlers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">RetryHandler</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/slack_transfer/_base.html#UploaderClientABC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#slack_transfer._base.UploaderClientABC" title="Permalink to this definition">#</a></dt>
-<dd><dl class="py method">
+<dd><p>Abstract class for Uploader Clients. This is the same as <a class="reference internal" href="slack_transfer._base.CommonClient.html#slack_transfer._base.CommonClient" title="slack_transfer._base.CommonClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">slack_transfer._base.CommonClient</span></code></a>.
+But, this is introduced for easily identify the client is uploader.</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="slack_transfer._base.UploaderClientABC.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">local_data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'https://www.slack.com/api/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">SSLContext</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent_suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Logger</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_handlers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">RetryHandler</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#slack_transfer._base.UploaderClientABC.__init__" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -769,13 +886,13 @@
 <td><p>Uploads or creates a file.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_channels_list</span></code>()</p></td>
-<td><p></p></td>
+<td><p>get channel list <a class="reference internal" href="../functions/slack_transfer.functions.common.get_channels_list.html#slack_transfer.functions.common.get_channels_list" title="slack_transfer.functions.common.get_channels_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_channels_list()</span></code></a></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_file_volumes</span></code>([channel_ids, auto_join])</p></td>
-<td><p></p></td>
+<td><p>calculate rough volume for files which will be downloaded <a class="reference internal" href="../functions/slack_transfer.functions.common.get_file_volumes.html#slack_transfer.functions.common.get_file_volumes" title="slack_transfer.functions.common.get_file_volumes"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_file_volumes()</span></code></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_replies</span></code>(channel_id, ts)</p></td>
-<td><p></p></td>
+<td><p>get replies for a message <a class="reference internal" href="../functions/slack_transfer.functions.common.get_replies.html#slack_transfer.functions.common.get_replies" title="slack_transfer.functions.common.get_replies"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_replies()</span></code></a></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_archive</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Archives a private channel.</p></td>
@@ -961,13 +1078,13 @@
 <td><p>Retrieve a team's profile.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_connection</span></code>()</p></td>
-<td><p></p></td>
+<td><p>test general connection to slack using token <a class="reference internal" href="../functions/slack_transfer.functions.common.test_connection.html#slack_transfer.functions.common.test_connection" title="slack_transfer.functions.common.test_connection"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.test_connection()</span></code></a></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_downloader</span></code>()</p></td>
-<td><p></p></td>
+<td><p>test the token as downloader mode <a class="reference internal" href="../functions/slack_transfer.functions.common.test_downloader.html#slack_transfer.functions.common.test_downloader" title="slack_transfer.functions.common.test_downloader"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.test_downloader()</span></code></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_uploader</span></code>()</p></td>
-<td><p></p></td>
+<td><p>test the token as uploader mode <a class="reference internal" href="../functions/slack_transfer.functions.common.test_uploader.html#slack_transfer.functions.common.test_uploader" title="slack_transfer.functions.common.test_uploader"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.test_uploader()</span></code></a></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_create</span></code>(*, name[, channels, ...])</p></td>
 <td><p>Create a User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.create">https://api.slack.com/methods/usergroups.create</a></p></td>

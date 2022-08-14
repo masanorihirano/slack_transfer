@@ -1,0 +1,6 @@
+﻿slack\_transfer.functions.download.download\_channels\_list
+===========================================================
+
+.. currentmodule:: slack_transfer.functions.download
+
+.. autofunction:: download_channels_list

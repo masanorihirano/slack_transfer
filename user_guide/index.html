@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>User Guide &#8212; slack_transfer 0.2.0 documentation</title>
+    <title>User Guide &#8212; slack_transfer 0.2.1 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -36,7 +36,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="CLI" href="cli.html" />
+    <link rel="next" title="Environmental Settings" href="environment.html" />
     <link rel="prev" title="slack_transfer" href="../index.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.0 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.1 documentation</p>
   
 </a>
     
@@ -138,6 +138,18 @@
   <div class="bd-toc-item active">
     <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="environment.html">
+   Environmental Settings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run.html">
+   How to use slack_transfer
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
   <a class="reference internal" href="cli.html">
    CLI
   </a>
@@ -197,15 +209,29 @@
                 
   <section id="user-guide">
 <h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this heading">#</a></h1>
-<p><strong>This repository is under development. No one other than developers is recommended to use this repository.</strong></p>
 <section id="general-usage">
 <h2>General usage<a class="headerlink" href="#general-usage" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Environmental Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#building-a-python-environment">1. Building a Python Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#installing-slack-transfer">2. Installing slack-transfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#when-it-is-impossible-to-build-your-environment">3. When it is impossible to build your environment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">How to use slack_transfer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="run.html#overview-and-definition-of-terms">0. Overview and definition of terms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run.html#caution">1. Caution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run.html#obtaining-slack-token-the-original-ws">2. Obtaining Slack token (the original WS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run.html#obtaining-slack-token-the-destination-ws">3. Obtaining Slack token (the destination WS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run.html#add-api-bot-to-private-channel-on-the-original-ws">4. Add API bot to Private channel on the original WS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run.html#considering-channel-name-mappings">5. Considering channel name mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run.html#migrate-emojis">6. Migrate emojis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run.html#migrate-data">7. Migrate data</a></li>
+</ul>
+</li>
+</ul>
 </div>
-<dl class="simple">
-<dt>　　environment</dt><dd><p>run</p>
-</dd>
-</dl>
 </section>
 <section id="cli">
 <h2>CLI<a class="headerlink" href="#cli" title="Permalink to this heading">#</a></h2>
@@ -219,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="cli.html#bookmark">bookmark</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cli.html#emoji">emoji</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cli.html#token-test">token_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#interactive">interactive</a></li>
 </ul>
 </li>
 </ul>
@@ -241,10 +268,10 @@
           <p class="prev-next-title">slack_transfer</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="cli.html" title="next page">
+  <a class='right-next' id="next-link" href="environment.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">CLI</p>
+      <p class="prev-next-title">Environmental Settings</p>
   </div>
   <i class="fas fa-angle-right"></i>
   </a>

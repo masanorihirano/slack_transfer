@@ -1,0 +1,6 @@
+﻿slack\_transfer.functions.upload.check\_upload\_conflict
+========================================================
+
+.. currentmodule:: slack_transfer.functions.upload
+
+.. autofunction:: check_upload_conflict

@@ -1,0 +1,6 @@
+﻿slack\_transfer.functions.upload.data\_insert
+=============================================
+
+.. currentmodule:: slack_transfer.functions.upload
+
+.. autofunction:: data_insert

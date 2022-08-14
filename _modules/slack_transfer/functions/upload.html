@@ -1,0 +1,752 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>slack_transfer.functions.upload &#8212; slack_transfer 0.2.1 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">slack_transfer 0.2.1 documentation</p>
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../user_guide/index_ja.html">
+  ユーザーガイド
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../reference/index.html">
+  API reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <h1>Source code for slack_transfer.functions.upload</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">tqdm</span>
+<span class="kn">from</span> <span class="nn">dateutil</span> <span class="kn">import</span> <span class="n">tz</span>
+<span class="kn">from</span> <span class="nn">markdownify</span> <span class="kn">import</span> <span class="n">markdownify</span>
+<span class="kn">from</span> <span class="nn">slack_sdk.errors</span> <span class="kn">import</span> <span class="n">SlackApiError</span>
+<span class="kn">from</span> <span class="nn">slack_sdk.web</span> <span class="kn">import</span> <span class="n">SlackResponse</span>
+
+<span class="kn">from</span> <span class="nn">.._base</span> <span class="kn">import</span> <span class="n">UploaderClientABC</span>
+<span class="kn">from</span> <span class="nn">.common</span> <span class="kn">import</span> <span class="n">get_channels_list</span>
+
+
+<div class="viewcode-block" id="create_all_channels"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.create_all_channels.html#slack_transfer.functions.upload.create_all_channels">[docs]</a><span class="k">def</span> <span class="nf">create_all_channels</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span>
+    <span class="n">channel_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">name_mappings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;create all channels or specified channels. In this process, channel purpose and description are also set.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (UploaderClientABC): uploader client. If use this via any UploaderClient Class, self is automatically set.</span>
+<span class="sd">            Thus, ignore this.</span>
+<span class="sd">        channel_names (List[str]; Optional; default=None): list of channels to be made.</span>
+<span class="sd">        name_mappings (Dict[str, str]; Optional; default=None): You can set name mappings between the channel names of the</span>
+<span class="sd">            original and destination workspaces. For example, :code:`{&quot;old_name1&quot;: &quot;new_name1&quot;, &quot;old_name2&quot;: &quot;new_name2&quot;}`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">downloaded_channels</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+        <span class="nb">open</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;channels.json&quot;</span><span class="p">),</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
+            <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">channel_names</span><span class="p">:</span>
+        <span class="n">downloaded_channels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">channel_names</span><span class="p">),</span> <span class="n">downloaded_channels</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="p">)</span>
+    <span class="n">channels_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_channels_list</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">old_channel_info</span> <span class="ow">in</span> <span class="n">downloaded_channels</span><span class="p">:</span>
+        <span class="n">new_channel_name</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">name_mappings</span><span class="p">[</span><span class="n">old_channel_info</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">name_mappings</span> <span class="ow">and</span> <span class="n">old_channel_info</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">name_mappings</span>
+            <span class="k">else</span> <span class="n">old_channel_info</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">new_channel_if_exists</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_channel_name</span><span class="p">,</span> <span class="n">channels_list</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_channel_if_exists</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_channel_if_exists</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Error: multiple channels exists (</span><span class="si">{</span><span class="n">new_channel_name</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">conversations_create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">new_channel_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in making channel </span><span class="si">{</span><span class="n">new_channel_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">new_channel_info</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;channel&quot;</span><span class="p">]</span>
+        <span class="n">new_channel_id</span> <span class="o">=</span> <span class="n">new_channel_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">conversations_setTopic</span><span class="p">(</span>
+            <span class="n">channel</span><span class="o">=</span><span class="n">new_channel_id</span><span class="p">,</span> <span class="n">topic</span><span class="o">=</span><span class="n">old_channel_info</span><span class="p">[</span><span class="s2">&quot;topic&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">conversations_setPurpose</span><span class="p">(</span>
+            <span class="n">channel</span><span class="o">=</span><span class="n">new_channel_id</span><span class="p">,</span> <span class="n">purpose</span><span class="o">=</span><span class="n">old_channel_info</span><span class="p">[</span><span class="s2">&quot;purpose&quot;</span><span class="p">][</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="upload_file"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.upload_file.html#slack_transfer.functions.upload.upload_file">[docs]</a><span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span>
+    <span class="n">old_file_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">channel_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">filetype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">is_slack_post</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;upload a file. This is usually preprocess for posting message attaching files.</span>
+<span class="sd">    **So, this method is not usually directly used by users.**</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (UploaderClientABC): uploader client. If use this via any UploaderClient Class, self is automatically set.</span>
+<span class="sd">            Thus, ignore this.</span>
+<span class="sd">        old_file_id (str): old file id. This is required to find the file in local data dir.</span>
+<span class="sd">        file_name (str): file name. It have to be the original old file name.</span>
+<span class="sd">            This is also required to find the file in local data dir. The uploaded file is also named as the same.</span>
+<span class="sd">        channel_id (str; Optional; default=None): channel id (usually 9-digits string)</span>
+<span class="sd">        title (str; Optional; default=None): title for appending to the file when uploading.</span>
+<span class="sd">        filetype (str; Optional; default=None): file type. It is not mimetype. See: https://api.slack.com/types/file#types</span>
+<span class="sd">        is_slack_post (bool; Optional; default=False): set True if this file is slack post.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">file_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;files&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">old_file_id</span><span class="si">}</span><span class="s2">--</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">is_slack_post</span><span class="p">:</span>
+        <span class="n">filetype</span> <span class="o">=</span> <span class="s2">&quot;post&quot;</span>
+        <span class="k">if</span> <span class="n">file_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span>
+        <span class="c1"># ToDo: better support of slack post</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">markdownify</span><span class="p">(</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">))[</span><span class="s2">&quot;full&quot;</span><span class="p">]</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;pre&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;```&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;/pre&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;```&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;p&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;/p&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span><span class="p">:</span> <span class="n">SlackResponse</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files_upload</span><span class="p">(</span>
+            <span class="n">file</span><span class="o">=</span><span class="n">file_path</span><span class="p">,</span>
+            <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
+            <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">channels</span><span class="o">=</span><span class="n">channel_id</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;file is missing (possibly duu to original slack limitations): </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in uploading file </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">][</span><span class="s2">&quot;permalink&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="check_channel_exists"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.check_channel_exists.html#slack_transfer.functions.upload.check_channel_exists">[docs]</a><span class="k">def</span> <span class="nf">check_channel_exists</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span> <span class="n">channel_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;check if a channel already exists or not</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (UploaderClientABC): uploader client. If use this via any UploaderClient Class, self is automatically set.</span>
+<span class="sd">            Thus, ignore this.</span>
+<span class="sd">        channel_name (str): channel name wanted to be checked.</span>
+
+<span class="sd">    Yield:</span>
+<span class="sd">         bool: return True if exists. Otherwise, return False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">channels_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_channels_list</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+    <span class="n">new_channel_infos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">channel_name</span><span class="p">,</span> <span class="n">channels_list</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_channel_infos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_channel_infos</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="check_insert_finished"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.check_insert_finished.html#slack_transfer.functions.upload.check_insert_finished">[docs]</a><span class="k">def</span> <span class="nf">check_insert_finished</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span>
+    <span class="n">channel_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">old_members_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">old_channel_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">time_zone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Asia/Tokyo&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;check if the uploading for a channel already finished or not. This check is rough. Just checking some latest messages.</span>
+<span class="sd">    Note that it raise error if the channel doesn&#39;t exist.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (UploaderClientABC): uploader client. If use this via any UploaderClient Class, self is automatically set.</span>
+<span class="sd">            Thus, ignore this.</span>
+<span class="sd">        channel_name (str): channel name wanted to be checked.</span>
+<span class="sd">        old_members_dict (Dict[str, str]): a dictionary between old user id and old user preview name.</span>
+<span class="sd">            (Old means the original WS) key is 9-digit string if and value is the preview user name.</span>
+<span class="sd">        old_channel_name (str; Optional; default=None): old channel name. It required to find the stored data.</span>
+<span class="sd">        time_zone (str; Optional; default=Asia/Tokyo): time zone to preview the original post data on the destination WS.</span>
+<span class="sd">            See: https://dateutil.readthedocs.io/en/stable/tz.html</span>
+
+<span class="sd">    Yield:</span>
+<span class="sd">         bool: return True if finished. Otherwise, return False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># return error when channel not exists</span>
+    <span class="n">tz_delta</span> <span class="o">=</span> <span class="n">tz</span><span class="o">.</span><span class="n">gettz</span><span class="p">(</span><span class="n">time_zone</span><span class="p">)</span>
+    <span class="n">channels_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_channels_list</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+    <span class="n">new_channel_infos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">channel_name</span><span class="p">,</span> <span class="n">channels_list</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_channel_infos</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;channel possibly does not exists&quot;</span><span class="p">)</span>
+    <span class="n">new_channel_info</span> <span class="o">=</span> <span class="n">new_channel_infos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">new_channel_id</span> <span class="o">=</span> <span class="n">new_channel_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+    <span class="n">data_file_name</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">old_channel_name</span><span class="si">}</span><span class="s2">.json&quot;</span> <span class="k">if</span> <span class="n">old_channel_name</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">channel_name</span><span class="si">}</span><span class="s2">.json&quot;</span>
+    <span class="p">)</span>
+    <span class="n">data_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;channels&quot;</span><span class="p">,</span> <span class="n">data_file_name</span><span class="p">)</span>
+    <span class="n">old_messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+        <span class="nb">open</span><span class="p">(</span><span class="n">data_file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">old_messages</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="nb">filter</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;thread_ts&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">x</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;subtype&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;subtype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;thread_broadcast&quot;</span><span class="p">),</span>
+            <span class="n">old_messages</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">old_messages</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;ts&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">conversations_history</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="n">new_channel_id</span><span class="p">)</span>
+    <span class="n">new_messages</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;messages&quot;</span><span class="p">]</span>
+    <span class="n">new_messages</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;ts&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">expected_username_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">old_messages</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)):</span>
+        <span class="n">expected_date_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span>
+            <span class="nb">float</span><span class="p">(</span><span class="n">old_messages</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;ts&quot;</span><span class="p">]),</span> <span class="n">tz</span><span class="o">=</span><span class="n">tz_delta</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y/%m/</span><span class="si">%d</span><span class="s2"> %H:%M %Z&quot;</span><span class="p">)</span>
+        <span class="n">expected</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">old_members_dict</span><span class="p">[</span><span class="n">old_messages</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;user&quot;</span><span class="p">]]</span>
+                <span class="k">if</span> <span class="s2">&quot;user&quot;</span> <span class="ow">in</span> <span class="n">old_messages</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">]</span>
+                <span class="ow">and</span> <span class="n">old_messages</span><span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;user&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">old_members_dict</span>
+                <span class="k">else</span> <span class="s2">&quot;Unknown member&quot;</span>
+            <span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot; [&quot;</span>
+            <span class="o">+</span> <span class="n">expected_date_time</span>
+            <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">expected</span> <span class="ow">in</span> <span class="n">expected_username_dict</span><span class="p">:</span>
+            <span class="n">expected_username_dict</span><span class="p">[</span><span class="n">expected</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">expected_username_dict</span><span class="p">[</span><span class="n">expected</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">expected_username_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span>
+                <span class="nb">list</span><span class="p">(</span>
+                    <span class="nb">filter</span><span class="p">(</span>
+                        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;username&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;username&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">key</span><span class="p">,</span> <span class="n">new_messages</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="o">&lt;</span> <span class="n">value</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="data_insert"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.data_insert.html#slack_transfer.functions.upload.data_insert">[docs]</a><span class="k">def</span> <span class="nf">data_insert</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span>
+    <span class="n">channel_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">old_members_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">old_members_icon_url_dict</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">old_channel_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">time_zone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Asia/Tokyo&quot;</span><span class="p">,</span>
+    <span class="n">progress</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;upload messages, files, reactions, and pins.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (UploaderClientABC): uploader client. If use this via any UploaderClient Class, self is automatically set.</span>
+<span class="sd">            Thus, ignore this.</span>
+<span class="sd">        channel_name (str): channel name wanted to be checked.</span>
+<span class="sd">        old_members_dict (Dict[str, str]): a dictionary between old user id and old user preview name.</span>
+<span class="sd">            (Old means the original WS) key is 9-digit string if and value is the preview user name.</span>
+<span class="sd">        old_members_icon_url_dict (Dict[str, str]]; Optional; default=None): a dictionary between old user id and old user</span>
+<span class="sd">            icon url. key is 9-digit string if and value is url.</span>
+<span class="sd">        old_channel_name (str; Optional; default=None): old channel name. It required to find the stored data.</span>
+<span class="sd">        time_zone (str; Optional; default=Asia/Tokyo): time zone to preview the original post data on the destination WS.</span>
+<span class="sd">            See: https://dateutil.readthedocs.io/en/stable/tz.html</span>
+<span class="sd">        progress (Union[bool, tqdm.tqdm]; Optional; default=True): set progress bar. progress bar will be updated each time one</span>
+<span class="sd">            message is processed. You can set progress bar from outside this method if you want to make the whole progress bar</span>
+<span class="sd">            beyond each progress of each channel. If you set it to boolean, it is understood as if you want to show a progress</span>
+<span class="sd">            bar only for this processing.</span>
+
+<span class="sd">    Yield:</span>
+<span class="sd">         str: channel id (9-digit string)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">old_members_icon_url_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">old_members_icon_url_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">tz_delta</span> <span class="o">=</span> <span class="n">tz</span><span class="o">.</span><span class="n">gettz</span><span class="p">(</span><span class="n">time_zone</span><span class="p">)</span>
+    <span class="n">channels_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_channels_list</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+    <span class="n">new_channel_info</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">channel_name</span><span class="p">,</span> <span class="n">channels_list</span><span class="p">))[</span>
+        <span class="mi">0</span>
+    <span class="p">]</span>
+    <span class="n">new_channel_id</span> <span class="o">=</span> <span class="n">new_channel_info</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+
+    <span class="n">data_file_name</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">old_channel_name</span><span class="si">}</span><span class="s2">.json&quot;</span> <span class="k">if</span> <span class="n">old_channel_name</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">channel_name</span><span class="si">}</span><span class="s2">.json&quot;</span>
+    <span class="p">)</span>
+    <span class="n">data_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;channels&quot;</span><span class="p">,</span> <span class="n">data_file_name</span><span class="p">)</span>
+    <span class="n">messages</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">data_file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;ts&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ts_mapper</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">progress_bar</span><span class="p">:</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">progress</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="n">progress_bar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">messages</span><span class="p">),</span> <span class="n">disable</span><span class="o">=</span><span class="ow">not</span> <span class="n">progress</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">progress_bar</span> <span class="o">=</span> <span class="n">progress</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
+        <span class="n">file_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">file_permalinks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">file_titles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="s2">&quot;files&quot;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">]:</span>
+                <span class="n">old_file_id</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                <span class="n">file_name</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+                <span class="n">file_type</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;filetype&quot;</span><span class="p">]</span>
+                <span class="n">upload_start_st</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">upload_results</span> <span class="o">=</span> <span class="n">upload_file</span><span class="p">(</span>
+                        <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+                        <span class="n">old_file_id</span><span class="o">=</span><span class="n">old_file_id</span><span class="p">,</span>
+                        <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
+                        <span class="n">channel_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                        <span class="n">filetype</span><span class="o">=</span><span class="n">file_type</span><span class="p">,</span>
+                        <span class="n">is_slack_post</span><span class="o">=</span><span class="p">(</span>
+                            <span class="n">file</span><span class="p">[</span><span class="s2">&quot;mimetype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;application/vnd.slack-docs&quot;</span>
+                        <span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="n">SlackApiError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="c1"># ToDo: workaround for #11</span>
+                    <span class="k">for</span> <span class="n">i_try</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="n">i_try</span><span class="p">)</span>
+                            <span class="n">_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files_list</span><span class="p">(</span>
+                                <span class="n">channel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ts_from</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">upload_start_st</span><span class="p">)</span>
+                            <span class="p">)</span>
+                            <span class="c1"># ToDo: paging: たぶんほとんどの場合不要</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">_response</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">_response</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in uploading file </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                            <span class="n">file_candidates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                                <span class="nb">filter</span><span class="p">(</span>
+                                    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">file_name</span>
+                                    <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">title</span><span class="p">,</span>
+                                    <span class="n">_response</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">],</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_candidates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in uploading file </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                            <span class="n">upload_results</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="n">file_candidates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
+                                <span class="n">file_candidates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;permalink&quot;</span><span class="p">],</span>
+                            <span class="p">)</span>
+                            <span class="k">break</span>
+                        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e2</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">i_try</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                                <span class="k">raise</span> <span class="n">e2</span>
+
+                <span class="k">if</span> <span class="n">upload_results</span><span class="p">:</span>
+                    <span class="n">new_file_id</span><span class="p">,</span> <span class="n">new_file_permalink</span> <span class="o">=</span> <span class="n">upload_results</span>
+                    <span class="n">file_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_file_id</span><span class="p">)</span>
+                    <span class="n">file_permalinks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_file_permalink</span><span class="p">)</span>
+                    <span class="n">file_titles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+
+        <span class="n">new_thread_ts</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="s2">&quot;thread_ts&quot;</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;thread_ts&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;thread_ts&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">ts_mapper</span><span class="p">:</span>
+                <span class="n">new_thread_ts</span> <span class="o">=</span> <span class="n">ts_mapper</span><span class="p">[</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;thread_ts&quot;</span><span class="p">]]</span>
+
+        <span class="n">i_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">date_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span>
+                    <span class="nb">float</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;ts&quot;</span><span class="p">]),</span> <span class="n">tz</span><span class="o">=</span><span class="n">tz_delta</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y/%m/</span><span class="si">%d</span><span class="s2"> %H:%M %Z&quot;</span><span class="p">)</span>
+                <span class="n">blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="nb">list</span><span class="p">(</span>
+                        <span class="nb">filter</span><span class="p">(</span>
+                            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;rich_text&quot;</span><span class="p">,</span> <span class="s2">&quot;call&quot;</span><span class="p">],</span>
+                            <span class="n">message</span><span class="p">[</span><span class="s2">&quot;blocks&quot;</span><span class="p">],</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="s2">&quot;blocks&quot;</span> <span class="ow">in</span> <span class="n">message</span>
+                    <span class="k">else</span> <span class="p">[]</span>
+                <span class="p">)</span> <span class="o">+</span> <span class="p">[</span>
+                    <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;remote&quot;</span><span class="p">,</span> <span class="s2">&quot;file_id&quot;</span><span class="p">:</span> <span class="n">file_id</span><span class="p">}</span>
+                    <span class="k">for</span> <span class="n">file_id</span> <span class="ow">in</span> <span class="n">file_ids</span>
+                <span class="p">]</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">blocks</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="p">{</span>
+                                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;section&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="p">{</span>
+                                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;mrkdwn&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">][</span>
+                                        <span class="n">i</span>
+                                        <span class="o">*</span> <span class="mi">3000</span> <span class="p">:</span> <span class="nb">min</span><span class="p">(</span>
+                                            <span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]),</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3000</span>
+                                        <span class="p">)</span>
+                                    <span class="p">],</span>
+                                <span class="p">},</span>
+                            <span class="p">}</span>
+                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">3000</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="p">]</span>
+                        <span class="k">if</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
+                        <span class="k">else</span> <span class="p">[]</span>
+                    <span class="p">)</span> <span class="o">+</span> <span class="n">blocks</span>
+
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+                    <span class="ow">and</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+                    <span class="ow">and</span> <span class="s2">&quot;attachments&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">message</span>
+                <span class="p">):</span>
+                    <span class="n">message</span><span class="p">[</span>
+                        <span class="s2">&quot;text&quot;</span>
+                    <span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;[Migration Error] this thread is missing (possibly due to original slack limitation)&quot;</span>
+                <span class="n">attachments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">message</span><span class="p">[</span><span class="s2">&quot;attachments&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="s2">&quot;attachments&quot;</span> <span class="ow">in</span> <span class="n">message</span> <span class="k">else</span> <span class="p">[]</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">i_attachment</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">attachments</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="s2">&quot;blocks&quot;</span> <span class="ow">in</span> <span class="n">attachments</span><span class="p">[</span><span class="n">i_attachment</span><span class="p">]:</span>
+                        <span class="n">attachments</span><span class="p">[</span><span class="n">i_attachment</span><span class="p">][</span><span class="s2">&quot;blocks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                            <span class="nb">filter</span><span class="p">(</span>
+                                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;call&quot;</span><span class="p">],</span>
+                                <span class="n">attachments</span><span class="p">[</span><span class="n">i_attachment</span><span class="p">][</span><span class="s2">&quot;blocks&quot;</span><span class="p">],</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                <span class="n">response</span><span class="p">:</span> <span class="n">SlackResponse</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_postMessage</span><span class="p">(</span>
+                    <span class="n">channel</span><span class="o">=</span><span class="n">new_channel_id</span><span class="p">,</span>
+                    <span class="n">text</span><span class="o">=</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">],</span>
+                    <span class="n">attachments</span><span class="o">=</span><span class="n">attachments</span><span class="p">,</span>
+                    <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
+                    <span class="n">thread_ts</span><span class="o">=</span><span class="n">new_thread_ts</span><span class="p">,</span>
+                    <span class="n">reply_broadcast</span><span class="o">=</span><span class="p">(</span>
+                        <span class="n">message</span><span class="p">[</span><span class="s2">&quot;subtype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;thread_broadcast&quot;</span>
+                        <span class="k">if</span> <span class="s2">&quot;subtype&quot;</span> <span class="ow">in</span> <span class="n">message</span>
+                        <span class="k">else</span> <span class="kc">False</span>
+                    <span class="p">),</span>
+                    <span class="n">username</span><span class="o">=</span><span class="p">(</span>
+                        <span class="n">old_members_dict</span><span class="p">[</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]]</span>
+                        <span class="k">if</span> <span class="s2">&quot;user&quot;</span> <span class="ow">in</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">old_members_dict</span>
+                        <span class="k">else</span> <span class="s2">&quot;Unknown member&quot;</span>
+                    <span class="p">)</span>
+                    <span class="o">+</span> <span class="s2">&quot; [&quot;</span>
+                    <span class="o">+</span> <span class="n">date_time</span>
+                    <span class="o">+</span> <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+                    <span class="n">icon_url</span><span class="o">=</span><span class="n">old_members_icon_url_dict</span><span class="p">[</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]]</span>
+                    <span class="k">if</span> <span class="s2">&quot;user&quot;</span> <span class="ow">in</span> <span class="n">message</span>
+                    <span class="ow">and</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">old_members_icon_url_dict</span>
+                    <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">except</span> <span class="n">SlackApiError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;ratelimited&quot;</span><span class="p">,</span> <span class="s2">&quot;fatal_error&quot;</span><span class="p">]:</span>
+                    <span class="n">i_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">i_count</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+                        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+                        <span class="k">continue</span>
+                <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in posting message </span><span class="si">{</span><span class="n">message</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;reactions&quot;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">reaction</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;reactions&quot;</span><span class="p">]:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">client</span><span class="o">.</span><span class="n">reactions_add</span><span class="p">(</span>
+                        <span class="n">channel</span><span class="o">=</span><span class="n">new_channel_id</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="n">reaction</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                        <span class="n">timestamp</span><span class="o">=</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;ts&quot;</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="n">SlackApiError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;invalid_name&quot;</span><span class="p">:</span>
+                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;reaction `</span><span class="si">{</span><span class="n">reaction</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">` doesn&#39;t exist. Skip adding this reaction.&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="k">if</span> <span class="s2">&quot;pinned_to&quot;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">:</span>
+            <span class="n">channels_ids_pined</span> <span class="o">=</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;pinned_to&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">channels_ids_pined</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># ToDo: &quot;pined to multiple channels is not supported&quot;</span>
+                <span class="k">raise</span> <span class="bp">NotImplemented</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">pins_add</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="n">new_channel_id</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;ts&quot;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="s2">&quot;thread_ts&quot;</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;thread_ts&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;thread_ts&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">ts_mapper</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ts_mapper</span><span class="p">[</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;thread_ts&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">][</span><span class="s2">&quot;ts&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ts_mapper</span><span class="p">[</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;ts&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">][</span><span class="s2">&quot;ts&quot;</span><span class="p">]</span>
+        <span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_channel_id</span></div>
+
+
+<div class="viewcode-block" id="check_upload_conflict"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.check_upload_conflict.html#slack_transfer.functions.upload.check_upload_conflict">[docs]</a><span class="k">def</span> <span class="nf">check_upload_conflict</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span> <span class="n">name_mappings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;check upload conflict in terms of channel name.</span>
+
+<span class="sd">    This is not considered if the channel is already finished processing. Just checking name conflict.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (UploaderClientABC): uploader client. If use this via any UploaderClient Class, self is automatically set.</span>
+<span class="sd">            Thus, ignore this.</span>
+<span class="sd">        name_mappings (Dict[str, str]; Optional; default=None): You can set name mappings between the channel names of the</span>
+<span class="sd">            original and destination workspaces. For example, :code:`{&quot;old_name1&quot;: &quot;new_name1&quot;, &quot;old_name2&quot;: &quot;new_name2&quot;}`.</span>
+
+<span class="sd">    Yield:</span>
+<span class="sd">        List[str]: name conflicting channels&#39; names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">existing_channels</span> <span class="o">=</span> <span class="n">get_channels_list</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
+    <span class="n">downloaded_channels</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+        <span class="nb">open</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;channels.json&quot;</span><span class="p">),</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
+            <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">downloaded_channels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="nb">filter</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;channels&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">downloaded_channels</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">existing_channels_name</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">existing_channels</span><span class="p">))</span>
+    <span class="n">downloaded_channels_name</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
+        <span class="nb">map</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">name_mappings</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">name_mappings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">name_mappings</span>
+            <span class="k">else</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+            <span class="n">downloaded_channels</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">existing_channels_name</span> <span class="o">&amp;</span> <span class="n">downloaded_channels_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="insert_bookmarks"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.insert_bookmarks.html#slack_transfer.functions.upload.insert_bookmarks">[docs]</a><span class="k">def</span> <span class="nf">insert_bookmarks</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">old_channel_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;insert a series of bookmarks to a channel.</span>
+
+<span class="sd">    This method is not checking if the bookmarks are already inserted or not.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (UploaderClientABC): uploader client. If use this via any UploaderClient Class, self is automatically set.</span>
+<span class="sd">            Thus, ignore this.</span>
+<span class="sd">        channel_id (str; Optional; default=None): channel id (usually 9-digits string)</span>
+<span class="sd">        old_channel_name (str; Optional; default=None): old channel name. It required to find the stored data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;bookmarks&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">old_channel_name</span><span class="si">}</span><span class="s2">.json&quot;</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_file_path</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="n">bookmarks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">data_file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">bookmark</span> <span class="ow">in</span> <span class="n">bookmarks</span><span class="p">:</span>
+        <span class="k">del</span> <span class="n">bookmark</span><span class="p">[</span><span class="s2">&quot;channel_id&quot;</span><span class="p">]</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">bookmarks_add</span><span class="p">(</span><span class="n">channel_id</span><span class="o">=</span><span class="n">channel_id</span><span class="p">,</span> <span class="o">**</span><span class="n">bookmark</span><span class="p">)</span></div>
+</pre></div>
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, Masanori HIRANO.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

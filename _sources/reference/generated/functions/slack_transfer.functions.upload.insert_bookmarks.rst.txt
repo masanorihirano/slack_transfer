@@ -1,0 +1,6 @@
+﻿slack\_transfer.functions.upload.insert\_bookmarks
+==================================================
+
+.. currentmodule:: slack_transfer.functions.upload
+
+.. autofunction:: insert_bookmarks

@@ -1,0 +1,6 @@
+﻿slack\_transfer.functions.common.test\_connection
+=================================================
+
+.. currentmodule:: slack_transfer.functions.common
+
+.. autofunction:: test_connection

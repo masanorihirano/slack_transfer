@@ -1,0 +1,6 @@
+﻿slack\_transfer.functions.upload.check\_insert\_finished
+========================================================
+
+.. currentmodule:: slack_transfer.functions.upload
+
+.. autofunction:: check_insert_finished

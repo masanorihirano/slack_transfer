@@ -1,0 +1,6 @@
+﻿slack\_transfer.functions.download.download\_emoji
+==================================================
+
+.. currentmodule:: slack_transfer.functions.download
+
+.. autofunction:: download_emoji

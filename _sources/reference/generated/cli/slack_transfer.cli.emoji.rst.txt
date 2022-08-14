@@ -1,0 +1,30 @@
+﻿slack\_transfer.cli.emoji
+=========================
+
+.. automodule:: slack_transfer.cli.emoji
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      main_emoji
+      set_parser_emoji
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slack_transfer.client &#8212; slack_transfer 0.2.0 documentation</title>
+    <title>slack_transfer.client &#8212; slack_transfer 0.2.1 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.0 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.1 documentation</p>
   
 </a>
     
@@ -173,6 +173,8 @@
 <span class="kn">from</span> <span class="nn">.functions.download</span> <span class="kn">import</span> <span class="n">download_emoji</span>
 <span class="kn">from</span> <span class="nn">.functions.download</span> <span class="kn">import</span> <span class="n">download_file</span>
 <span class="kn">from</span> <span class="nn">.functions.download</span> <span class="kn">import</span> <span class="n">download_members_list</span>
+<span class="kn">from</span> <span class="nn">.functions.upload</span> <span class="kn">import</span> <span class="n">check_channel_exists</span>
+<span class="kn">from</span> <span class="nn">.functions.upload</span> <span class="kn">import</span> <span class="n">check_insert_finished</span>
 <span class="kn">from</span> <span class="nn">.functions.upload</span> <span class="kn">import</span> <span class="n">check_upload_conflict</span>
 <span class="kn">from</span> <span class="nn">.functions.upload</span> <span class="kn">import</span> <span class="n">create_all_channels</span>
 <span class="kn">from</span> <span class="nn">.functions.upload</span> <span class="kn">import</span> <span class="n">data_insert</span>
@@ -181,7 +183,43 @@
 
 
 <div class="viewcode-block" id="DownloaderClient"><a class="viewcode-back" href="../../reference/generated/client/slack_transfer.DownloaderClient.html#slack_transfer.DownloaderClient">[docs]</a><span class="k">class</span> <span class="nc">DownloaderClient</span><span class="p">(</span><span class="n">DownloaderClientABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;DownloaderClient&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Downloader Client class.</span>
+<span class="sd">    Inherit :code:`slack_sdk.WebClient` via some classes.</span>
+
+<span class="sd">    .. seealso::</span>
+<span class="sd">        - https://github.com/slackapi/python-slack-sdk</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        local_data_dir (str): A directory you want to save and load your slack data.</span>
+<span class="sd">        token (str; Optional): A string specifying an `xoxp-*` or `xoxb-*` token.</span>
+<span class="sd">        base_url (str; Optional): A string representing the Slack API base URL.</span>
+<span class="sd">            Default is `&#39;https://www.slack.com/api/&#39;`</span>
+<span class="sd">        timeout (int; Optional): The maximum number of seconds the client will wait</span>
+<span class="sd">            to connect and receive a response from Slack.</span>
+<span class="sd">            Default is 30 seconds.</span>
+<span class="sd">        ssl (SSLContext; Optional): An [`ssl.SSLContext`][1] instance, helpful for specifying</span>
+<span class="sd">            your own custom certificate chain.</span>
+<span class="sd">        proxy (str; Optional): String representing a fully-qualified URL to a proxy through</span>
+<span class="sd">            which to route all requests to the Slack API. Even if this parameter</span>
+<span class="sd">            is not specified, if any of the following environment variables are</span>
+<span class="sd">            present, they will be loaded into this parameter: `HTTPS_PROXY`,</span>
+<span class="sd">            `https_proxy`, `HTTP_PROXY` or `http_proxy`.</span>
+<span class="sd">        headers (dict; Optional): Additional request headers to attach to all requests.</span>
+
+<span class="sd">    .. seealso::</span>
+<span class="sd">        - :code:`DownloaderClient.get_channels_list`: :func:`slack_transfer.functions.common.get_channels_list`</span>
+<span class="sd">        - :code:`DownloaderClient.get_replies`: :func:`slack_transfer.functions.common.get_replies`</span>
+<span class="sd">        - :code:`DownloaderClient.get_file_volumes`: :func:`slack_transfer.functions.common.get_file_volumes`</span>
+<span class="sd">        - :code:`DownloaderClient.test_connection`: :func:`slack_transfer.functions.common.test_connection`</span>
+<span class="sd">        - :code:`DownloaderClient.test_downloader`: :func:`slack_transfer.functions.common.test_downloader`</span>
+<span class="sd">        - :code:`DownloaderClient.test_uploader`: :func:`slack_transfer.functions.common.test_uploader`</span>
+<span class="sd">        - :code:`DownloaderClient.download_channels_list`: :func:`slack_transfer.functions.download.download_channels_list`</span>
+<span class="sd">        - :code:`DownloaderClient.download_file`: :func:`slack_transfer.functions.download.download_file`</span>
+<span class="sd">        - :code:`DownloaderClient.download_channel_history`: :func:`slack_transfer.functions.download.download_channel_history`</span>
+<span class="sd">        - :code:`DownloaderClient.download_members_list`: :func:`slack_transfer.functions.download.download_members_list`</span>
+<span class="sd">        - :code:`DownloaderClient.download_bookmark`: :func:`slack_transfer.functions.download.download_bookmark`</span>
+<span class="sd">        - :code:`DownloaderClient.download_emoji`: :func:`slack_transfer.functions.download.download_emoji`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">download_channels_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
         <span class="k">return</span> <span class="n">download_channels_list</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
@@ -228,7 +266,44 @@
 
 
 <div class="viewcode-block" id="UploaderClient"><a class="viewcode-back" href="../../reference/generated/client/slack_transfer.UploaderClient.html#slack_transfer.UploaderClient">[docs]</a><span class="k">class</span> <span class="nc">UploaderClient</span><span class="p">(</span><span class="n">UploaderClientABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;UploaderClient&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Uploader Client class.</span>
+<span class="sd">    Inherit :code:`slack_sdk.WebClient` via some classes.</span>
+
+<span class="sd">    .. seealso::</span>
+<span class="sd">        - https://github.com/slackapi/python-slack-sdk</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        local_data_dir (str): A directory you want to save and load your slack data.</span>
+<span class="sd">        token (str; Optional): A string specifying an `xoxp-*` or `xoxb-*` token.</span>
+<span class="sd">        base_url (str; Optional): A string representing the Slack API base URL.</span>
+<span class="sd">            Default is `&#39;https://www.slack.com/api/&#39;`</span>
+<span class="sd">        timeout (int; Optional): The maximum number of seconds the client will wait</span>
+<span class="sd">            to connect and receive a response from Slack.</span>
+<span class="sd">            Default is 30 seconds.</span>
+<span class="sd">        ssl (SSLContext; Optional): An [`ssl.SSLContext`][1] instance, helpful for specifying</span>
+<span class="sd">            your own custom certificate chain.</span>
+<span class="sd">        proxy (str; Optional): String representing a fully-qualified URL to a proxy through</span>
+<span class="sd">            which to route all requests to the Slack API. Even if this parameter</span>
+<span class="sd">            is not specified, if any of the following environment variables are</span>
+<span class="sd">            present, they will be loaded into this parameter: `HTTPS_PROXY`,</span>
+<span class="sd">            `https_proxy`, `HTTP_PROXY` or `http_proxy`.</span>
+<span class="sd">        headers (dict; Optional): Additional request headers to attach to all requests.</span>
+
+<span class="sd">    .. seealso::</span>
+<span class="sd">        - :code:`DownloaderClient.get_channels_list`: :func:`slack_transfer.functions.common.get_channels_list`</span>
+<span class="sd">        - :code:`DownloaderClient.get_replies`: :func:`slack_transfer.functions.common.get_replies`</span>
+<span class="sd">        - :code:`DownloaderClient.get_file_volumes`: :func:`slack_transfer.functions.common.get_file_volumes`</span>
+<span class="sd">        - :code:`DownloaderClient.test_connection`: :func:`slack_transfer.functions.common.test_connection`</span>
+<span class="sd">        - :code:`DownloaderClient.test_downloader`: :func:`slack_transfer.functions.common.test_downloader`</span>
+<span class="sd">        - :code:`DownloaderClient.test_uploader`: :func:`slack_transfer.functions.common.test_uploader`</span>
+<span class="sd">        - :code:`DownloaderClient.create_all_channels`: :func:`slack_transfer.functions.upload.create_all_channels`</span>
+<span class="sd">        - :code:`DownloaderClient.upload_file`: :func:`slack_transfer.functions.upload.upload_file`</span>
+<span class="sd">        - :code:`DownloaderClient.data_insert`: :func:`slack_transfer.functions.upload.data_insert`</span>
+<span class="sd">        - :code:`DownloaderClient.check_upload_conflict`: :func:`slack_transfer.functions.upload.check_upload_conflict`</span>
+<span class="sd">        - :code:`DownloaderClient.insert_bookmarks`: :func:`slack_transfer.functions.upload.insert_bookmarks`</span>
+<span class="sd">        - :code:`DownloaderClient.check_insert_finished`: :func:`slack_transfer.functions.upload.check_insert_finished`</span>
+<span class="sd">        - :code:`DownloaderClient.check_channel_exists`: :func:`slack_transfer.functions.upload.check_channel_exists`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">create_all_channels</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -284,7 +359,25 @@
     <span class="k">def</span> <span class="nf">insert_bookmarks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">old_channel_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">insert_bookmarks</span><span class="p">(</span>
             <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id</span><span class="o">=</span><span class="n">channel_id</span><span class="p">,</span> <span class="n">old_channel_name</span><span class="o">=</span><span class="n">old_channel_name</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_insert_finished</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">channel_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">old_members_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+        <span class="n">old_channel_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">time_zone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Asia/Tokyo&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">check_insert_finished</span><span class="p">(</span>
+            <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">channel_name</span><span class="o">=</span><span class="n">channel_name</span><span class="p">,</span>
+            <span class="n">old_members_dict</span><span class="o">=</span><span class="n">old_members_dict</span><span class="p">,</span>
+            <span class="n">old_channel_name</span><span class="o">=</span><span class="n">old_channel_name</span><span class="p">,</span>
+            <span class="n">time_zone</span><span class="o">=</span><span class="n">time_zone</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_channel_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">check_channel_exists</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_name</span><span class="o">=</span><span class="n">channel_name</span><span class="p">)</span></div>
 </pre></div>
 
               </article>

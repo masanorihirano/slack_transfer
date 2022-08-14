@@ -134,6 +134,8 @@
       ~UploaderClient.chat_scheduledMessages_list
       ~UploaderClient.chat_unfurl
       ~UploaderClient.chat_update
+      ~UploaderClient.check_channel_exists
+      ~UploaderClient.check_insert_finished
       ~UploaderClient.check_upload_conflict
       ~UploaderClient.conversations_acceptSharedInvite
       ~UploaderClient.conversations_approveSharedInvite

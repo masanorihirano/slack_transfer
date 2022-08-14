@@ -1,0 +1,6 @@
+﻿slack\_transfer.interactive.interactive
+=======================================
+
+.. currentmodule:: slack_transfer.interactive
+
+.. autofunction:: interactive

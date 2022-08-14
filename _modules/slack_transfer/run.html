@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slack_transfer.run &#8212; slack_transfer 0.2.0 documentation</title>
+    <title>slack_transfer.run &#8212; slack_transfer 0.2.1 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.0 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.1 documentation</p>
   
 </a>
     
@@ -185,6 +185,27 @@
     <span class="n">skip_bookmarks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">ssl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SSLContext</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;See run section in :doc:`/user_guide/cli`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        local_data_dir (str): Data directory for saving download data or loading upload data. This is required.</span>
+<span class="sd">        downloader_token (str; Optional; default=None): Download token obtained from slack (the original workspace).</span>
+<span class="sd">            Starts with xoxb-. This is required when skip_download=False.</span>
+<span class="sd">        uploader_token (str; Optional; default=None): Upload token obtained from slack (the destination workspace).</span>
+<span class="sd">            Starts with xoxb-. This is required when skip_upload=False.</span>
+<span class="sd">        override (bool; Optional; default=False): This flag enables message migration to the destination workspace</span>
+<span class="sd">            even when a channel already exists. This means that additional messages are inserted after the message</span>
+<span class="sd">            already sent to the channel. If you want not to do so, please delete the channel on the destination workspace first.</span>
+<span class="sd">        skip_download (bool; Optional; default=False): Skip download. This is usually used when the download is already finished.</span>
+<span class="sd">        skip_upload (bool; Optional; default=False): Skip upload. This is usually used when only the download is necessary.</span>
+<span class="sd">        name_mappings (Dict[str, str]; Optional; default=None): You can set name mappings between the channel names of the</span>
+<span class="sd">            original and destination workspaces. For example, :code:`{&quot;old_name1&quot;: &quot;new_name1&quot;, &quot;old_name2&quot;: &quot;new_name2&quot;}`.</span>
+<span class="sd">        channel_names (List[str]; Optional; default=None): channel names you want to process.</span>
+<span class="sd">            If not set, set to all available channels.</span>
+<span class="sd">        skip_bookmarks (bool; Optional; default=False): Skip process bookmarks.</span>
+<span class="sd">        ssl: (SSLContext; Optional; default=None): : An [`ssl.SSLContext`][1] instance, helpful for specifying</span>
+<span class="sd">            your own custom certificate chain.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span><span class="p">:</span>
         <span class="n">downloader</span> <span class="o">=</span> <span class="n">DownloaderClient</span><span class="p">(</span>
@@ -230,27 +251,6 @@
         <span class="k">if</span> <span class="n">name_mappings</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">name_mappings</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="n">conflicts</span> <span class="o">=</span> <span class="n">uploader</span><span class="o">.</span><span class="n">check_upload_conflict</span><span class="p">(</span><span class="n">name_mappings</span><span class="o">=</span><span class="n">name_mappings</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">channel_names</span><span class="p">:</span>
-            <span class="n">conflicts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-                <span class="nb">filter</span><span class="p">(</span>
-                    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span>  <span class="c1"># type: ignore</span>
-                        <span class="n">x</span>
-                        <span class="ow">in</span> <span class="p">[</span>
-                            <span class="n">name_mappings</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="k">if</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">name_mappings</span> <span class="k">else</span> <span class="n">y</span>
-                            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">channel_names</span>
-                        <span class="p">]</span>
-                    <span class="p">),</span>
-                    <span class="n">conflicts</span><span class="p">,</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">conflicts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">override</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;channels: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conflicts</span><span class="p">)</span><span class="si">}</span><span class="s2"> are already exist. please set mapping or override=True&quot;</span>
-            <span class="p">)</span>
-        <span class="n">uploader</span><span class="o">.</span><span class="n">create_all_channels</span><span class="p">(</span>
-            <span class="n">channel_names</span><span class="o">=</span><span class="n">channel_names</span><span class="p">,</span> <span class="n">name_mappings</span><span class="o">=</span><span class="n">name_mappings</span>
-        <span class="p">)</span>
         <span class="n">old_members</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
             <span class="nb">open</span><span class="p">(</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">uploader</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;members.json&quot;</span><span class="p">),</span>
@@ -272,6 +272,44 @@
                 <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">old_members</span>
             <span class="p">]</span>
         <span class="p">)</span>
+
+        <span class="n">conflicts</span> <span class="o">=</span> <span class="n">uploader</span><span class="o">.</span><span class="n">check_upload_conflict</span><span class="p">(</span><span class="n">name_mappings</span><span class="o">=</span><span class="n">name_mappings</span><span class="p">)</span>
+        <span class="n">reverse_name_mappings</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">name_mappings</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+        <span class="n">conflicts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">filter</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span>  <span class="c1"># type: ignore</span>
+                    <span class="p">(</span>
+                        <span class="n">x</span>
+                        <span class="ow">in</span> <span class="p">[</span>
+                            <span class="n">name_mappings</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="k">if</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">name_mappings</span> <span class="k">else</span> <span class="n">y</span>
+                            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">channel_names</span>
+                        <span class="p">]</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">channel_names</span>
+                    <span class="k">else</span> <span class="kc">True</span>
+                    <span class="ow">and</span> <span class="n">uploader</span><span class="o">.</span><span class="n">check_channel_exists</span><span class="p">(</span><span class="n">channel_name</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="ow">not</span> <span class="n">uploader</span><span class="o">.</span><span class="n">check_insert_finished</span><span class="p">(</span>
+                        <span class="n">channel_name</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                        <span class="n">old_members_dict</span><span class="o">=</span><span class="n">old_members_dict</span><span class="p">,</span>
+                        <span class="n">old_channel_name</span><span class="o">=</span><span class="p">(</span>
+                            <span class="n">reverse_name_mappings</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">reverse_name_mappings</span>
+                            <span class="k">else</span> <span class="n">x</span>
+                        <span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="p">),</span>
+                <span class="n">conflicts</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">conflicts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">override</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;channels: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">conflicts</span><span class="p">)</span><span class="si">}</span><span class="s2"> are already exist. please set mapping or override=True&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">uploader</span><span class="o">.</span><span class="n">create_all_channels</span><span class="p">(</span>
+            <span class="n">channel_names</span><span class="o">=</span><span class="n">channel_names</span><span class="p">,</span> <span class="n">name_mappings</span><span class="o">=</span><span class="n">name_mappings</span>
+        <span class="p">)</span>
+
         <span class="n">channel_files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span>
             <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">uploader</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;channels&quot;</span><span class="p">,</span> <span class="s2">&quot;*.json&quot;</span><span class="p">)</span>
         <span class="p">)</span>
@@ -291,6 +329,17 @@
             <span class="nb">print</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">channel_files</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">old_channel_name</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">new_channel_name</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">uploader</span><span class="o">.</span><span class="n">check_channel_exists</span><span class="p">(</span><span class="n">channel_name</span><span class="o">=</span><span class="n">new_channel_name</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="n">uploader</span><span class="o">.</span><span class="n">check_insert_finished</span><span class="p">(</span>
+                    <span class="n">channel_name</span><span class="o">=</span><span class="n">new_channel_name</span><span class="p">,</span>
+                    <span class="n">old_members_dict</span><span class="o">=</span><span class="n">old_members_dict</span><span class="p">,</span>
+                    <span class="n">old_channel_name</span><span class="o">=</span><span class="n">old_channel_name</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">override</span>
+            <span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;already finished. skip.&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
             <span class="n">new_channel_id</span> <span class="o">=</span> <span class="n">uploader</span><span class="o">.</span><span class="n">data_insert</span><span class="p">(</span>
                 <span class="n">channel_name</span><span class="o">=</span><span class="n">new_channel_name</span><span class="p">,</span>
                 <span class="n">old_members_dict</span><span class="o">=</span><span class="n">old_members_dict</span><span class="p">,</span>

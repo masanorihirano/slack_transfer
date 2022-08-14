@@ -1,0 +1,6 @@
+﻿slack\_transfer.functions.upload.check\_channel\_exists
+=======================================================
+
+.. currentmodule:: slack_transfer.functions.upload
+
+.. autofunction:: check_channel_exists

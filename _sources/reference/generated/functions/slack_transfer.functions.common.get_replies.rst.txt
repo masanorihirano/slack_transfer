@@ -1,0 +1,6 @@
+﻿slack\_transfer.functions.common.get\_replies
+=============================================
+
+.. currentmodule:: slack_transfer.functions.common
+
+.. autofunction:: get_replies

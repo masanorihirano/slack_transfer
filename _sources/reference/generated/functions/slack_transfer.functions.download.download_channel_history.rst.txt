@@ -1,0 +1,6 @@
+﻿slack\_transfer.functions.download.download\_channel\_history
+=============================================================
+
+.. currentmodule:: slack_transfer.functions.download
+
+.. autofunction:: download_channel_history

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>slack_transfer.run usage &#8212; slack_transfer 0.2.0 documentation</title>
+    <title>How to use slack_transfer &#8212; slack_transfer 0.2.1 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -36,6 +36,8 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CLI" href="cli.html" />
+    <link rel="prev" title="Environmental Settings" href="environment.html" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="docsearch:language" content="en">
   </head>
@@ -62,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.0 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.1 documentation</p>
   
 </a>
     
@@ -78,7 +80,7 @@
       
       <div class="navbar-center-item">
         <ul id="navbar-main-elements" class="navbar-nav">
-    <li class="toctree-l1 nav-item">
+    <li class="toctree-l1 current active nav-item">
  <a class="reference internal nav-link" href="index.html">
   User Guide
  </a>
@@ -134,7 +136,26 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
   <div class="bd-toc-item active">
-    
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="environment.html">
+   Environmental Settings
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   How to use slack_transfer
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="cli.html">
+   CLI
+  </a>
+ </li>
+</ul>
+
   </div>
 </nav>
   </div>
@@ -151,9 +172,83 @@
     
     <div class="toc-item">
       
+<div class="tocsection onthispage mt-5 pt-1 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
 
 <nav id="bd-toc-nav">
-    
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview-and-definition-of-terms">
+   0. Overview and definition of terms
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#caution">
+   1. Caution
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obtaining-slack-token-the-original-ws">
+   2. Obtaining Slack token (the original WS)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choice-a-if-you-choose-from-an-app-manifest">
+     Choice A: If you choose “From an app manifest”
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#choice-b-if-you-choose-from-scratch">
+     Choice B: If you choose “From scratch”
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scopes-required-on-the-original-ws-side">
+     Scopes required on the original WS side
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#obtaining-slack-token-the-destination-ws">
+   3. Obtaining Slack token (the destination WS)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#add-api-bot-to-private-channel-on-the-original-ws">
+   4. Add API bot to Private channel on the original WS
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#considering-channel-name-mappings">
+   5. Considering channel name mappings
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#migrate-emojis">
+   6. Migrate emojis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#migrate-data">
+   7. Migrate data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#use-the-run-command-to-run-all-settings-from-the-cli">
+     7-1. Use the run command to run all settings from the CLI
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#use-the-interactive-mode-to-proceed-with-all-settings-on-the-screen">
+     7-2. Use the interactive mode to proceed with all settings on the screen
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
 </nav>
     </div>
     
@@ -171,8 +266,323 @@
               
               <article class="bd-article" role="main">
                 
-  <section id="slack-transfer-run-usage">
-<h1>slack_transfer.run usage<a class="headerlink" href="#slack-transfer-run-usage" title="Permalink to this heading">#</a></h1>
+  <section id="how-to-use-slack-transfer">
+<h1>How to use slack_transfer<a class="headerlink" href="#how-to-use-slack-transfer" title="Permalink to this heading">#</a></h1>
+<p>This explanation assumes that the <a class="reference internal" href="environment.html"><span class="doc">Environmental Settings</span></a> step has been completed.</p>
+<section id="overview-and-definition-of-terms">
+<h2>0. Overview and definition of terms<a class="headerlink" href="#overview-and-definition-of-terms" title="Permalink to this heading">#</a></h2>
+<p>Using <code class="code docutils literal notranslate"><span class="pre">slack_transfer.run</span></code>, you can transfer data from the original Slack workspace to the destination Slack workspace.</p>
+<p>Note that if the Slack trial is still available, you can temporarily activate it to retrieve all past data.</p>
+<dl class="simple">
+<dt>First, let us define the terms as follows</dt><dd><ul class="simple">
+<li><p>WS: A slack workspace.</p></li>
+<li><p>OrG: Slack OrG, which is applicable only if you have a subscription to the Enterprise grid. In most cases, you do not need to be aware of it, but there may be a special note about WS under the Enterprise grid.</p></li>
+<li><p>Original WS: the WS from which the data is being migrated. Since data is downloaded from this WS, it is called the download side.the WS from which the data is being migrated. Since data is downloaded from this WS, it is called the download side.</p></li>
+<li><p>Destination WS：the destination WS.</p></li>
+<li><p>Terminal: the terminal you set up in <a class="reference internal" href="environment.html"><span class="doc">Environmental Settings</span></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>If the original WS and the destination WS are switched, it will cause a major accident.
+Thus, in this repository,  the two sides are explicitly separated, and the read/write privileges of the token are also set according to each role in order to avoid accidents.</p>
+<p><code class="code docutils literal notranslate"><span class="pre">slack_transfer</span></code> run basically an all-in-one migration process.
+Please be aware that, although we pay full attention, the migration process may not succeed in one shot due to the misbehavior of the slack server or potential bugs.
+The following is what <code class="code docutils literal notranslate"><span class="pre">slack_transfer</span></code> does.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>┌─────────────┐                ┌────────────┐              ┌────────────────┐
+│ Original WS │  --download-&gt;  │  Terminal  │  --upload-&gt;  │ Destination WS │
+└─────────────┘                └────────────┘              └────────────────┘
+</pre></div>
+</div>
+<p>Therefore, the terminal must have sufficient disk space to store the data of the original WS.
+Generally, you do not need a large amount of disk space, but you may need a large amount of space depending on the size and volume of the attached files, since attached files to the original WS will be downloaded to the terminal.
+If you are using a free plan of Slack, a warning will probably appear when uploading files in excess of 5 GB.
+If you really want to check how much space you need, please go to <a class="reference internal" href="cli.html"><span class="doc">CLI</span></a> file_volume section for a rough estimate.</p>
+<p>This user guide assumes that you have administrative privileges on both the downloading and uploading WSs，but, not limited to.</p>
+</section>
+<section id="caution">
+<h2>1. Caution<a class="headerlink" href="#caution" title="Permalink to this heading">#</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>This tool cannot give a complete migration. We are trying to migrate as much as possible, but there are some limitations due to the Slack API specifications. The following are not supported at this time:</dt><dd><ul>
+<li><p>Migration of Slack connect channel (Please ask the original Slack connect provider to re-connect)</p></li>
+<li><p>Maintaining foldering of bookmarks (not possible due to the Slack API).</p></li>
+<li><p>When porting Slack post, there is a possibility of formatting corruption. Post will be read-only in the destination WS. (not possible due to the Slack API limitation).</p></li>
+<li><p>Reactions are only ported once for each type as a reaction by the API (because the API only allows the bot to press the reaction emoji).</p></li>
+<li><p>Possible formatting errors of massages having more than 3000 characters (Due to API restrictions, the message will be split into separate submissions.)</p></li>
+<li><p>Uploading emoji (due to API limitations, downloading is possible, but uploading is not.)</p></li>
+<li><p>Width is limited to 50% when multiple media, such as markdown and non-text items (panels), are included (due to API limitation)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Since migrated messages are posted by the API, the timestamp is changed. Instead, the original timestamp is added at the end of the users’ name.</p></li>
+<li><p>It is provided under the MIT license, and there is no warranty. (Only the built binary version is under the GPL3.0 license.)</p></li>
+<li><p>Only Channel can be migrated; DM cannot.</p></li>
+</ul>
+</div></blockquote>
+<p>The tool is designed to avoid destructive operation as long as possible.</p>
+<dl class="simple">
+<dt>Changes that may be occurred on the original WS：</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>The Slack bot will unintentionally auto-join to all public channels by itself.</dt><dd><ul>
+<li><p>When token_test is performed, the Slack bot will automatically join the default channel equivalent to “general” by itself.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>What users MUST do on the original WS:</dt><dd><ul class="simple">
+<li><p>Add a bot to the private channel that you want to migrate with this tool.</p></li>
+</ul>
+</dd>
+<dt>Changes that may be occurred on the destination WS：</dt><dd><ul class="simple">
+<li><p>new channels creations, file uploads, bookmark additions, message post, pin creation, etc.</p></li>
+<li><p>Changes performed on existing channels when the <code class="code docutils literal notranslate"><span class="pre">--override</span></code> flag is used: adding files, bookmarks, messages, changing the channel description and purpose, adding pins, etc.</p></li>
+</ul>
+</dd>
+<dt>What users must do on the destination WS (=things that this tool does not do):</dt><dd><ul class="simple">
+<li><p>Delete unnecessary channels</p></li>
+<li><p>Deleting a channel when the migration fails and trying again (using <code class="code docutils literal notranslate"><span class="pre">--override</span></code> flag is an alternative option, but it can insert data twice).</p></li>
+<li><p>make a public channel to a private channel if needed after the migration is complete</p></li>
+<li><p>Add others to the channel as needed.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Before migrating to the production environment, it is recommended to create a test WS and confirm that the migration is successful before migrating to the production environment.
+If you have any problems, you can submit an issue on github ( <a class="reference external" href="https://github.com/masanorihirano/slack_transfer/issues">https://github.com/masanorihirano/slack_transfer/issues</a> ), but we do not guarantee support or bug fixes.
+Please be careful not to include any confidential information such as token information when submitting an issue.</p>
+</section>
+<section id="obtaining-slack-token-the-original-ws">
+<span id="downloader-token"></span><h2>2. Obtaining Slack token (the original WS)<a class="headerlink" href="#obtaining-slack-token-the-original-ws" title="Permalink to this heading">#</a></h2>
+<p>First, go to <a class="reference external" href="https://api.slack.com/apps/">https://api.slack.com/apps/</a></p>
+<img alt="../_images/create-app-dl-01.png" src="../_images/create-app-dl-01.png" />
+<p>Click “Create New App”.</p>
+<a class="reference internal image-reference" href="../_images/create-app-dl-02.png"><img alt="../_images/create-app-dl-02.png" src="../_images/create-app-dl-02.png" style="width: 452.9px; height: 296.09999999999997px;" /></a>
+<p>You can choose either of the two options here, but selecting “From an app manifest” is recommended because it allows you to configure all the settings at once.</p>
+<section id="choice-a-if-you-choose-from-an-app-manifest">
+<h3>Choice A: If you choose “From an app manifest”<a class="headerlink" href="#choice-a-if-you-choose-from-an-app-manifest" title="Permalink to this heading">#</a></h3>
+<a class="reference internal image-reference" href="../_images/create-app-dl-a-03.png"><img alt="../_images/create-app-dl-a-03.png" src="../_images/create-app-dl-a-03.png" style="width: 420.0px; height: 290.5px;" /></a>
+<p>Select the original workspace from Select a workspace.</p>
+<a class="reference internal image-reference" href="../_images/create-app-dl-a-04.png"><img alt="../_images/create-app-dl-a-04.png" src="../_images/create-app-dl-a-04.png" style="width: 452.9px; height: 288.4px;" /></a>
+<p>Go next,</p>
+<a class="reference internal image-reference" href="../_images/create-app-dl-a-05.png"><img alt="../_images/create-app-dl-a-05.png" src="../_images/create-app-dl-a-05.png" style="width: 449.4px; height: 324.09999999999997px;" /></a>
+<p>You will see a screen like this. Use the tabs in YAML and delete the code inside.
+Then, copy and paste the contents of <a class="reference external" href=".../_static/downloader.yml">here is the link</a> to this field.</p>
+<a class="reference internal image-reference" href="../_images/create-app-dl-a-06.png"><img alt="../_images/create-app-dl-a-06.png" src="../_images/create-app-dl-a-06.png" style="width: 508.2px; height: 412.29999999999995px;" /></a>
+<p>Go next,</p>
+<a class="reference internal image-reference" href="../_images/create-app-dl-a-07.png"><img alt="../_images/create-app-dl-a-07.png" src="../_images/create-app-dl-a-07.png" style="width: 476.7px; height: 279.29999999999995px;" /></a>
+<p>Review is requested. Also referring to <a class="reference internal" href="#scope-dl"><span class="std std-ref">Scopes required on the original WS side</span></a>.</p>
+<img alt="../_images/create-app-dl-a-08.png" src="../_images/create-app-dl-a-08.png" />
+<p>Click “Install to Workspace”.</p>
+<a class="reference internal image-reference" href="../_images/create-app-dl-a-09.png"><img alt="../_images/create-app-dl-a-09.png" src="../_images/create-app-dl-a-09.png" style="width: 357.7px; height: 350.0px;" /></a>
+<p>Permission is requested; so allow this</p>
+<img alt="../_images/create-app-dl-a-10.png" src="../_images/create-app-dl-a-10.png" />
+<p>When the screen returns, click “OAuth &amp; Permissions”.</p>
+<img alt="../_images/create-app-dl-a-11.png" src="../_images/create-app-dl-a-11.png" />
+<p>“Bot User OAuth Token” is the Token that you want this time. Make sure it starts with “xoxb-“.</p>
+</section>
+<section id="choice-b-if-you-choose-from-scratch">
+<h3>Choice B: If you choose “From scratch”<a class="headerlink" href="#choice-b-if-you-choose-from-scratch" title="Permalink to this heading">#</a></h3>
+<a class="reference internal image-reference" href="../_images/create-app-dl-a-03.png"><img alt="../_images/create-app-dl-a-03.png" src="../_images/create-app-dl-a-03.png" style="width: 420.0px; height: 290.5px;" /></a>
+<p>You will be asked to select the name of the API and the workspace.</p>
+<a class="reference internal image-reference" href="../_images/create-app-dl-a-04.png"><img alt="../_images/create-app-dl-a-04.png" src="../_images/create-app-dl-a-04.png" style="width: 452.9px; height: 288.4px;" /></a>
+<p>Inputs, then go next,</p>
+<img alt="../_images/create-app-dl-a-10.png" src="../_images/create-app-dl-a-10.png" />
+<p>When the screen returns, click “OAuth &amp; Permissions”.</p>
+<img alt="../_images/create-app-dl-b-06.png" src="../_images/create-app-dl-b-06.png" />
+<p>Go down to “Bot Token Scopes”.
+Them select and add scopes by “Add permission by Scope or API method…” and “Add an OAuth Scope”.
+Required scopes are listed in <a class="reference internal" href="#scope-dl"><span class="std std-ref">Scopes required on the original WS side</span></a>.
+When all is complete, click the “Install to Workspace” button at the top.</p>
+<img alt="../_images/create-app-dl-a-08.png" src="../_images/create-app-dl-a-08.png" />
+<p>Click “Install to Workspace”.</p>
+<a class="reference internal image-reference" href="../_images/create-app-dl-a-09.png"><img alt="../_images/create-app-dl-a-09.png" src="../_images/create-app-dl-a-09.png" style="width: 357.7px; height: 350.0px;" /></a>
+<p>Permission is requested; so allow this</p>
+<img alt="../_images/create-app-dl-a-10.png" src="../_images/create-app-dl-a-10.png" />
+<p>When the screen returns, click “OAuth &amp; Permissions”.</p>
+<img alt="../_images/create-app-dl-a-11.png" src="../_images/create-app-dl-a-11.png" />
+<p>“Bot User OAuth Token” is the Token that you want this time. Make sure it starts with “xoxb-“.</p>
+</section>
+<section id="scopes-required-on-the-original-ws-side">
+<span id="scope-dl"></span><h3>Scopes required on the original WS side<a class="headerlink" href="#scopes-required-on-the-original-ws-side" title="Permalink to this heading">#</a></h3>
+<dl class="simple">
+<dt>[Common in Download/Upload operation]</dt><dd><ul class="simple">
+<li><p>channels:history</p></li>
+<li><p>channels:join</p></li>
+<li><p>channels:read</p></li>
+<li><p>files:read</p></li>
+<li><p>groups:history</p></li>
+<li><p>groups:read</p></li>
+</ul>
+</dd>
+<dt>[Only required for downloading operation]</dt><dd><ul class="simple">
+<li><p>bookmarks:read</p></li>
+<li><p>emoji:read</p></li>
+<li><p>users:read</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+<section id="obtaining-slack-token-the-destination-ws">
+<span id="uploader-token"></span><h2>3. Obtaining Slack token (the destination WS)<a class="headerlink" href="#obtaining-slack-token-the-destination-ws" title="Permalink to this heading">#</a></h2>
+<p>Basically, the same operations as in the previous section are performed on the destination WS.</p>
+<p>The API name should be easy to understand, such as Uploader API. Also, be careful that this is for the destination WS.</p>
+<p>If a manifest file is used to create the file, use the <a class="reference external" href="./_static/uploader.yml">uploader.yml</a> and copy and paste the contents.</p>
+<p>Scopes required on the destination WS side is:</p>
+<dl class="simple">
+<dt>[Common in Download/Upload operation]</dt><dd><ul class="simple">
+<li><p>channels:history</p></li>
+<li><p>channels:join</p></li>
+<li><p>channels:read</p></li>
+<li><p>files:read</p></li>
+<li><p>groups:history</p></li>
+<li><p>groups:read</p></li>
+</ul>
+</dd>
+<dt>[Only required for uploading operation]</dt><dd><ul class="simple">
+<li><p>channels:manage</p></li>
+<li><p>files:write</p></li>
+<li><p>chat:write</p></li>
+<li><p>pins:write</p></li>
+<li><p>bookmarks:write</p></li>
+<li><p>reaction:write</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="add-api-bot-to-private-channel-on-the-original-ws">
+<span id="invite-private"></span><h2>4. Add API bot to Private channel on the original WS<a class="headerlink" href="#add-api-bot-to-private-channel-on-the-original-ws" title="Permalink to this heading">#</a></h2>
+<p>By default, the API cannot read private channels, so it performs the operations equivalent to inviting a user.
+For public channels, it is possible to join a channel without an invitation, so no action is required.</p>
+<a class="reference internal image-reference" href="../_images/add-api-to-private-01.png"><img alt="../_images/add-api-to-private-01.png" src="../_images/add-api-to-private-01.png" style="width: 264.0px; height: 255.0px;" /></a>
+<p>From the left panel of Slack, select “Add Apps”. (If it does not appear, section 2 has failed.)</p>
+<a class="reference internal image-reference" href="../_images/add-api-to-private-02.png"><img alt="../_images/add-api-to-private-02.png" src="../_images/add-api-to-private-02.png" style="width: 702.8px; height: 364.7px;" /></a>
+<p>Next, select Downloader API (created in section 2) from the list of applications that appear.</p>
+<a class="reference internal image-reference" href="../_images/add-api-to-private-03.png"><img alt="../_images/add-api-to-private-03.png" src="../_images/add-api-to-private-03.png" style="width: 703.5px; height: 348.59999999999997px;" /></a>
+<p>Open the menu by clicking on the arrow right to the user’s name.</p>
+<a class="reference internal image-reference" href="../_images/add-api-to-private-04.png"><img alt="../_images/add-api-to-private-04.png" src="../_images/add-api-to-private-04.png" style="width: 436.09999999999997px; height: 350.0px;" /></a>
+<p>In the menu, select “Add this app to a channel”.</p>
+<a class="reference internal image-reference" href="../_images/add-api-to-private-05.png"><img alt="../_images/add-api-to-private-05.png" src="../_images/add-api-to-private-05.png" style="width: 384.29999999999995px; height: 164.5px;" /></a>
+<p>Then, a screen for selecting a channel list will appear, and select the desired private channel.
+In this example, only Public channel is shown, but you can select any private channel that you are a member of.
+Public channels can be automatically joined by the API without any special work, so there is no need to add it to them.</p>
+</section>
+<section id="considering-channel-name-mappings">
+<span id="channel-mappings"></span><h2>5. Considering channel name mappings<a class="headerlink" href="#considering-channel-name-mappings" title="Permalink to this heading">#</a></h2>
+<p>The general channel (or the renamed channel) is treated specially and cannot be changed to private, nor can it be used for Slack connect.
+Therefore, you should be cautious about putting data into the general (or equivalent) channel of a WS on the destination side.</p>
+<p>In general, it is not recommended to transfer data from the general channel of the original WS to the general channel of the destination WS.</p>
+<dl class="simple">
+<dt>Otherwise, if a duplicate channel name already exists in the uploading WS, there are three options</dt><dd><ul class="simple">
+<li><p>Add migrated messages to the end of the existing postings –&gt; No additional work is required.　(Later, please use <code class="code docutils literal notranslate"><span class="pre">--override</span></code> flag)</p></li>
+<li><p>Create a new channel by removing the existing one → Delete the channel first (if you want to keep it as an archive, rename the channel and then archive it).</p></li>
+<li><p>Create a new channel as a separate channel → Set the channel mapping. The channel mapping is set by the optional argument described below.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Based on these criteria, determine the mapping between the original channel and the new channel.</p>
+</section>
+<section id="migrate-emojis">
+<h2>6. Migrate emojis<a class="headerlink" href="#migrate-emojis" title="Permalink to this heading">#</a></h2>
+<p>If you do not migrate the emoji first, you will not be able to move some reactions in the later procedure described below.</p>
+<p>If you do not have the original image data, you can use the download tool including in slack_transfer.</p>
+<p>When you are using interactive mode (described below in 7-2), you can skip this step because the guidance will appear automatically.</p>
+<p>The emoji will be downloaded to the <code class="code docutils literal notranslate"><span class="pre">emojis</span></code> folder in the specified directory.
+Upload and add emoji on the destination WS’s administration screen if necessary.</p>
+<p>The method for downloading emoji via the CLI is as follows.</p>
+<p>First, enter the python environment.
+For Mac/Linux/WSL:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv/bin/activate
+</pre></div>
+</div>
+<p>For Windows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+</pre></div>
+</div>
+<p>Then,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer emoji --data_dir &lt;local_data_dir&gt; --downloader_token &lt;downloader_token&gt;
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Here, the parameters are as follows.</dt><dd><ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;local_data_dir&gt;</span></code>: The directory where the downloaded data will be temporarily stored in the terminal. It can be set as a relative or absolute directory. If it does not exist, it will be created automatically. If you cannot know how to set, please set <code class="code docutils literal notranslate"><span class="pre">local_data_dir</span></code>.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;downloader_token&gt;</span></code>: The API token for the original WS, obtained in 2. It starts with <cite>xoxb-</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The emojis are stored in the folder <code class="code docutils literal notranslate"><span class="pre">&lt;local_data_dir&gt;/emojis</span></code>. Basically, if you import those file, the name is automatically set the same as the original.</p>
+<p>There is a tool for migrating emoji ( <a class="reference external" href="https://github.com/smashwilson/slack-emojinator">https://github.com/smashwilson/slack-emojinator</a> ), but we do not recommend it here because there is no guarantee that it can be done properly, and it uses a unofficial Slack API.</p>
+</section>
+<section id="migrate-data">
+<h2>7. Migrate data<a class="headerlink" href="#migrate-data" title="Permalink to this heading">#</a></h2>
+<p>After all preparations are finished, it is time to start the data migration.</p>
+<dl class="simple">
+<dt>The approximate time required is</dt><dd><ul class="simple">
+<li><p>Download: 3M/100 seconds + file download time</p></li>
+<li><p>Upload is in the order of M seconds + file upload time</p></li>
+</ul>
+</dd>
+</dl>
+<p>where M is the number of messages.</p>
+<p>Usually, uploading requires a lot of time.
+This is due the limit of the Slack API, so parallelization using the CLI is not recommended.</p>
+<p>If M is large, it is recommended that the following work is performed only when the operation can be kept for a long period of time.
+This tool also supports individual channel migration using the CLI, so please consider the option as well.</p>
+<p>Now, let’s migrate actually.</p>
+<p>First, if you are using venv, enter venv.</p>
+<p>Mac/Linux/WSL:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv/bin/activate
+</pre></div>
+</div>
+<p>Windows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+</pre></div>
+</div>
+<dl class="simple">
+<dt>There are two way to operate the following procedures</dt><dd><ol class="arabic simple">
+<li><p>use the run command to run all settings from the CLI.</p></li>
+<li><p>use the interactive mode to proceed with all settings on the screen.</p></li>
+</ol>
+</dd>
+</dl>
+<p>Either one can be used, but in rare cases, the second one may not work depending on your terminal environment.</p>
+<section id="use-the-run-command-to-run-all-settings-from-the-cli">
+<h3>7-1. Use the run command to run all settings from the CLI<a class="headerlink" href="#use-the-run-command-to-run-all-settings-from-the-cli" title="Permalink to this heading">#</a></h3>
+<p>Carry out:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer　run --data_dir<span class="o">=</span>&lt;local_data_dir&gt; --downloader_token<span class="o">=</span>&lt;downloader_token&gt; --uploader_token<span class="o">=</span>&lt;uploader_token&gt; --channel_names<span class="o">=</span>&lt;channel_names&gt; --name_mappings<span class="o">=</span>&lt;name_mappings&gt; <span class="o">[</span>--override<span class="o">]</span> <span class="o">[</span>--skip_bookmarks<span class="o">]</span>
+</pre></div>
+</div>
+<p>If <code class="code docutils literal notranslate"><span class="pre">slack_transfer</span></code> is not available, you can use <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">slack_transfer.run</span></code> instead.</p>
+<dl class="simple">
+<dt>The parameters are as follows.</dt><dd><ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;local_data_dir&gt;</span></code>: The directory where the downloaded data will be temporarily stored in the terminal. It can be set as a relative or absolute directory. If it does not exist, it will be created automatically. If you cannot know how to set, please set <code class="code docutils literal notranslate"><span class="pre">local_data_dir</span></code>.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;downloader_token&gt;</span></code>: The API token for the original WS, obtained in 2. It starts with <cite>xoxb-</cite>.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;uploader_token&gt;</span></code>: The API token for the destination WS, obtained in 3. It starts with <cite>xoxb-</cite>.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;channel_names&gt;</span></code>: The names of the channels to be processed. These are comma-separated names of the channels on the original WS. If you want to target all channels, delete <code class="code docutils literal notranslate"><span class="pre">--channel_names=&lt;channel_names&gt;</span></code> entirely.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;name_mappings&gt;</span></code>: Sets the channel name mappings determined in 4. If you don’t need it, remove <code class="code docutils literal notranslate"><span class="pre">&lt;code:`&lt;name_mappings&gt;</span></code> entirely. It is sufficient to specify only the channel names that need to be mapped. (If you want to use the same name as it is, leave it blank.) For example, it can be set like <code class="code docutils literal notranslate"><span class="pre">old_name1:new_name1,old_name2:new_name2</span></code> where old_name is the channel name on the original WS and new_name is the channel name on the destination WS</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">--override</span></code>:If you selected “Add to the end of the previous posts as is” in  4, please add this flag. Remove it if it is not needed.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">--skip_bookmarks</span></code>: Remove this flag if the bookmark is also to be migrated.</p></li>
+</ul>
+</dd>
+</dl>
+<p>For other detailed arguments, see <a class="reference internal" href="../reference/generated/other/slack_transfer.run.run.html"><span class="doc">slack_transfer.run.run</span></a>.</p>
+<p>Taken together, the example command to be executed looks like:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer　run --data_dir<span class="o">=</span>local_data_dir --downloader_token<span class="o">=</span>xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token<span class="o">=</span>xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings<span class="o">=</span>general:_general,random:_random
+</pre></div>
+</div>
+</section>
+<section id="use-the-interactive-mode-to-proceed-with-all-settings-on-the-screen">
+<h3>7-2. Use the interactive mode to proceed with all settings on the screen<a class="headerlink" href="#use-the-interactive-mode-to-proceed-with-all-settings-on-the-screen" title="Permalink to this heading">#</a></h3>
+<p>Starts program by:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer　interactive
+</pre></div>
+</div>
+<p>Then, follow the instructions.</p>
+</section>
+</section>
 </section>
 
 
@@ -183,6 +593,20 @@
               <footer class="bd-footer-article">
                   <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="environment.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Environmental Settings</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="cli.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">CLI</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
 </div>
               </footer>
               

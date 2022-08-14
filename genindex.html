@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; slack_transfer 0.2.0 documentation</title>
+    <title>Index &#8212; slack_transfer 0.2.1 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.0 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.1 documentation</p>
   
 </a>
     
@@ -163,9 +163,12 @@
  <a href="#_"><strong>_</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  
 </div>
@@ -175,6 +178,10 @@
       <li><a href="reference/generated/client_abc/slack_transfer._base.CommonClient.html#slack_transfer._base.CommonClient.__init__">__init__() (slack_transfer._base.CommonClient method)</a>
 
       <ul>
+        <li><a href="reference/generated/client_abc/slack_transfer._base.CommonDryRunClient.html#slack_transfer._base.CommonDryRunClient.__init__">(slack_transfer._base.CommonDryRunClient method)</a>
+</li>
+        <li><a href="reference/generated/client_abc/slack_transfer._base.CommonNoLocalVolumeClient.html#slack_transfer._base.CommonNoLocalVolumeClient.__init__">(slack_transfer._base.CommonNoLocalVolumeClient method)</a>
+</li>
         <li><a href="reference/generated/client_abc/slack_transfer._base.DownloaderClientABC.html#slack_transfer._base.DownloaderClientABC.__init__">(slack_transfer._base.DownloaderClientABC method)</a>
 </li>
         <li><a href="reference/generated/client_abc/slack_transfer._base.UploaderClientABC.html#slack_transfer._base.UploaderClientABC.__init__">(slack_transfer._base.UploaderClientABC method)</a>
@@ -194,7 +201,21 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/functions/slack_transfer.functions.upload.check_channel_exists.html#slack_transfer.functions.upload.check_channel_exists">check_channel_exists() (in module slack_transfer.functions.upload)</a>
+</li>
+      <li><a href="reference/generated/functions/slack_transfer.functions.upload.check_insert_finished.html#slack_transfer.functions.upload.check_insert_finished">check_insert_finished() (in module slack_transfer.functions.upload)</a>
+</li>
+      <li><a href="reference/generated/functions/slack_transfer.functions.upload.check_upload_conflict.html#slack_transfer.functions.upload.check_upload_conflict">check_upload_conflict() (in module slack_transfer.functions.upload)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/generated/client_abc/slack_transfer._base.CommonClient.html#slack_transfer._base.CommonClient">CommonClient (class in slack_transfer._base)</a>
+</li>
+      <li><a href="reference/generated/client_abc/slack_transfer._base.CommonDryRunClient.html#slack_transfer._base.CommonDryRunClient">CommonDryRunClient (class in slack_transfer._base)</a>
+</li>
+      <li><a href="reference/generated/client_abc/slack_transfer._base.CommonNoLocalVolumeClient.html#slack_transfer._base.CommonNoLocalVolumeClient">CommonNoLocalVolumeClient (class in slack_transfer._base)</a>
+</li>
+      <li><a href="reference/generated/functions/slack_transfer.functions.upload.create_all_channels.html#slack_transfer.functions.upload.create_all_channels">create_all_channels() (in module slack_transfer.functions.upload)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -202,11 +223,51 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/client/slack_transfer.DownloaderClient.html#slack_transfer.DownloaderClient">DownloaderClient (class in slack_transfer)</a>
+      <li><a href="reference/generated/functions/slack_transfer.functions.upload.data_insert.html#slack_transfer.functions.upload.data_insert">data_insert() (in module slack_transfer.functions.upload)</a>
+</li>
+      <li><a href="reference/generated/functions/slack_transfer.functions.download.download_bookmark.html#slack_transfer.functions.download.download_bookmark">download_bookmark() (in module slack_transfer.functions.download)</a>
+</li>
+      <li><a href="reference/generated/functions/slack_transfer.functions.download.download_channel_history.html#slack_transfer.functions.download.download_channel_history">download_channel_history() (in module slack_transfer.functions.download)</a>
+</li>
+      <li><a href="reference/generated/functions/slack_transfer.functions.download.download_channels_list.html#slack_transfer.functions.download.download_channels_list">download_channels_list() (in module slack_transfer.functions.download)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/functions/slack_transfer.functions.download.download_emoji.html#slack_transfer.functions.download.download_emoji">download_emoji() (in module slack_transfer.functions.download)</a>
+</li>
+      <li><a href="reference/generated/functions/slack_transfer.functions.download.download_file.html#slack_transfer.functions.download.download_file">download_file() (in module slack_transfer.functions.download)</a>
+</li>
+      <li><a href="reference/generated/functions/slack_transfer.functions.download.download_members_list.html#slack_transfer.functions.download.download_members_list">download_members_list() (in module slack_transfer.functions.download)</a>
+</li>
+      <li><a href="reference/generated/client/slack_transfer.DownloaderClient.html#slack_transfer.DownloaderClient">DownloaderClient (class in slack_transfer)</a>
+</li>
       <li><a href="reference/generated/client_abc/slack_transfer._base.DownloaderClientABC.html#slack_transfer._base.DownloaderClientABC">DownloaderClientABC (class in slack_transfer._base)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/functions/slack_transfer.functions.common.get_channels_list.html#slack_transfer.functions.common.get_channels_list">get_channels_list() (in module slack_transfer.functions.common)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/functions/slack_transfer.functions.common.get_file_volumes.html#slack_transfer.functions.common.get_file_volumes">get_file_volumes() (in module slack_transfer.functions.common)</a>
+</li>
+      <li><a href="reference/generated/functions/slack_transfer.functions.common.get_replies.html#slack_transfer.functions.common.get_replies">get_replies() (in module slack_transfer.functions.common)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/functions/slack_transfer.functions.upload.insert_bookmarks.html#slack_transfer.functions.upload.insert_bookmarks">insert_bookmarks() (in module slack_transfer.functions.upload)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/other/slack_transfer.interactive.interactive.html#slack_transfer.interactive.interactive">interactive() (in module slack_transfer.interactive)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -223,6 +284,8 @@
         <li><a href="reference/generated/cli/slack_transfer.cli.bookmark.html#module-slack_transfer.cli.bookmark">slack_transfer.cli.bookmark</a>
 </li>
         <li><a href="reference/generated/cli/slack_transfer.cli.download.html#module-slack_transfer.cli.download">slack_transfer.cli.download</a>
+</li>
+        <li><a href="reference/generated/cli/slack_transfer.cli.emoji.html#module-slack_transfer.cli.emoji">slack_transfer.cli.emoji</a>
 </li>
         <li><a href="reference/generated/cli/slack_transfer.cli.file_volume.html#module-slack_transfer.cli.file_volume">slack_transfer.cli.file_volume</a>
 </li>
@@ -272,6 +335,13 @@
 
       <ul>
         <li><a href="reference/generated/cli/slack_transfer.cli.download.html#module-slack_transfer.cli.download">module</a>
+</li>
+      </ul></li>
+      <li>
+    slack_transfer.cli.emoji
+
+      <ul>
+        <li><a href="reference/generated/cli/slack_transfer.cli.emoji.html#module-slack_transfer.cli.emoji">module</a>
 </li>
       </ul></li>
       <li>
@@ -328,13 +398,29 @@
   </ul></td>
 </tr></table>
 
-<h2 id="U">U</h2>
+<h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/generated/client/slack_transfer.UploaderClient.html#slack_transfer.UploaderClient">UploaderClient (class in slack_transfer)</a>
+      <li><a href="reference/generated/functions/slack_transfer.functions.common.test_connection.html#slack_transfer.functions.common.test_connection">test_connection() (in module slack_transfer.functions.common)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/functions/slack_transfer.functions.common.test_downloader.html#slack_transfer.functions.common.test_downloader">test_downloader() (in module slack_transfer.functions.common)</a>
+</li>
+      <li><a href="reference/generated/functions/slack_transfer.functions.common.test_uploader.html#slack_transfer.functions.common.test_uploader">test_uploader() (in module slack_transfer.functions.common)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/functions/slack_transfer.functions.upload.upload_file.html#slack_transfer.functions.upload.upload_file">upload_file() (in module slack_transfer.functions.upload)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/generated/client/slack_transfer.UploaderClient.html#slack_transfer.UploaderClient">UploaderClient (class in slack_transfer)</a>
+</li>
       <li><a href="reference/generated/client_abc/slack_transfer._base.UploaderClientABC.html#slack_transfer._base.UploaderClientABC">UploaderClientABC (class in slack_transfer._base)</a>
 </li>
   </ul></td>

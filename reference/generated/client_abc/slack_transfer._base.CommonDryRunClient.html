@@ -1,0 +1,1258 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>slack_transfer._base.CommonDryRunClient &#8212; slack_transfer 0.2.1 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="slack_transfer._base.CommonNoLocalVolumeClient" href="slack_transfer._base.CommonNoLocalVolumeClient.html" />
+    <link rel="prev" title="slack_transfer.UploaderClient" href="../client/slack_transfer.UploaderClient.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">slack_transfer 0.2.1 documentation</p>
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../user_guide/index_ja.html">
+  ユーザーガイド
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../../index.html">
+  API reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../client/slack_transfer.DownloaderClient.html">
+   slack_transfer.DownloaderClient
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../client/slack_transfer.UploaderClient.html">
+   slack_transfer.UploaderClient
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   slack_transfer._base.CommonDryRunClient
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer._base.CommonNoLocalVolumeClient.html">
+   slack_transfer._base.CommonNoLocalVolumeClient
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer._base.CommonClient.html">
+   slack_transfer._base.CommonClient
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer._base.DownloaderClientABC.html">
+   slack_transfer._base.DownloaderClientABC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer._base.UploaderClientABC.html">
+   slack_transfer._base.UploaderClientABC
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.html">
+   slack_transfer.functions.common
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.get_channels_list.html">
+   slack_transfer.functions.common.get_channels_list
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.get_file_volumes.html">
+   slack_transfer.functions.common.get_file_volumes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.get_replies.html">
+   slack_transfer.functions.common.get_replies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.test_connection.html">
+   slack_transfer.functions.common.test_connection
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.test_downloader.html">
+   slack_transfer.functions.common.test_downloader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.common.test_uploader.html">
+   slack_transfer.functions.common.test_uploader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.html">
+   slack_transfer.functions.download
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_bookmark.html">
+   slack_transfer.functions.download.download_bookmark
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_channel_history.html">
+   slack_transfer.functions.download.download_channel_history
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_channels_list.html">
+   slack_transfer.functions.download.download_channels_list
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_emoji.html">
+   slack_transfer.functions.download.download_emoji
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_file.html">
+   slack_transfer.functions.download.download_file
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.download.download_members_list.html">
+   slack_transfer.functions.download.download_members_list
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.html">
+   slack_transfer.functions.upload
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.check_channel_exists.html">
+   slack_transfer.functions.upload.check_channel_exists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.check_insert_finished.html">
+   slack_transfer.functions.upload.check_insert_finished
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.check_upload_conflict.html">
+   slack_transfer.functions.upload.check_upload_conflict
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.create_all_channels.html">
+   slack_transfer.functions.upload.create_all_channels
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.data_insert.html">
+   slack_transfer.functions.upload.data_insert
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.insert_bookmarks.html">
+   slack_transfer.functions.upload.insert_bookmarks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../functions/slack_transfer.functions.upload.upload_file.html">
+   slack_transfer.functions.upload.upload_file
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.bookmark.html">
+   slack_transfer.cli.bookmark
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.download.html">
+   slack_transfer.cli.download
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.emoji.html">
+   slack_transfer.cli.emoji
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.file_volume.html">
+   slack_transfer.cli.file_volume
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.main.html">
+   slack_transfer.cli.main
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.token_test.html">
+   slack_transfer.cli.token_test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.upload.html">
+   slack_transfer.cli.upload
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../other/slack_transfer.__version__.html">
+   slack_transfer.__version__
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../other/slack_transfer.run.run.html">
+   slack_transfer.run.run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../other/slack_transfer.interactive.interactive.html">
+   slack_transfer.interactive.interactive
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+
+<nav id="bd-toc-nav">
+    
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="slack-transfer-base-commondryrunclient">
+<h1>slack_transfer._base.CommonDryRunClient<a class="headerlink" href="#slack-transfer-base-commondryrunclient" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="slack_transfer._base.CommonDryRunClient">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">slack_transfer._base.</span></span><span class="sig-name descname"><span class="pre">CommonDryRunClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'https://www.slack.com/api/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">SSLContext</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent_suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Logger</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_handlers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">RetryHandler</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/slack_transfer/_base.html#CommonDryRunClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#slack_transfer._base.CommonDryRunClient" title="Permalink to this definition">#</a></dt>
+<dd><p>This class is generated to run dry-run operation.
+Inherit <code class="code docutils literal notranslate"><span class="pre">slack_sdk.WebClient</span></code>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/slackapi/python-slack-sdk">https://github.com/slackapi/python-slack-sdk</a></p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<em>str; Optional</em>) – A string specifying an <cite>xoxp-*</cite> or <cite>xoxb-*</cite> token.</p></li>
+<li><p><strong>base_url</strong> (<em>str; Optional</em>) – A string representing the Slack API base URL.
+Default is <cite>‘https://www.slack.com/api/’</cite></p></li>
+<li><p><strong>timeout</strong> (<em>int; Optional</em>) – The maximum number of seconds the client will wait
+to connect and receive a response from Slack.
+Default is 30 seconds.</p></li>
+<li><p><strong>ssl</strong> (<em>SSLContext; Optional</em>) – An [<cite>ssl.SSLContext</cite>][1] instance, helpful for specifying
+your own custom certificate chain.</p></li>
+<li><p><strong>proxy</strong> (<em>str; Optional</em>) – String representing a fully-qualified URL to a proxy through
+which to route all requests to the Slack API. Even if this parameter
+is not specified, if any of the following environment variables are
+present, they will be loaded into this parameter: <cite>HTTPS_PROXY</cite>,
+<cite>https_proxy</cite>, <cite>HTTP_PROXY</cite> or <cite>http_proxy</cite>.</p></li>
+<li><p><strong>headers</strong> (<em>dict; Optional</em>) – Additional request headers to attach to all requests.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">CommonDryRunClient.get_channels_list</span></code>: <a class="reference internal" href="../functions/slack_transfer.functions.common.get_channels_list.html#slack_transfer.functions.common.get_channels_list" title="slack_transfer.functions.common.get_channels_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_channels_list()</span></code></a></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">CommonDryRunClient.get_replies</span></code>: <a class="reference internal" href="../functions/slack_transfer.functions.common.get_replies.html#slack_transfer.functions.common.get_replies" title="slack_transfer.functions.common.get_replies"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_replies()</span></code></a></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">CommonDryRunClient.get_file_volumes</span></code>: <a class="reference internal" href="../functions/slack_transfer.functions.common.get_file_volumes.html#slack_transfer.functions.common.get_file_volumes" title="slack_transfer.functions.common.get_file_volumes"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_file_volumes()</span></code></a></p></li>
+</ul>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="slack_transfer._base.CommonDryRunClient.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'https://www.slack.com/api/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ssl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">SSLContext</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proxy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_agent_suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">team_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Logger</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_handlers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">RetryHandler</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#slack_transfer._base.CommonDryRunClient.__init__" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#slack_transfer._base.CommonDryRunClient.__init__" title="slack_transfer._base.CommonDryRunClient.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([token, base_url, timeout, ssl, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_analytics_getFile</span></code>(*, type[, date, ...])</p></td>
+<td><p>Retrieve analytics data for a given date, presented as a compressed JSON file <a class="reference external" href="https://api.slack.com/methods/admin.analytics.getFile">https://api.slack.com/methods/admin.analytics.getFile</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_apps_approve</span></code>(*[, app_id, request_id, ...])</p></td>
+<td><p>Approve an app for installation on a workspace.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_apps_approved_list</span></code>(*[, cursor, limit, ...])</p></td>
+<td><p>List approved apps for an org or workspace.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_apps_clearResolution</span></code>(*, app_id[, ...])</p></td>
+<td><p>Clear an app resolution <a class="reference external" href="https://api.slack.com/methods/admin.apps.clearResolution">https://api.slack.com/methods/admin.apps.clearResolution</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_apps_requests_cancel</span></code>(*, request_id[, ...])</p></td>
+<td><p>List app requests for a team/workspace.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_apps_requests_list</span></code>(*[, cursor, limit, ...])</p></td>
+<td><p>List app requests for a team/workspace.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_apps_restrict</span></code>(*[, app_id, request_id, ...])</p></td>
+<td><p>Restrict an app for installation on a workspace.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_apps_restricted_list</span></code>(*[, cursor, ...])</p></td>
+<td><p>List restricted apps for an org or workspace.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_apps_uninstall</span></code>(*, app_id[, ...])</p></td>
+<td><p>Uninstall an app from one or many workspaces, or an entire enterprise organization.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_auth_policy_assignEntities</span></code>(*, ...)</p></td>
+<td><p>Assign entities to a particular authentication policy.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_auth_policy_getEntities</span></code>(*, policy_name)</p></td>
+<td><p>Fetch all the entities assigned to a particular authentication policy by name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_auth_policy_removeEntities</span></code>(*, ...)</p></td>
+<td><p>Remove specified entities from a specified authentication policy.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_barriers_create</span></code>(*, ...)</p></td>
+<td><p>Create an Information Barrier <a class="reference external" href="https://api.slack.com/methods/admin.barriers.create">https://api.slack.com/methods/admin.barriers.create</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_barriers_delete</span></code>(*, barrier_id, **kwargs)</p></td>
+<td><p>Delete an existing Information Barrier <a class="reference external" href="https://api.slack.com/methods/admin.barriers.delete">https://api.slack.com/methods/admin.barriers.delete</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_barriers_list</span></code>(*[, cursor, limit])</p></td>
+<td><p>Get all Information Barriers for your organization <a class="reference external" href="https://api.slack.com/methods/admin.barriers.list">https://api.slack.com/methods/admin.barriers.list</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_barriers_update</span></code>(*, barrier_id, ...)</p></td>
+<td><p>Update an existing Information Barrier <a class="reference external" href="https://api.slack.com/methods/admin.barriers.update">https://api.slack.com/methods/admin.barriers.update</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_archive</span></code>(*, channel_id, ...)</p></td>
+<td><p>Archive a public or private channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_convertToPrivate</span></code>(*, ...)</p></td>
+<td><p>Convert a public channel to a private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_create</span></code>(*, is_private, name)</p></td>
+<td><p>Create a public or private channel-based conversation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_delete</span></code>(*, channel_id, ...)</p></td>
+<td><p>Delete a public or private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_disconnectShared</span></code>(*, ...)</p></td>
+<td><p>Disconnect a connected channel from one or more workspaces.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_ekm_listOriginalConnectedChannelInfo</span></code>(*)</p></td>
+<td><p>List all disconnected channels—i.e., channels that were once connected to other workspaces and then disconnected—and the corresponding original channel IDs for key revocation with EKM.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_getConversationPrefs</span></code>(*, ...)</p></td>
+<td><p>Get conversation preferences for a public or private channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_getCustomRetention</span></code>(*, ...)</p></td>
+<td><p>Get a channel's retention policy <a class="reference external" href="https://api.slack.com/methods/admin.conversations.getCustomRetention">https://api.slack.com/methods/admin.conversations.getCustomRetention</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_getTeams</span></code>(*, channel_id)</p></td>
+<td><p>Set the workspaces in an Enterprise grid org that connect to a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_invite</span></code>(*, channel_id, ...)</p></td>
+<td><p>Invite a user to a public or private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_removeCustomRetention</span></code>(*, ...)</p></td>
+<td><p>Remove a channel's retention policy <a class="reference external" href="https://api.slack.com/methods/admin.conversations.removeCustomRetention">https://api.slack.com/methods/admin.conversations.removeCustomRetention</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_rename</span></code>(*, channel_id, ...)</p></td>
+<td><p>Rename a public or private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_restrictAccess_addGroup</span></code>(*, ...)</p></td>
+<td><p>Add an allowlist of IDP groups for accessing a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_restrictAccess_listGroups</span></code>(*, ...)</p></td>
+<td><p>List all IDP Groups linked to a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_restrictAccess_removeGroup</span></code>(*, ...)</p></td>
+<td><p>Remove a linked IDP group linked from a private channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_search</span></code>(*[, cursor, ...])</p></td>
+<td><p>Search for public or private channels in an Enterprise organization.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_setConversationPrefs</span></code>(*, ...)</p></td>
+<td><p>Set the posting permissions for a public or private channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_setCustomRetention</span></code>(*, ...)</p></td>
+<td><p>Set a channel's retention policy <a class="reference external" href="https://api.slack.com/methods/admin.conversations.setCustomRetention">https://api.slack.com/methods/admin.conversations.setCustomRetention</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_setTeams</span></code>(*, channel_id)</p></td>
+<td><p>Set the workspaces in an Enterprise grid org that connect to a public or private channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_conversations_unarchive</span></code>(*, channel_id, ...)</p></td>
+<td><p>Unarchive a public or private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_emoji_add</span></code>(*, name, url, **kwargs)</p></td>
+<td><p>Add an emoji.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_emoji_addAlias</span></code>(*, alias_for, name, ...)</p></td>
+<td><p>Add an emoji alias.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_emoji_list</span></code>(*[, cursor, limit])</p></td>
+<td><p>List emoji for an Enterprise Grid organization.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_emoji_remove</span></code>(*, name, **kwargs)</p></td>
+<td><p>Remove an emoji across an Enterprise Grid organization.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_emoji_rename</span></code>(*, name, new_name, **kwargs)</p></td>
+<td><p>Rename an emoji.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_inviteRequests_approve</span></code>(*, ...[, team_id])</p></td>
+<td><p>Approve a workspace invite request.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_inviteRequests_approved_list</span></code>(*[, ...])</p></td>
+<td><p>List all approved workspace invite requests.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_inviteRequests_denied_list</span></code>(*[, ...])</p></td>
+<td><p>List all denied workspace invite requests.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_inviteRequests_deny</span></code>(*, invite_request_id)</p></td>
+<td><p>Deny a workspace invite request.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_inviteRequests_list</span></code>(**kwargs)</p></td>
+<td><p>List all pending workspace invite requests.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_teams_admins_list</span></code>(*, team_id[, ...])</p></td>
+<td><p>List all of the admins on a given workspace.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_teams_create</span></code>(*, team_domain, team_name)</p></td>
+<td><p>Create an Enterprise team.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_teams_list</span></code>(*[, cursor, limit])</p></td>
+<td><p>List all teams on an Enterprise organization.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_teams_owners_list</span></code>(*, team_id[, ...])</p></td>
+<td><p>List all of the admins on a given workspace.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_teams_settings_info</span></code>(*, team_id, **kwargs)</p></td>
+<td><p>Fetch information about settings in a workspace <a class="reference external" href="https://api.slack.com/methods/admin.teams.settings.info">https://api.slack.com/methods/admin.teams.settings.info</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_teams_settings_setDefaultChannels</span></code>(*, ...)</p></td>
+<td><p>Set the default channels of a workspace.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_teams_settings_setDescription</span></code>(*, ...)</p></td>
+<td><p>Set the description of a given workspace.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_teams_settings_setDiscoverability</span></code>(*, ...)</p></td>
+<td><p>Sets the icon of a workspace.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_teams_settings_setIcon</span></code>(*, team_id, ...)</p></td>
+<td><p>Sets the icon of a workspace.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_teams_settings_setName</span></code>(*, team_id, ...)</p></td>
+<td><p>Sets the icon of a workspace.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_usergroups_addChannels</span></code>(*, channel_ids, ...)</p></td>
+<td><p>Add one or more default channels to an IDP group.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_usergroups_addTeams</span></code>(*, usergroup_id, ...)</p></td>
+<td><p>Associate one or more default workspaces with an organization-wide IDP group.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_usergroups_listChannels</span></code>(*, usergroup_id)</p></td>
+<td><p>Add one or more default channels to an IDP group.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_usergroups_removeChannels</span></code>(*, ...)</p></td>
+<td><p>Add one or more default channels to an IDP group.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_assign</span></code>(*, team_id, user_id[, ...])</p></td>
+<td><p>Add an Enterprise user to a workspace.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_invite</span></code>(*, team_id, email, ...[, ...])</p></td>
+<td><p>Invite a user to a workspace.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_list</span></code>(*, team_id[, cursor, limit])</p></td>
+<td><p>List users on a workspace <a class="reference external" href="https://api.slack.com/methods/admin.users.list">https://api.slack.com/methods/admin.users.list</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_remove</span></code>(*, team_id, user_id, **kwargs)</p></td>
+<td><p>Remove a user from a workspace.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_session_clearSettings</span></code>(*, ...)</p></td>
+<td><p>Clear user-specific session settings—the session duration and what happens when the client closes—for a list of users.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_session_getSettings</span></code>(*, user_ids, ...)</p></td>
+<td><p>Get user-specific session settings—the session duration and what happens when the client closes—given a list of users.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_session_invalidate</span></code>(*, ...)</p></td>
+<td><p>Invalidate a single session for a user by session_id.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_session_list</span></code>(*[, cursor, limit, ...])</p></td>
+<td><p>Lists all active user sessions for an organization <a class="reference external" href="https://api.slack.com/methods/admin.users.session.list">https://api.slack.com/methods/admin.users.session.list</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_session_reset</span></code>(*, user_id[, ...])</p></td>
+<td><p>Wipes all valid sessions on all devices for a given user.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_session_resetBulk</span></code>(*, user_ids[, ...])</p></td>
+<td><p>Enqueues an asynchronous job to wipe all valid sessions on all devices for a given list of users <a class="reference external" href="https://api.slack.com/methods/admin.users.session.resetBulk">https://api.slack.com/methods/admin.users.session.resetBulk</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_session_setSettings</span></code>(*, user_ids)</p></td>
+<td><p>Configure the user-level session settings—the session duration and what happens when the client closes—for one or more users.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_setAdmin</span></code>(*, team_id, user_id, ...)</p></td>
+<td><p>Set an existing guest, regular user, or owner to be an admin user.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_setExpiration</span></code>(*, expiration_ts, ...)</p></td>
+<td><p>Set an expiration for a guest user.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_setOwner</span></code>(*, team_id, user_id, ...)</p></td>
+<td><p>Set an existing guest, regular user, or admin user to be a workspace owner.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_setRegular</span></code>(*, team_id, user_id, ...)</p></td>
+<td><p>Set an existing guest user, admin user, or owner to be a regular user.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">admin_users_unsupportedVersions_export</span></code>(*[, ...])</p></td>
+<td><p>Ask Slackbot to send you an export listing all workspace members using unsupported software, presented as a zipped CSV file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">api_call</span></code>(api_method, *[, http_verb, files, ...])</p></td>
+<td><p>Create a request and execute the API call to Slack.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">api_test</span></code>(*[, error])</p></td>
+<td><p>Checks API calling code.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apps_connections_open</span></code>(*, app_token, **kwargs)</p></td>
+<td><p>Generate a temporary Socket Mode WebSocket URL that your app can connect to in order to receive events and interactive payloads <a class="reference external" href="https://api.slack.com/methods/apps.connections.open">https://api.slack.com/methods/apps.connections.open</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apps_event_authorizations_list</span></code>(*, event_context)</p></td>
+<td><p>Get a list of authorizations for the given event context.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apps_uninstall</span></code>(*, client_id, client_secret, ...)</p></td>
+<td><p>Uninstalls your app from a workspace.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">auth_revoke</span></code>(*[, test])</p></td>
+<td><p>Revokes a token.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">auth_teams_list</span></code>([cursor, limit, include_icon])</p></td>
+<td><p>List the workspaces a token can access.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">auth_test</span></code>(**kwargs)</p></td>
+<td><p>Checks authentication &amp; identity.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bookmarks_add</span></code>(*, channel_id, title, type[, ...])</p></td>
+<td><p>Add bookmark to a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bookmarks_edit</span></code>(*, bookmark_id, channel_id[, ...])</p></td>
+<td><p>Edit bookmark.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bookmarks_list</span></code>(*, channel_id, **kwargs)</p></td>
+<td><p>List bookmark for the channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bookmarks_remove</span></code>(*, bookmark_id, channel_id, ...)</p></td>
+<td><p>Remove bookmark from the channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bots_info</span></code>(*[, bot, team_id])</p></td>
+<td><p>Gets information about a bot user.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">calls_add</span></code>(*, external_unique_id, join_url[, ...])</p></td>
+<td><p>Registers a new Call.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">calls_end</span></code>(*, id[, duration])</p></td>
+<td><p>Ends a Call.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">calls_info</span></code>(*, id, **kwargs)</p></td>
+<td><p>Returns information about a Call.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">calls_participants_add</span></code>(*, id, users, **kwargs)</p></td>
+<td><p>Registers new participants added to a Call.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">calls_participants_remove</span></code>(*, id, users, **kwargs)</p></td>
+<td><p>Registers participants removed from a Call.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">calls_update</span></code>(*, id[, desktop_app_join_url, ...])</p></td>
+<td><p>Updates information about a Call.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_archive</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Archives a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_create</span></code>(*, name, **kwargs)</p></td>
+<td><p>Creates a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_history</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Fetches history of messages and events from a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_info</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Gets information about a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_invite</span></code>(*, channel, user, **kwargs)</p></td>
+<td><p>Invites a user to a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_join</span></code>(*, name, **kwargs)</p></td>
+<td><p>Joins a channel, creating it if needed.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_kick</span></code>(*, channel, user, **kwargs)</p></td>
+<td><p>Removes a user from a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_leave</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Leaves a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_list</span></code>(**kwargs)</p></td>
+<td><p>Lists all channels in a Slack team.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_mark</span></code>(*, channel, ts, **kwargs)</p></td>
+<td><p>Sets the read cursor in a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_rename</span></code>(*, channel, name, **kwargs)</p></td>
+<td><p>Renames a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_replies</span></code>(*, channel, thread_ts, **kwargs)</p></td>
+<td><p>Retrieve a thread of messages posted to a channel</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_setPurpose</span></code>(*, channel, purpose, ...)</p></td>
+<td><p>Sets the purpose for a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_setTopic</span></code>(*, channel, topic, **kwargs)</p></td>
+<td><p>Sets the topic for a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">channels_unarchive</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Unarchives a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chat_delete</span></code>(*, channel, ts[, as_user])</p></td>
+<td><p>Deletes a message.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chat_deleteScheduledMessage</span></code>(*, channel, ...)</p></td>
+<td><p>Deletes a scheduled message.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chat_getPermalink</span></code>(*, channel, message_ts, ...)</p></td>
+<td><p>Retrieve a permalink URL for a specific extant message <a class="reference external" href="https://api.slack.com/methods/chat.getPermalink">https://api.slack.com/methods/chat.getPermalink</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chat_meMessage</span></code>(*, channel, text, **kwargs)</p></td>
+<td><p>Share a me message into a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chat_postEphemeral</span></code>(*, channel, user[, text, ...])</p></td>
+<td><p>Sends an ephemeral message to a user in a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chat_postMessage</span></code>(*, channel[, text, ...])</p></td>
+<td><p>Sends a message to a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chat_scheduleMessage</span></code>(*, channel, post_at, text)</p></td>
+<td><p>Schedules a message.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chat_scheduledMessages_list</span></code>(*[, channel, ...])</p></td>
+<td><p>Lists all scheduled messages.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chat_unfurl</span></code>(*[, channel, ts, source, ...])</p></td>
+<td><p>Provide custom unfurl behavior for user-posted URLs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">chat_update</span></code>(*, channel, ts[, text, ...])</p></td>
+<td><p>Updates a message in a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_acceptSharedInvite</span></code>(*, channel_name)</p></td>
+<td><p>Accepts an invitation to a Slack Connect channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_approveSharedInvite</span></code>(*, invite_id)</p></td>
+<td><p>Approves an invitation to a Slack Connect channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_archive</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Archives a conversation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_close</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Closes a direct message or multi-person direct message.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_create</span></code>(*, name[, is_private, ...])</p></td>
+<td><p>Initiates a public or private channel-based conversation <a class="reference external" href="https://api.slack.com/methods/conversations.create">https://api.slack.com/methods/conversations.create</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_declineSharedInvite</span></code>(*, invite_id)</p></td>
+<td><p>Declines a Slack Connect channel invite.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_history</span></code>(*, channel[, cursor, ...])</p></td>
+<td><p>Fetches a conversation's history of messages and events.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_info</span></code>(*, channel[, ...])</p></td>
+<td><p>Retrieve information about a conversation.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_invite</span></code>(*, channel, users, **kwargs)</p></td>
+<td><p>Invites users to a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_inviteShared</span></code>(*, channel[, ...])</p></td>
+<td><p>Sends an invitation to a Slack Connect channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_join</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Joins an existing conversation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_kick</span></code>(*, channel, user, **kwargs)</p></td>
+<td><p>Removes a user from a conversation.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_leave</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Leaves a conversation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_list</span></code>(*[, cursor, ...])</p></td>
+<td><p>Lists all channels in a Slack team.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_listConnectInvites</span></code>(*[, count, ...])</p></td>
+<td><p>List shared channel invites that have been generated or received but have not yet been approved by all parties.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_mark</span></code>(*, channel, ts, **kwargs)</p></td>
+<td><p>Sets the read cursor in a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_members</span></code>(*, channel[, cursor, ...])</p></td>
+<td><p>Retrieve members of a conversation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_open</span></code>(*[, channel, return_im, ...])</p></td>
+<td><p>Opens or resumes a direct message or multi-person direct message.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_rename</span></code>(*, channel, name, **kwargs)</p></td>
+<td><p>Renames a conversation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_replies</span></code>(*, channel, ts[, ...])</p></td>
+<td><p>Retrieve a thread of messages posted to a conversation <a class="reference external" href="https://api.slack.com/methods/conversations.replies">https://api.slack.com/methods/conversations.replies</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_setPurpose</span></code>(*, channel, ...)</p></td>
+<td><p>Sets the purpose for a conversation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_setTopic</span></code>(*, channel, topic, ...)</p></td>
+<td><p>Sets the topic for a conversation.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">conversations_unarchive</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Reverses conversation archival.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dialog_open</span></code>(*, dialog, trigger_id, **kwargs)</p></td>
+<td><p>Open a dialog with a user.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dnd_endDnd</span></code>(**kwargs)</p></td>
+<td><p>Ends the current user's Do Not Disturb session immediately.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dnd_endSnooze</span></code>(**kwargs)</p></td>
+<td><p>Ends the current user's snooze mode immediately.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dnd_info</span></code>(*[, team_id, user])</p></td>
+<td><p>Retrieves a user's current Do Not Disturb status.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dnd_setSnooze</span></code>(*, num_minutes, **kwargs)</p></td>
+<td><p>Turns on Do Not Disturb mode for the current user, or changes its duration.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dnd_teamInfo</span></code>(users[, team_id])</p></td>
+<td><p>Retrieves the Do Not Disturb status for users on a team.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">emoji_list</span></code>(**kwargs)</p></td>
+<td><p>Lists custom emoji for a team.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_comments_delete</span></code>(*, file, id, **kwargs)</p></td>
+<td><p>Deletes an existing comment on a file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_delete</span></code>(*, file, **kwargs)</p></td>
+<td><p>Deletes a file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_info</span></code>(*, file[, count, cursor, limit, page])</p></td>
+<td><p>Gets information about a team file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_list</span></code>(*[, channel, count, page, ...])</p></td>
+<td><p>Lists &amp; filters team files.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_remote_add</span></code>(*, external_id, ...[, ...])</p></td>
+<td><p>Adds a file from a remote service.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_remote_info</span></code>(*[, external_id, file])</p></td>
+<td><p>Retrieve information about a remote file added to Slack.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_remote_list</span></code>(*[, channel, cursor, ...])</p></td>
+<td><p>Retrieve information about a remote file added to Slack.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_remote_remove</span></code>(*[, external_id, file])</p></td>
+<td><p>Remove a remote file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_remote_share</span></code>(*, channels[, ...])</p></td>
+<td><p>Share a remote file into a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_remote_update</span></code>(*[, external_id, ...])</p></td>
+<td><p>Updates an existing remote file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_revokePublicURL</span></code>(*, file, **kwargs)</p></td>
+<td><p>Revokes public/external sharing access for a file <a class="reference external" href="https://api.slack.com/methods/files.revokePublicURL">https://api.slack.com/methods/files.revokePublicURL</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_sharedPublicURL</span></code>(*, file, **kwargs)</p></td>
+<td><p>Enables a file for public/external sharing.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_upload</span></code>(*[, file, content, filename, ...])</p></td>
+<td><p>Uploads or creates a file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_channels_list</span></code>()</p></td>
+<td><p>get channel list <a class="reference internal" href="../functions/slack_transfer.functions.common.get_channels_list.html#slack_transfer.functions.common.get_channels_list" title="slack_transfer.functions.common.get_channels_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_channels_list()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_file_volumes</span></code>([channel_ids])</p></td>
+<td><p>calculate rough volume for files which will be downloaded (Dry-run mode) <a class="reference internal" href="../functions/slack_transfer.functions.common.get_file_volumes.html#slack_transfer.functions.common.get_file_volumes" title="slack_transfer.functions.common.get_file_volumes"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_file_volumes()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_replies</span></code>(channel_id, ts)</p></td>
+<td><p>get replies for a message <a class="reference internal" href="../functions/slack_transfer.functions.common.get_replies.html#slack_transfer.functions.common.get_replies" title="slack_transfer.functions.common.get_replies"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_replies()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_archive</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Archives a private channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_create</span></code>(*, name, **kwargs)</p></td>
+<td><p>Creates a private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_createChild</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Clones and archives a private channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_history</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Fetches history of messages and events from a private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_info</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Gets information about a private channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_invite</span></code>(*, channel, user, **kwargs)</p></td>
+<td><p>Invites a user to a private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_kick</span></code>(*, channel, user, **kwargs)</p></td>
+<td><p>Removes a user from a private channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_leave</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Leaves a private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_list</span></code>(**kwargs)</p></td>
+<td><p>Lists private channels that the calling user has access to.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_mark</span></code>(*, channel, ts, **kwargs)</p></td>
+<td><p>Sets the read cursor in a private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_open</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Opens a private channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_rename</span></code>(*, channel, name, **kwargs)</p></td>
+<td><p>Renames a private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_replies</span></code>(*, channel, thread_ts, **kwargs)</p></td>
+<td><p>Retrieve a thread of messages posted to a private channel</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_setPurpose</span></code>(*, channel, purpose, **kwargs)</p></td>
+<td><p>Sets the purpose for a private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_setTopic</span></code>(*, channel, topic, **kwargs)</p></td>
+<td><p>Sets the topic for a private channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_unarchive</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Unarchives a private channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_close</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Close a direct message channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_history</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Fetches history of messages and events from direct message channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_list</span></code>(**kwargs)</p></td>
+<td><p>Lists direct message channels for the calling user.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_mark</span></code>(*, channel, ts, **kwargs)</p></td>
+<td><p>Sets the read cursor in a direct message channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_open</span></code>(*, user, **kwargs)</p></td>
+<td><p>Opens a direct message channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_replies</span></code>(*, channel, thread_ts, **kwargs)</p></td>
+<td><p>Retrieve a thread of messages posted to a direct message conversation</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">migration_exchange</span></code>(*, users[, team_id, to_old])</p></td>
+<td><p>For Enterprise Grid workspaces, map local user IDs to global user IDs <a class="reference external" href="https://api.slack.com/methods/migration.exchange">https://api.slack.com/methods/migration.exchange</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_close</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Closes a multiparty direct message channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_history</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Fetches history of messages and events from a multiparty direct message.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_list</span></code>(**kwargs)</p></td>
+<td><p>Lists multiparty direct message channels for the calling user.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_mark</span></code>(*, channel, ts, **kwargs)</p></td>
+<td><p>Sets the read cursor in a multiparty direct message channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_open</span></code>(*, users, **kwargs)</p></td>
+<td><p>This method opens a multiparty direct message.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_replies</span></code>(*, channel, thread_ts, **kwargs)</p></td>
+<td><p>Retrieve a thread of messages posted to a direct message conversation from a multiparty direct message.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">oauth_access</span></code>(*, client_id, client_secret, code)</p></td>
+<td><p>Exchanges a temporary OAuth verifier code for an access token.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">oauth_v2_access</span></code>(*, client_id, client_secret)</p></td>
+<td><p>Exchanges a temporary OAuth verifier code for an access token.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">oauth_v2_exchange</span></code>(*, token, client_id, ...)</p></td>
+<td><p>Exchanges a legacy access token for a new expiring access token and refresh token <a class="reference external" href="https://api.slack.com/methods/oauth.v2.exchange">https://api.slack.com/methods/oauth.v2.exchange</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">openid_connect_token</span></code>(client_id, client_secret)</p></td>
+<td><p>Exchanges a temporary OAuth verifier code for an access token for Sign in with Slack.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">openid_connect_userInfo</span></code>(**kwargs)</p></td>
+<td><p>Get the identity of a user who has authorized Sign in with Slack.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pins_add</span></code>(*, channel[, timestamp])</p></td>
+<td><p>Pins an item to a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pins_list</span></code>(*, channel, **kwargs)</p></td>
+<td><p>Lists items pinned to a channel.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pins_remove</span></code>(*, channel[, timestamp])</p></td>
+<td><p>Un-pins an item from a channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_add</span></code>(*, channel, name, timestamp, ...)</p></td>
+<td><p>Adds a reaction to an item.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_get</span></code>(*[, channel, file, ...])</p></td>
+<td><p>Gets reactions for an item.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_list</span></code>(*[, count, cursor, full, ...])</p></td>
+<td><p>Lists reactions made by a user.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_remove</span></code>(*, name[, channel, file, ...])</p></td>
+<td><p>Removes a reaction from an item.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_add</span></code>(*, text, time[, team_id, ...])</p></td>
+<td><p>Creates a reminder.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_complete</span></code>(*, reminder[, team_id])</p></td>
+<td><p>Marks a reminder as complete.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_delete</span></code>(*, reminder[, team_id])</p></td>
+<td><p>Deletes a reminder.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_info</span></code>(*, reminder[, team_id])</p></td>
+<td><p>Gets information about a reminder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_list</span></code>(*[, team_id])</p></td>
+<td><p>Lists all reminders created by or for a given user.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rtm_connect</span></code>(*[, batch_presence_aware, ...])</p></td>
+<td><p>Starts a Real Time Messaging session.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rtm_start</span></code>(*[, batch_presence_aware, ...])</p></td>
+<td><p>Starts a Real Time Messaging session.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_all</span></code>(*, query[, count, highlight, ...])</p></td>
+<td><p>Searches for messages and files matching a query.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_files</span></code>(*, query[, count, highlight, ...])</p></td>
+<td><p>Searches for files matching a query.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_messages</span></code>(*, query[, count, cursor, ...])</p></td>
+<td><p>Searches for messages matching a query.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stars_add</span></code>(*[, channel, file, file_comment, ...])</p></td>
+<td><p>Adds a star to an item.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stars_list</span></code>(*[, count, cursor, limit, page, ...])</p></td>
+<td><p>Lists stars for a user.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stars_remove</span></code>(*[, channel, file, ...])</p></td>
+<td><p>Removes a star from an item.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_accessLogs</span></code>(*[, before, count, page, ...])</p></td>
+<td><p>Gets the access logs for the current team.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_billableInfo</span></code>(*[, team_id, user])</p></td>
+<td><p>Gets billable users information for the current team.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_billing_info</span></code>(**kwargs)</p></td>
+<td><p>Reads a workspace's billing plan information.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_info</span></code>(*[, team, domain])</p></td>
+<td><p>Gets information about the current team.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_integrationLogs</span></code>(*[, app_id, ...])</p></td>
+<td><p>Gets the integration logs for the current team.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_preferences_list</span></code>(**kwargs)</p></td>
+<td><p>Retrieve a list of a workspace's team preferences.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_profile_get</span></code>(*[, visibility])</p></td>
+<td><p>Retrieve a team's profile.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_create</span></code>(*, name[, channels, ...])</p></td>
+<td><p>Create a User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.create">https://api.slack.com/methods/usergroups.create</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_disable</span></code>(*, usergroup[, ...])</p></td>
+<td><p>Disable an existing User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.disable">https://api.slack.com/methods/usergroups.disable</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_enable</span></code>(*, usergroup[, ...])</p></td>
+<td><p>Enable a User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.enable">https://api.slack.com/methods/usergroups.enable</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_list</span></code>(*[, include_count, ...])</p></td>
+<td><p>List all User Groups for a team <a class="reference external" href="https://api.slack.com/methods/usergroups.list">https://api.slack.com/methods/usergroups.list</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_update</span></code>(*, usergroup[, channels, ...])</p></td>
+<td><p>Update an existing User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.update">https://api.slack.com/methods/usergroups.update</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_users_list</span></code>(*, usergroup[, ...])</p></td>
+<td><p>List all users in a User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.users.list">https://api.slack.com/methods/usergroups.users.list</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_users_update</span></code>(*, usergroup, users)</p></td>
+<td><p>Update the list of users for a User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.users.update">https://api.slack.com/methods/usergroups.users.update</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_conversations</span></code>(*[, cursor, ...])</p></td>
+<td><p>List conversations the calling user may access.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_deletePhoto</span></code>(**kwargs)</p></td>
+<td><p>Delete the user profile photo <a class="reference external" href="https://api.slack.com/methods/users.deletePhoto">https://api.slack.com/methods/users.deletePhoto</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_getPresence</span></code>(*, user, **kwargs)</p></td>
+<td><p>Gets user presence information.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_identity</span></code>(**kwargs)</p></td>
+<td><p>Get a user's identity.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_info</span></code>(*, user[, include_locale])</p></td>
+<td><p>Gets information about a user.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_list</span></code>(*[, cursor, include_locale, ...])</p></td>
+<td><p>Lists all users in a Slack team.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_lookupByEmail</span></code>(*, email, **kwargs)</p></td>
+<td><p>Find a user with an email address.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_profile_get</span></code>(*[, user, include_labels])</p></td>
+<td><p>Retrieves a user's profile information.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_profile_set</span></code>(*[, name, value, user, ...])</p></td>
+<td><p>Set the profile information for a user.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_setPhoto</span></code>(*, image[, crop_w, crop_x, ...])</p></td>
+<td><p>Set the user profile photo <a class="reference external" href="https://api.slack.com/methods/users.setPhoto">https://api.slack.com/methods/users.setPhoto</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_setPresence</span></code>(*, presence, **kwargs)</p></td>
+<td><p>Manually sets user presence.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_slack_signature</span></code>(*, signing_secret, ...)</p></td>
+<td><p>Slack creates a unique string for your app and shares it with you.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_open</span></code>(*, trigger_id, view, **kwargs)</p></td>
+<td><p>Open a view for a user.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_publish</span></code>(*, user_id, view[, hash])</p></td>
+<td><p>Publish a static view for a User.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_push</span></code>(*, trigger_id, view, **kwargs)</p></td>
+<td><p>Push a view onto the stack of a root view.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_update</span></code>(*, view[, external_id, ...])</p></td>
+<td><p>Update an existing view.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">workflows_stepCompleted</span></code>(*, ...[, outputs])</p></td>
+<td><p>Indicate a successful outcome of a workflow step's execution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">workflows_stepFailed</span></code>(*, ...)</p></td>
+<td><p>Indicate an unsuccessful outcome of a workflow step's execution.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">workflows_updateStep</span></code>(*, workflow_step_edit_id)</p></td>
+<td><p>Update the configuration for a workflow extension step.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">BASE_URL</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="../client/slack_transfer.UploaderClient.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">slack_transfer.UploaderClient</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="slack_transfer._base.CommonNoLocalVolumeClient.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">slack_transfer._base.CommonNoLocalVolumeClient</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, Masanori HIRANO.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

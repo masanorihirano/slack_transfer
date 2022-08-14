@@ -13,6 +13,8 @@
 
    .. autosummary::
    
+      check_channel_exists
+      check_insert_finished
       check_upload_conflict
       create_all_channels
       data_insert

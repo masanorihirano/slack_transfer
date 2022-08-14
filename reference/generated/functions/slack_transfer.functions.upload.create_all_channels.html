@@ -1,0 +1,454 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>slack_transfer.functions.upload.create_all_channels &#8212; slack_transfer 0.2.1 documentation</title>
+<script>
+  document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+  document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
+</script>
+
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=92025949c220c2e29695" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="slack_transfer.functions.upload.data_insert" href="slack_transfer.functions.upload.data_insert.html" />
+    <link rel="prev" title="slack_transfer.functions.upload.check_upload_conflict" href="slack_transfer.functions.upload.check_upload_conflict.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+    <div class="bd-header-announcement container-fluid" id="banner">
+      
+
+    </div>
+
+    
+    <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="bd-header__inner container-xl">
+
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">slack_transfer 0.2.1 documentation</p>
+  
+</a>
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="fas fa-bars"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../user_guide/index.html">
+  User Guide
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../user_guide/index_ja.html">
+  ユーザーガイド
+ </a>
+</li>
+
+<li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../../index.html">
+  API reference
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+    <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+    <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+    <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+</span>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="bd-container container-xl">
+      <div class="bd-container__inner row">
+          
+
+<!-- Only show if we have sidebars configured, else just a small margin  -->
+<div class="bd-sidebar-primary col-12 col-md-3 bd-sidebar">
+  <div class="sidebar-start-items"><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../client/slack_transfer.DownloaderClient.html">
+   slack_transfer.DownloaderClient
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../client/slack_transfer.UploaderClient.html">
+   slack_transfer.UploaderClient
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../client_abc/slack_transfer._base.CommonDryRunClient.html">
+   slack_transfer._base.CommonDryRunClient
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../client_abc/slack_transfer._base.CommonNoLocalVolumeClient.html">
+   slack_transfer._base.CommonNoLocalVolumeClient
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../client_abc/slack_transfer._base.CommonClient.html">
+   slack_transfer._base.CommonClient
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../client_abc/slack_transfer._base.DownloaderClientABC.html">
+   slack_transfer._base.DownloaderClientABC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../client_abc/slack_transfer._base.UploaderClientABC.html">
+   slack_transfer._base.UploaderClientABC
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.common.html">
+   slack_transfer.functions.common
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.common.get_channels_list.html">
+   slack_transfer.functions.common.get_channels_list
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.common.get_file_volumes.html">
+   slack_transfer.functions.common.get_file_volumes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.common.get_replies.html">
+   slack_transfer.functions.common.get_replies
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.common.test_connection.html">
+   slack_transfer.functions.common.test_connection
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.common.test_downloader.html">
+   slack_transfer.functions.common.test_downloader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.common.test_uploader.html">
+   slack_transfer.functions.common.test_uploader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.download.html">
+   slack_transfer.functions.download
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.download.download_bookmark.html">
+   slack_transfer.functions.download.download_bookmark
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.download.download_channel_history.html">
+   slack_transfer.functions.download.download_channel_history
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.download.download_channels_list.html">
+   slack_transfer.functions.download.download_channels_list
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.download.download_emoji.html">
+   slack_transfer.functions.download.download_emoji
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.download.download_file.html">
+   slack_transfer.functions.download.download_file
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.download.download_members_list.html">
+   slack_transfer.functions.download.download_members_list
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.upload.html">
+   slack_transfer.functions.upload
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.upload.check_channel_exists.html">
+   slack_transfer.functions.upload.check_channel_exists
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.upload.check_insert_finished.html">
+   slack_transfer.functions.upload.check_insert_finished
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.upload.check_upload_conflict.html">
+   slack_transfer.functions.upload.check_upload_conflict
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   slack_transfer.functions.upload.create_all_channels
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.upload.data_insert.html">
+   slack_transfer.functions.upload.data_insert
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.upload.insert_bookmarks.html">
+   slack_transfer.functions.upload.insert_bookmarks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="slack_transfer.functions.upload.upload_file.html">
+   slack_transfer.functions.upload.upload_file
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.bookmark.html">
+   slack_transfer.cli.bookmark
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.download.html">
+   slack_transfer.cli.download
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.emoji.html">
+   slack_transfer.cli.emoji
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.file_volume.html">
+   slack_transfer.cli.file_volume
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.main.html">
+   slack_transfer.cli.main
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.token_test.html">
+   slack_transfer.cli.token_test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../cli/slack_transfer.cli.upload.html">
+   slack_transfer.cli.upload
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../other/slack_transfer.__version__.html">
+   slack_transfer.__version__
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../other/slack_transfer.run.run.html">
+   slack_transfer.run.run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../other/slack_transfer.interactive.interactive.html">
+   slack_transfer.interactive.interactive
+  </a>
+ </li>
+</ul>
+
+  </div>
+</nav>
+  </div>
+  <div class="sidebar-end-items">
+  </div>
+</div>
+
+
+          
+
+
+<div class="bd-sidebar-secondary d-none d-xl-block col-xl-2 bd-toc">
+  
+    
+    <div class="toc-item">
+      
+
+<nav id="bd-toc-nav">
+    
+</nav>
+    </div>
+    
+    <div class="toc-item">
+      
+    </div>
+    
+  
+</div>
+
+
+          
+          
+          <div class="bd-content col-12 col-md-9 col-xl-7">
+              
+              <article class="bd-article" role="main">
+                
+  <section id="slack-transfer-functions-upload-create-all-channels">
+<h1>slack_transfer.functions.upload.create_all_channels<a class="headerlink" href="#slack-transfer-functions-upload-create-all-channels" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="slack_transfer.functions.upload.create_all_channels">
+<span class="sig-prename descclassname"><span class="pre">slack_transfer.functions.upload.</span></span><span class="sig-name descname"><span class="pre">create_all_channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../client_abc/slack_transfer._base.UploaderClientABC.html#slack_transfer._base.UploaderClientABC" title="slack_transfer._base.UploaderClientABC"><span class="pre">UploaderClientABC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_mappings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../_modules/slack_transfer/functions/upload.html#create_all_channels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#slack_transfer.functions.upload.create_all_channels" title="Permalink to this definition">#</a></dt>
+<dd><p>create all channels or specified channels. In this process, channel purpose and description are also set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<a class="reference internal" href="../client_abc/slack_transfer._base.UploaderClientABC.html#slack_transfer._base.UploaderClientABC" title="slack_transfer._base.UploaderClientABC"><em>UploaderClientABC</em></a>) – uploader client. If use this via any UploaderClient Class, self is automatically set.
+Thus, ignore this.</p></li>
+<li><p><strong>channel_names</strong> (<em>List</em><em>[</em><em>str</em><em>]</em><em>; Optional; default=None</em>) – list of channels to be made.</p></li>
+<li><p><strong>name_mappings</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em><em>; Optional; default=None</em>) – You can set name mappings between the channel names of the
+original and destination workspaces. For example, <code class="code docutils literal notranslate"><span class="pre">{&quot;old_name1&quot;:</span> <span class="pre">&quot;new_name1&quot;,</span> <span class="pre">&quot;old_name2&quot;:</span> <span class="pre">&quot;new_name2&quot;}</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+              </article>
+              
+
+              
+              <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="slack_transfer.functions.upload.check_upload_conflict.html" title="previous page">
+      <i class="fas fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">slack_transfer.functions.upload.check_upload_conflict</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="slack_transfer.functions.upload.data_insert.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">slack_transfer.functions.upload.data_insert</p>
+  </div>
+  <i class="fas fa-angle-right"></i>
+  </a>
+</div>
+              </footer>
+              
+          </div>
+          
+      </div>
+    </div>
+
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=92025949c220c2e29695"></script>
+
+<footer class="bd-footer"><div class="bd-footer__inner container">
+  
+  <div class="footer-item">
+    <p class="copyright">
+    &copy; Copyright 2022, Masanori HIRANO.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br>
+</p>
+  </div>
+  
+</div>
+</footer>
+  </body>
+</html>

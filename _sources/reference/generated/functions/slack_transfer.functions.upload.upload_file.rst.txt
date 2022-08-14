@@ -1,0 +1,6 @@
+﻿slack\_transfer.functions.upload.upload\_file
+=============================================
+
+.. currentmodule:: slack_transfer.functions.upload
+
+.. autofunction:: upload_file
