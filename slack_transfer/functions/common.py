@@ -90,8 +90,9 @@ def get_file_volumes(
     Yields:
         float: total file volumes (bytes)
     """
+    channels = get_channels_list(client=client)
+    channel_id_name_dict = dict([(x["id"], x["name"]) for x in channels])
     if channel_ids is None:
-        channels = get_channels_list(client=client)
         channel_ids = list(map(lambda x: x["id"], channels))
     elif isinstance(channel_ids, str):
         channel_ids = [channel_ids]
@@ -115,7 +116,9 @@ def get_file_volumes(
                             continue
                         except:
                             pass
-                    warnings.warn(f"slack bot is not in `{channel_id}`. Skip this.")
+                    warnings.warn(
+                        f"slack bot is not in `{channel_id_name_dict[channel_id] if channel_id in channel_id_name_dict else channel_id}`. Skip this."
+                    )
                     break
                 else:
                     raise e
