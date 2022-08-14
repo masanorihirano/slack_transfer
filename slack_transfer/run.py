@@ -26,6 +26,27 @@ def run(
     skip_bookmarks: bool = False,
     ssl: Optional[SSLContext] = None,
 ) -> None:
+    """See run section in :doc:`/user_guide/cli`
+
+    Args:
+        local_data_dir (str): Data directory for saving download data or loading upload data. This is required.
+        downloader_token (str; Optional; default=None): Download token obtained from slack (the original workspace).
+            Starts with xoxb-. This is required when skip_download=False.
+        uploader_token (str; Optional; default=None): Upload token obtained from slack (the destination workspace).
+            Starts with xoxb-. This is required when skip_upload=False.
+        override (bool; Optional; default=False): This flag enables message migration to the destination workspace
+            even when a channel already exists. This means that additional messages are inserted after the message
+            already sent to the channel. If you want not to do so, please delete the channel on the destination workspace first.
+        skip_download (bool; Optional; default=False): Skip download. This is usually used when the download is already finished.
+        skip_upload (bool; Optional; default=False): Skip upload. This is usually used when only the download is necessary.
+        name_mappings (Dict[str, str]; Optional; default=None): You can set name mappings between the channel names of the
+            original and destination workspaces. For example, :code:`{"old_name1": "new_name1", "old_name2": "new_name2"}`.
+        channel_names (List[str]; Optional; default=None): channel names you want to process.
+            If not set, set to all available channels.
+        skip_bookmarks (bool; Optional; default=False): Skip process bookmarks.
+        ssl: (SSLContext; Optional; default=None): : An [`ssl.SSLContext`][1] instance, helpful for specifying
+            your own custom certificate chain.
+    """
     os.makedirs(local_data_dir, exist_ok=True)
     if not skip_download:
         downloader = DownloaderClient(
@@ -71,27 +92,6 @@ def run(
         if name_mappings is None:
             name_mappings = {}
 
-        conflicts = uploader.check_upload_conflict(name_mappings=name_mappings)
-        if channel_names:
-            conflicts = list(
-                filter(
-                    lambda x: (  # type: ignore
-                        x
-                        in [
-                            name_mappings[y] if y in name_mappings else y
-                            for y in channel_names
-                        ]
-                    ),
-                    conflicts,
-                )
-            )
-        if len(conflicts) > 0 and not override:
-            raise ValueError(
-                f"channels: {', '.join(conflicts)} are already exist. please set mapping or override=True"
-            )
-        uploader.create_all_channels(
-            channel_names=channel_names, name_mappings=name_mappings
-        )
         old_members = json.load(
             open(
                 os.path.join(uploader.local_data_dir, "members.json"),
@@ -113,6 +113,44 @@ def run(
                 for member in old_members
             ]
         )
+
+        conflicts = uploader.check_upload_conflict(name_mappings=name_mappings)
+        reverse_name_mappings = dict([(v, k) for k, v in name_mappings.items()])
+        conflicts = list(
+            filter(
+                lambda x: (  # type: ignore
+                    (
+                        x
+                        in [
+                            name_mappings[y] if y in name_mappings else y
+                            for y in channel_names
+                        ]
+                    )
+                    if channel_names
+                    else True
+                    and uploader.check_channel_exists(channel_name=x)
+                    and not uploader.check_insert_finished(
+                        channel_name=x,
+                        old_members_dict=old_members_dict,
+                        old_channel_name=(
+                            reverse_name_mappings[x]
+                            if x in reverse_name_mappings
+                            else x
+                        ),
+                    )
+                ),
+                conflicts,
+            )
+        )
+        if len(conflicts) > 0 and not override:
+            raise ValueError(
+                f"channels: {', '.join(conflicts)} are already exist. please set mapping or override=True"
+            )
+
+        uploader.create_all_channels(
+            channel_names=channel_names, name_mappings=name_mappings
+        )
+
         channel_files: List[str] = glob.glob(
             os.path.join(uploader.local_data_dir, "channels", "*.json")
         )
@@ -132,6 +170,17 @@ def run(
             print(
                 f"{i + 1}/{len(channel_files)}: {old_channel_name} -> {new_channel_name}"
             )
+            if (
+                uploader.check_channel_exists(channel_name=new_channel_name)
+                and uploader.check_insert_finished(
+                    channel_name=new_channel_name,
+                    old_members_dict=old_members_dict,
+                    old_channel_name=old_channel_name,
+                )
+                and not override
+            ):
+                print("already finished. skip.")
+                continue
             new_channel_id = uploader.data_insert(
                 channel_name=new_channel_name,
                 old_members_dict=old_members_dict,

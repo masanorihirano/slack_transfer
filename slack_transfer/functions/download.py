@@ -18,6 +18,16 @@ from .common import get_replies
 
 
 def download_channels_list(client: DownloaderClientABC) -> List[Dict]:
+    """download and save channel list.
+
+    Args:
+        client (DownloaderClientABC): downloader client. If use this via any DownloaderClient Class, self is automatically set.
+            Thus, ignore this.
+
+    Yields:
+        List[Dict]: List of channel info. The details of channel info is listed: https://api.slack.com/types/channel
+        (see the dictionary corresponding to channel key.)
+    """
     channels: List[Dict] = get_channels_list(client=client)
 
     json.dump(
@@ -35,6 +45,17 @@ def download_channels_list(client: DownloaderClientABC) -> List[Dict]:
 def download_file(
     client: DownloaderClientABC, file_id: str, file_name: str, url_private: str
 ) -> None:
+    """download and save a specified file.
+
+    The file will be saved as file_id--file_name. Most parameters are specified by slack and **this method isn't used by users.**
+
+    Args:
+        client (DownloaderClientABC): downloader client. If use this via any DownloaderClient Class, self is automatically set.
+            Thus, ignore this.
+        file_id (str): file id on slack (for saving and used for identify the correct file by uploader).
+        file_name (str): fila name for saving.
+        url_private (str): private url specified by slack
+    """
     res = requests.get(
         url=url_private,
         allow_redirects=True,
@@ -59,6 +80,24 @@ def download_channel_history(
     ts_now: Optional[int] = None,
     auto_join: bool = True,
 ) -> None:
+    """download and save a series of channel histories on a channel.
+
+    The file will be saved as file_id--file_name. Most parameters are specified by slack and **this method isn't used by users.**
+
+    Args:
+        client (DownloaderClientABC): downloader client. If use this via any DownloaderClient Class, self is automatically set.
+            Thus, ignore this.
+        channel_id (str): channel id (usually 9-digits string)
+        channel_name (str): channel name. Please set it correctly. Usually this can be obtained using channel_id.
+            But, because it is usually redundant, please set from outside.
+        latest (str; Optional; default=None): the latest time of the time range you want to fetch.
+            Set as float-like string representing unix timetamp including floating point.
+        ts_progress_bar (tqdm.tqdm: Optional; default=None): progress bar instance.
+            Progress bar will be updated using the diff between ts_now and the oldest fetched history.
+        ts_now (int; Optional; default=None): anchor point to calculate the progress.
+            It is required when ts_progress_bar is set.
+        auto_join (bool; Optional; default=True): when bot is not in channel, automatically join if possible (public channel).
+    """
     # ToDo: 1 channel内でAPI limit来た場合の挙動
     if ts_progress_bar:
         if ts_now is None:
@@ -150,6 +189,12 @@ def download_channel_history(
 
 
 def download_members_list(client: DownloaderClientABC) -> List[Dict]:
+    """download and save a member list.
+
+    Args:
+        client (DownloaderClientABC): downloader client. If use this via any DownloaderClient Class, self is automatically set.
+            Thus, ignore this.
+    """
     members: List[Dict] = []
     next_cursor: Optional[str] = None
 
@@ -184,6 +229,16 @@ def download_bookmark(
     channel_name: str,
     auto_join: bool = True,
 ) -> None:
+    """download and save a series of bookmarks on a channel.
+
+    Args:
+        client (DownloaderClientABC): downloader client. If use this via any DownloaderClient Class, self is automatically set.
+            Thus, ignore this.
+        channel_id (str): channel id (usually 9-digits string)
+        channel_name (str): channel name. Please set it correctly. Usually this can be obtained using channel_id.
+            But, because it is usually redundant, please set from outside.
+        auto_join (bool; Optional; default=True): when bot is not in channel, automatically join if possible (public channel).
+    """
     for _ in range(3):
         try:
             response = client.bookmarks_list(channel_id=channel_id)
@@ -219,6 +274,12 @@ def download_bookmark(
 
 
 def download_emoji(client: DownloaderClientABC) -> None:
+    """download and save a moji list and emoji files.
+
+    Args:
+        client (DownloaderClientABC): downloader client. If use this via any DownloaderClient Class, self is automatically set.
+            Thus, ignore this.
+    """
     response = client.emoji_list()
     if "emoji" in response:
         json.dump(

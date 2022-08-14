@@ -155,3 +155,12 @@ optional arguments:
         for checking as downloader
     :code:`--as_uploader`
         for checking as uploader
+
+interactive
+----------------
+interactive mode.
+
+.. code-block:: bash
+
+    $ slack_transfer　interactive
+
