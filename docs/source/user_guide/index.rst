@@ -7,8 +7,9 @@ General usage
 .. toctree::
    :maxdepth: 2
 
-　　environment
+   environment
    run
+
 
 CLI
 ------------------

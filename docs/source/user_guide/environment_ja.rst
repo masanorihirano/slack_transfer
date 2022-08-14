@@ -7,6 +7,7 @@
 Windows
 ~~~~~~~~~~~~~~~
 Windowsの場合は，WSLの仕様をお勧めします．
+WSLはlinuxと同じです．
 
 WSLを使用しない場合は，以下のリンクからPythonを取得します．
 
@@ -40,7 +41,7 @@ venvを利用する場合
 WSL/linux/macos:
 
 .. code-block:: bash
-    $ python -m venv .venv
+    $ python3 -m venv .venv
     $ source .venv/bin/activate
     (.venv)$ pip3 install slack-transfer
 
@@ -48,7 +49,7 @@ WSL/linux/macos:
 Windows:
 
 .. code-block:: bash
-    $ python -m venv .venv
+    $ python3 -m venv .venv
     $ source .venv\Scripts\activate
     (.venv)$ pip3 install slack-transfer
 
