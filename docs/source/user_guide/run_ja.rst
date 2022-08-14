@@ -7,7 +7,7 @@ slack_transfer の使い方
 
     .. image:: https://colab.research.google.com/assets/colab-badge.svg
         :alt: Open In Colab
-        :target: http://colab.research.google.com/github/masanorihirano/blob/main/examples/slack_transfer.ipynb
+        :target: https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb
 
 
 0. 全体像と用語定義
