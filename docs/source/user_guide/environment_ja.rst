@@ -2,6 +2,13 @@
 ==========
 ※ jupyter notebookなどのpythonが使用できる環境があれば充分です．jupyter notebookの場合は，2の「マシーンの環境に直接インストールする場合」から始めてください． `!`をつけて実行することで，コマンドを実行することができます．ただし，jupyter notebookの場合は，インタラクティブモードは使用できません．
 
+Google Colabで稼働可能なnotebookも例示しています:
+
+.. image:: https://colab.research.google.com/assets/colab-badge.svg
+    :alt: Open In Colab
+    :target: http://colab.research.google.com/github/masanorihirano/blob/main/examples/slack_transfer.ipynb
+
+
 1. Python環境の構築
 -------------------
 Windows

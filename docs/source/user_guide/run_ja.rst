@@ -2,6 +2,14 @@ slack_transfer の使い方
 ============================
 :doc:`environment_ja` のステップが完了している前提で説明します．
 
+.. seealso::
+    Google Colabで稼働可能なnotebookも例示しています:
+
+    .. image:: https://colab.research.google.com/assets/colab-badge.svg
+        :alt: Open In Colab
+        :target: http://colab.research.google.com/github/masanorihirano/blob/main/examples/slack_transfer.ipynb
+
+
 0. 全体像と用語定義
 ---------------------
 :code:`slack_transfer` を用いることで，移行元のSlack workspaceから移行先のSlack workspaceにデータを移行することができます．
@@ -268,6 +276,8 @@ generalチャンネル(あるいはそれを改称した場合も)は，特別�
  - 別チャンネルとして新しく作りたい → チャンネルマッピングを設定します．後述の引数で設定します．
 
 これらの基準に基づき，マッピングを行うチャンネルを選定して，旧チャンネルに対応する新チャンネルのマッピングを決めてください．
+
+.. _migrate_emojis_ja:
 
 6. emojiの移行
 ---------------------

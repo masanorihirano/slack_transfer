@@ -22,6 +22,8 @@ $ python
 ```
 Please note that you have to user `slack_transfer` instead of `slack-transfer` for importing.
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/masanorihirano/blob/main/examples/slack_transfer.ipynb)
+
 ## Issues and Contribution
 About issues (bugs):
 -   You can report issues [here](https://github.com/masanorihirano/slack_transfer/issues).
