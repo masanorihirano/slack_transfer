@@ -142,15 +142,13 @@ token_test
 Test your token by bootstrap. It means that if the token has not enough scope, it will be pointed out step by step of each tests.
 
 usage:
-    :code:`slack_transfer token_test [-h] --token TOKEN --test_channels TEST_CHANNELS [--as_downloader] [--as_uploader]`
+    :code:`slack_transfer token_test [-h] --token TOKEN [--as_downloader] [--as_uploader]`
 
 optional arguments:
     :code:`-h, --help`
         show this help message and exit
     :code:`--token TOKEN`
         Token obtained from slack. Starts with `xoxb-`
-    :code:`--test_channels TEST_CHANNELS`
-        Test channel names. Multiple channels can be set by comma-separation like `general,private`
     :code:`--as_downloader`
         for checking as downloader
     :code:`--as_uploader`

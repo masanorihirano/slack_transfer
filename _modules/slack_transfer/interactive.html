@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slack_transfer.interactive &#8212; slack_transfer 0.2.1 documentation</title>
+    <title>slack_transfer.interactive &#8212; slack_transfer 0.2.2 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.1 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.2 documentation</p>
   
 </a>
     
@@ -234,231 +234,247 @@
 
 <div class="viewcode-block" id="interactive"><a class="viewcode-back" href="../../reference/generated/other/slack_transfer.interactive.interactive.html#slack_transfer.interactive.interactive">[docs]</a><span class="k">def</span> <span class="nf">interactive</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;See interactive section in :doc:`/user_guide/cli`&quot;&quot;&quot;</span>
-    <span class="n">ssl_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">create_default_context</span><span class="p">(</span>
-        <span class="n">ssl</span><span class="o">.</span><span class="n">Purpose</span><span class="o">.</span><span class="n">SERVER_AUTH</span><span class="p">,</span> <span class="n">cafile</span><span class="o">=</span><span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">(),</span> <span class="n">capath</span><span class="o">=</span><span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">()</span>
-    <span class="p">)</span>
-    <span class="n">confirmation</span><span class="p">(</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Start&quot;</span><span class="p">,</span>
-        <span class="n">text</span><span class="o">=</span><span class="s2">&quot;In this system, all selection can be done using mouse pointer.</span><span class="se">\n</span><span class="s2">このシステムではすべての選択をマウスで行うことができます．&quot;</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">language</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Select language&quot;</span><span class="p">,</span>
-        <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Please select language&quot;</span><span class="p">,</span>
-        <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;English&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;日本語&quot;</span><span class="p">,</span> <span class="s2">&quot;ja&quot;</span><span class="p">)],</span>
-    <span class="p">)</span>
-
-    <span class="n">confirmation</span><span class="p">(</span>
-        <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Select folder&quot;</span><span class="p">,</span> <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;フォルダー選択&quot;</span><span class="p">}[</span><span class="n">language</span><span class="p">],</span>
-        <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Next, please select your folder to save and load the downloaded data. &quot;</span>
-            <span class="o">+</span> <span class="s2">&quot;We highly recommend making and selecting an empty folder when this is the first time.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;次に，このシステムで使用するフォルダーを選択してください．初めての使用であれば，空のフォルダーを作成し，選択することを強くお勧めします．&quot;</span><span class="p">,</span>
-        <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
-    <span class="p">)</span>
-
-    <span class="n">tk</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
-    <span class="n">local_data_dir</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">askdirectory</span><span class="p">()</span>
-    <span class="n">tk</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
-
-    <span class="n">already_downloaded</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;channels.json&quot;</span><span class="p">)</span>
-    <span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;members.json&quot;</span><span class="p">))</span>
-
-    <span class="k">if</span> <span class="n">already_downloaded</span><span class="p">:</span>
-        <span class="n">skip_download</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Download Selection&quot;</span><span class="p">,</span>
-            <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you want to download slack data? Usually select yes. &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;When you already downloaded data, you can select No.&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;Slackデータのダウンロードを行いますか？通常はYesを選択してください．すでにデータをダウンロード済みの場合はNoを選択しても構いません．&quot;</span><span class="p">,</span>
-            <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
-            <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)],</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ssl_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">create_default_context</span><span class="p">(</span>
+            <span class="n">ssl</span><span class="o">.</span><span class="n">Purpose</span><span class="o">.</span><span class="n">SERVER_AUTH</span><span class="p">,</span> <span class="n">cafile</span><span class="o">=</span><span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">(),</span> <span class="n">capath</span><span class="o">=</span><span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">()</span>
         <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">skip_download</span> <span class="o">=</span> <span class="kc">False</span>
-
-    <span class="n">downloader_token</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span><span class="p">:</span>
-        <span class="n">downloader_token</span> <span class="o">=</span> <span class="n">input_dialog</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Input download token&quot;</span><span class="p">,</span>
-            <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Please inputs download token. How to get is: </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#downloader-token&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;ダウンロード用のAPI tokenを入力してください．</span><span class="se">\n</span><span class="s2">詳細: &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#downloader-token-ja&quot;</span><span class="p">,</span>
-            <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">downloader_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span>
-        <span class="n">client</span> <span class="o">=</span> <span class="n">CommonNoLocalVolumeClient</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">downloader_token</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="n">ssl_context</span><span class="p">)</span>
-        <span class="n">client</span><span class="o">.</span><span class="n">test_connection</span><span class="p">()</span>
-        <span class="n">client</span><span class="o">.</span><span class="n">test_downloader</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span><span class="p">:</span>
-        <span class="n">skip_upload</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Upload Selection&quot;</span><span class="p">,</span>
-            <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you want to upload slack data? When you want to downloaded data only, you can select No.&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;Slackデータのアップロードを行いますか？データをダウンロードしたいだけであれば，Noを選択してください．&quot;</span><span class="p">,</span>
-            <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
-            <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)],</span>
-        <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">skip_upload</span> <span class="o">=</span> <span class="kc">False</span>
-
-    <span class="n">uploader_token</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_upload</span><span class="p">:</span>
-        <span class="n">uploader_token</span> <span class="o">=</span> <span class="n">input_dialog</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Input upload token&quot;</span><span class="p">,</span>
-            <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Please inputs upload token. How to get is: </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#uploader-token&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;アップロード用のAPI tokenを入力してください．</span><span class="se">\n</span><span class="s2">詳細: &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#uploader-token-ja&quot;</span><span class="p">,</span>
-            <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">uploader_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span>
-        <span class="n">client</span> <span class="o">=</span> <span class="n">CommonNoLocalVolumeClient</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">uploader_token</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="n">ssl_context</span><span class="p">)</span>
-        <span class="n">client</span><span class="o">.</span><span class="n">test_connection</span><span class="p">()</span>
-        <span class="n">client</span><span class="o">.</span><span class="n">test_uploader</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span><span class="p">:</span>
         <span class="n">confirmation</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Bot invitation&quot;</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Start&quot;</span><span class="p">,</span>
+            <span class="n">text</span><span class="o">=</span><span class="s2">&quot;In this system, all selection can be done using mouse pointer.</span><span class="se">\n</span><span class="s2">このシステムではすべての選択をマウスで行うことができます．&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">language</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Select language&quot;</span><span class="p">,</span>
+            <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Please select language&quot;</span><span class="p">,</span>
+            <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;English&quot;</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;日本語&quot;</span><span class="p">,</span> <span class="s2">&quot;ja&quot;</span><span class="p">)],</span>
+        <span class="p">)</span>
+
+        <span class="n">confirmation</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Select folder&quot;</span><span class="p">,</span> <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;フォルダー選択&quot;</span><span class="p">}[</span><span class="n">language</span><span class="p">],</span>
             <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Please invite bot to private channels if needed. After finishing, please select OK. How to do is: </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#invite-private&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;必要に応じて，Botをprivate channelに招待してください．完了したら，OKを押してください．</span><span class="se">\n</span><span class="s2">詳細: &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#invite-private-ja&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Next, please select your folder to save and load the downloaded data. &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;We highly recommend making and selecting an empty folder when this is the first time.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;次に，このシステムで使用するフォルダーを選択してください．初めての使用であれば，空のフォルダーを作成し，選択することを強くお勧めします．&quot;</span><span class="p">,</span>
             <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
         <span class="p">)</span>
 
-    <span class="n">target_all_channels</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Channel Selection&quot;</span><span class="p">,</span>
-        <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you want to process all possible channels?&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;可能な限りすべてのチャンネルを処理の対象にしますか？&quot;</span><span class="p">,</span>
-        <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
-        <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)],</span>
-    <span class="p">)</span>
+        <span class="n">tk</span> <span class="o">=</span> <span class="n">tkinter</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+        <span class="n">local_data_dir</span> <span class="o">=</span> <span class="n">filedialog</span><span class="o">.</span><span class="n">askdirectory</span><span class="p">()</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
 
-    <span class="n">channel_names</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">target_all_channels</span><span class="p">:</span>
-        <span class="n">channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span><span class="p">:</span>
-            <span class="n">client</span> <span class="o">=</span> <span class="n">CommonNoLocalVolumeClient</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">downloader_token</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="n">ssl_context</span><span class="p">)</span>
-            <span class="n">channels</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_channels_list</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">channels</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
-                <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;channels.json&quot;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="n">channel_names</span> <span class="o">=</span> <span class="n">multiple_selection</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Channel selection&quot;</span><span class="p">,</span>
-            <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Please select targeting channels．(Private channels listed here but bot doesn&#39;t joined will be skiped.)&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;処理の対象にするチャンネルを選択してください．&quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;なお，ここに表示されているprivate channelでも，botを招待する作業を完了していないチャンネルはスキップされます．&quot;</span><span class="p">,</span>
-            <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
-            <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[</span>
-                <span class="p">(</span><span class="n">channel</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">channel</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">channels</span>
-            <span class="p">],</span>
-        <span class="p">)</span>
+        <span class="n">already_downloaded</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;channels.json&quot;</span><span class="p">)</span>
+        <span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;members.json&quot;</span><span class="p">))</span>
 
-    <span class="n">name_mappings</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">override</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_upload</span><span class="p">:</span>
-        <span class="n">needs_name_mappings</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Channel name mappings&quot;</span><span class="p">,</span>
-            <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you need to name mappings of channels when uploading data to the destination WS? &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Details: https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#channel-mappings&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;アップロード時にチャンネル名のマッピングが必要ですか？&quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">詳細: https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#channel-mappings-ja&quot;</span><span class="p">,</span>
-            <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
-            <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)],</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">needs_name_mappings</span><span class="p">:</span>
-            <span class="n">_name_mappings</span> <span class="o">=</span> <span class="n">input_dialog</span><span class="p">(</span>
-                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Channel name mappings&quot;</span><span class="p">,</span>
+        <span class="k">if</span> <span class="n">already_downloaded</span><span class="p">:</span>
+            <span class="n">skip_download</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Download Selection&quot;</span><span class="p">,</span>
                 <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-                    <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Please inputs name mappings. Format is comma-separated colon-concatenate dictionary: &quot;</span>
-                    <span class="o">+</span> <span class="s2">&quot;old_channel_name1:new_channel_name1,old_channel_name2:new_channel_name2&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;チャンネル名のマッピングを入力してください．カンマ区切りで，コロンでマッピング前後のチャンネル名をつないでください．&quot;</span>
-                    <span class="o">+</span> <span class="s2">&quot;例) old_channel_name1:new_channel_name1,old_channel_name2:new_channel_name2&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you want to download slack data? Usually select yes. &quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;When you already downloaded data, you can select No.&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;Slackデータのダウンロードを行いますか？通常はYesを選択してください．すでにデータをダウンロード済みの場合はNoを選択しても構いません．&quot;</span><span class="p">,</span>
+                <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
+                <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)],</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">skip_download</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">downloader_token</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span><span class="p">:</span>
+            <span class="n">downloader_token</span> <span class="o">=</span> <span class="n">input_dialog</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Input download token&quot;</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Please inputs download token. How to get is: </span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#downloader-token&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;ダウンロード用のAPI tokenを入力してください．</span><span class="se">\n</span><span class="s2">詳細: &quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#downloader-token-ja&quot;</span><span class="p">,</span>
                 <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
             <span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-            <span class="n">name_mappings</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-                <span class="p">[</span>
-                    <span class="p">(</span><span class="n">dict_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dict_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
-                    <span class="k">for</span> <span class="n">dict_input</span> <span class="ow">in</span> <span class="n">_name_mappings</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
-                <span class="p">]</span>
+            <span class="k">if</span> <span class="n">downloader_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">CommonNoLocalVolumeClient</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">downloader_token</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="n">ssl_context</span><span class="p">)</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">test_connection</span><span class="p">()</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">test_downloader</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span><span class="p">:</span>
+            <span class="n">skip_upload</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Upload Selection&quot;</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you want to upload slack data? When you want to downloaded data only, you can select No.&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;Slackデータのアップロードを行いますか？データをダウンロードしたいだけであれば，Noを選択してください．&quot;</span><span class="p">,</span>
+                <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
+                <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)],</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">skip_upload</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">uploader_token</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_upload</span><span class="p">:</span>
+            <span class="n">uploader_token</span> <span class="o">=</span> <span class="n">input_dialog</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Input upload token&quot;</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Please inputs upload token. How to get is: </span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#uploader-token&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;アップロード用のAPI tokenを入力してください．</span><span class="se">\n</span><span class="s2">詳細: &quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#uploader-token-ja&quot;</span><span class="p">,</span>
+                <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">uploader_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">CommonNoLocalVolumeClient</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">uploader_token</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="n">ssl_context</span><span class="p">)</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">test_connection</span><span class="p">()</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">test_uploader</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span><span class="p">:</span>
+            <span class="n">confirmation</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Bot invitation&quot;</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Please invite bot to private channels if needed. After finishing, please select OK. How to do is: </span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#invite-private&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;必要に応じて，Botをprivate channelに招待してください．完了したら，OKを押してください．</span><span class="se">\n</span><span class="s2">詳細: &quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#invite-private-ja&quot;</span><span class="p">,</span>
+                <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
             <span class="p">)</span>
 
-        <span class="n">override</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Channel override&quot;</span><span class="p">,</span>
+        <span class="n">target_all_channels</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Channel Selection&quot;</span><span class="p">,</span>
             <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you want to override (add more messages) in existing channels on uploading WS?&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;アップロード側のWSに同じ名前のチャンネルが存在する場合に，上書き(メッセージの追加)をしますか？&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you want to process all possible channels?&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;可能な限りすべてのチャンネルを処理の対象にしますか？&quot;</span><span class="p">,</span>
             <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
             <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)],</span>
         <span class="p">)</span>
 
-    <span class="n">skip_bookmarks</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Bookmark skip&quot;</span><span class="p">,</span>
-        <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you want to skip bookmark migration? Usually select No.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;Bookmarkのコピーをスキップしますか？通常はNoを選択してください．&quot;</span><span class="p">,</span>
-        <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
-        <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)],</span>
-    <span class="p">)</span>
+        <span class="n">channel_names</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">target_all_channels</span><span class="p">:</span>
+            <span class="n">channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span><span class="p">:</span>
+                <span class="n">client</span> <span class="o">=</span> <span class="n">CommonNoLocalVolumeClient</span><span class="p">(</span>
+                    <span class="n">token</span><span class="o">=</span><span class="n">downloader_token</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="n">ssl_context</span>
+                <span class="p">)</span>
+                <span class="n">channels</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_channels_list</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">channels</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+                    <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;channels.json&quot;</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="n">channel_names</span> <span class="o">=</span> <span class="n">multiple_selection</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Channel selection&quot;</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Please select targeting channels．(Private channels listed here but bot doesn&#39;t joined will be skiped.)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;処理の対象にするチャンネルを選択してください．&quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;なお，ここに表示されているprivate channelでも，botを招待する作業を完了していないチャンネルはスキップされます．&quot;</span><span class="p">,</span>
+                <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
+                <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[</span>
+                    <span class="p">(</span><span class="n">channel</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">channel</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">channels</span>
+                <span class="p">],</span>
+            <span class="p">)</span>
 
-    <span class="n">print_str</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;All settings:</span><span class="se">\n</span><span class="s2">data directory: </span><span class="si">{</span><span class="n">local_data_dir</span><span class="si">}</span><span class="se">\n</span><span class="s2">Download: </span><span class="si">{</span><span class="ow">not</span> <span class="n">skip_download</span><span class="si">}</span><span class="se">\n</span><span class="s2">Upload: </span><span class="si">{</span><span class="ow">not</span> <span class="n">skip_upload</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Downloader token: </span><span class="si">{</span><span class="n">downloader_token</span><span class="si">}</span><span class="se">\n</span><span class="s2">Uploader token: </span><span class="si">{</span><span class="n">uploader_token</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Channels: </span><span class="si">{</span><span class="n">channel_names</span> <span class="k">if</span> <span class="n">channel_names</span> <span class="k">else</span> <span class="s1">&#39;Not specified&#39;</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Name mappings: </span><span class="si">{</span><span class="n">name_mappings</span><span class="si">}</span><span class="se">\n</span><span class="s2">Override: </span><span class="si">{</span><span class="n">override</span><span class="si">}</span><span class="se">\n</span><span class="s2">Skip bookmark: </span><span class="si">{</span><span class="n">skip_bookmarks</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="p">)</span>
+        <span class="n">name_mappings</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">override</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_upload</span><span class="p">:</span>
+            <span class="n">needs_name_mappings</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Channel name mappings&quot;</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you need to name mappings of channels when uploading data to the destination WS? &quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Details: https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#channel-mappings&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;アップロード時にチャンネル名のマッピングが必要ですか？&quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">詳細: https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#channel-mappings-ja&quot;</span><span class="p">,</span>
+                <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
+                <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)],</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">needs_name_mappings</span><span class="p">:</span>
+                <span class="n">_name_mappings</span> <span class="o">=</span> <span class="n">input_dialog</span><span class="p">(</span>
+                    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Channel name mappings&quot;</span><span class="p">,</span>
+                    <span class="n">text</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Please inputs name mappings. Format is comma-separated colon-concatenate dictionary: &quot;</span>
+                        <span class="o">+</span> <span class="s2">&quot;old_channel_name1:new_channel_name1,old_channel_name2:new_channel_name2&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;チャンネル名のマッピングを入力してください．カンマ区切りで，コロンでマッピング前後のチャンネル名をつないでください．&quot;</span>
+                        <span class="o">+</span> <span class="s2">&quot;例) old_channel_name1:new_channel_name1,old_channel_name2:new_channel_name2&quot;</span><span class="p">,</span>
+                    <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+                <span class="n">name_mappings</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="p">(</span><span class="n">dict_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dict_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">dict_input</span> <span class="ow">in</span> <span class="n">_name_mappings</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
 
-    <span class="n">final_confirmation</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
-        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Bot invitation&quot;</span><span class="p">,</span>
-        <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Please check the setting: </span><span class="se">\n</span><span class="si">{</span><span class="n">print_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;設定を確認してください: </span><span class="se">\n</span><span class="si">{</span><span class="n">print_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
-        <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Continue&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Cancel&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)],</span>
-    <span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">final_confirmation</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span>
+            <span class="n">override</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Channel override&quot;</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you want to override (add more messages) in existing channels on uploading WS?&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;アップロード側のWSに同じ名前のチャンネルが存在する場合に，上書き(メッセージの追加)をしますか？&quot;</span><span class="p">,</span>
+                <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
+                <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)],</span>
+            <span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">skip_upload</span><span class="p">:</span>
-        <span class="n">downloader</span> <span class="o">=</span> <span class="n">DownloaderClient</span><span class="p">(</span>
-            <span class="n">local_data_dir</span><span class="o">=</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">downloader_token</span>
-        <span class="p">)</span>
-        <span class="n">downloader</span><span class="o">.</span><span class="n">download_emoji</span><span class="p">()</span>
-        <span class="n">confirmation</span><span class="p">(</span>
-            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Emoji migration required&quot;</span><span class="p">,</span>
+        <span class="n">skip_bookmarks</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Bookmark skip&quot;</span><span class="p">,</span>
             <span class="n">text</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Emojis are downloaded in </span><span class="si">{</span><span class="n">local_data_dir</span><span class="si">}</span><span class="s2">/emojis/ . </span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;If you need, please add those emojis to the destination WS **NOW**. Then, click OK.&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;必要に応じて，</span><span class="si">{</span><span class="n">local_data_dir</span><span class="si">}</span><span class="s2">/emojis/にダウンロードされた絵文字を移行先WSに登録してください．&quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;完了したら，OKを押してください．&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="s2">&quot;Do you want to skip bookmark migration? Usually select No.&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="s2">&quot;Bookmarkのコピーをスキップしますか？通常はNoを選択してください．&quot;</span><span class="p">,</span>
             <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
+            <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)],</span>
         <span class="p">)</span>
 
-    <span class="n">run</span><span class="p">(</span>
-        <span class="n">local_data_dir</span><span class="o">=</span><span class="n">local_data_dir</span><span class="p">,</span>
-        <span class="n">downloader_token</span><span class="o">=</span><span class="n">downloader_token</span><span class="p">,</span>
-        <span class="n">uploader_token</span><span class="o">=</span><span class="n">uploader_token</span><span class="p">,</span>
-        <span class="n">override</span><span class="o">=</span><span class="n">override</span><span class="p">,</span>
-        <span class="n">skip_download</span><span class="o">=</span><span class="n">skip_download</span><span class="p">,</span>
-        <span class="n">skip_upload</span><span class="o">=</span><span class="n">skip_upload</span><span class="p">,</span>
-        <span class="n">channel_names</span><span class="o">=</span><span class="n">channel_names</span><span class="p">,</span>
-        <span class="n">name_mappings</span><span class="o">=</span><span class="n">name_mappings</span><span class="p">,</span>
-        <span class="n">skip_bookmarks</span><span class="o">=</span><span class="n">skip_bookmarks</span><span class="p">,</span>
-        <span class="n">ssl</span><span class="o">=</span><span class="n">ssl_context</span><span class="p">,</span>
-    <span class="p">)</span></div>
+        <span class="n">print_str</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;All settings:</span><span class="se">\n</span><span class="s2">data directory: </span><span class="si">{</span><span class="n">local_data_dir</span><span class="si">}</span><span class="se">\n</span><span class="s2">Download: </span><span class="si">{</span><span class="ow">not</span> <span class="n">skip_download</span><span class="si">}</span><span class="se">\n</span><span class="s2">Upload: </span><span class="si">{</span><span class="ow">not</span> <span class="n">skip_upload</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Downloader token: </span><span class="si">{</span><span class="n">downloader_token</span><span class="si">}</span><span class="se">\n</span><span class="s2">Uploader token: </span><span class="si">{</span><span class="n">uploader_token</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Channels: </span><span class="si">{</span><span class="n">channel_names</span> <span class="k">if</span> <span class="n">channel_names</span> <span class="k">else</span> <span class="s1">&#39;Not specified&#39;</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Name mappings: </span><span class="si">{</span><span class="n">name_mappings</span><span class="si">}</span><span class="se">\n</span><span class="s2">Override: </span><span class="si">{</span><span class="n">override</span><span class="si">}</span><span class="se">\n</span><span class="s2">Skip bookmark: </span><span class="si">{</span><span class="n">skip_bookmarks</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">final_confirmation</span> <span class="o">=</span> <span class="n">button_selection</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Bot invitation&quot;</span><span class="p">,</span>
+            <span class="n">text</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Please check the setting: </span><span class="se">\n</span><span class="si">{</span><span class="n">print_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;設定を確認してください: </span><span class="se">\n</span><span class="si">{</span><span class="n">print_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
+            <span class="n">choices_and_values</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Continue&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;Cancel&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)],</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">final_confirmation</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">skip_upload</span><span class="p">:</span>
+            <span class="n">downloader</span> <span class="o">=</span> <span class="n">DownloaderClient</span><span class="p">(</span>
+                <span class="n">local_data_dir</span><span class="o">=</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">downloader_token</span>
+            <span class="p">)</span>
+            <span class="n">downloader</span><span class="o">.</span><span class="n">download_emoji</span><span class="p">()</span>
+            <span class="n">confirmation</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Emoji migration required&quot;</span><span class="p">,</span>
+                <span class="n">text</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;en&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Emojis are downloaded in </span><span class="si">{</span><span class="n">local_data_dir</span><span class="si">}</span><span class="s2">/emojis/ . </span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;If you need, please add those emojis to the destination WS **NOW**. Then, click OK.&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ja&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;必要に応じて，</span><span class="si">{</span><span class="n">local_data_dir</span><span class="si">}</span><span class="s2">/emojis/にダウンロードされた絵文字を移行先WSに登録してください．&quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;完了したら，OKを押してください．&quot;</span><span class="p">,</span>
+                <span class="p">}[</span><span class="n">language</span><span class="p">],</span>
+            <span class="p">)</span>
+
+        <span class="n">run</span><span class="p">(</span>
+            <span class="n">local_data_dir</span><span class="o">=</span><span class="n">local_data_dir</span><span class="p">,</span>
+            <span class="n">downloader_token</span><span class="o">=</span><span class="n">downloader_token</span><span class="p">,</span>
+            <span class="n">uploader_token</span><span class="o">=</span><span class="n">uploader_token</span><span class="p">,</span>
+            <span class="n">override</span><span class="o">=</span><span class="n">override</span><span class="p">,</span>
+            <span class="n">skip_download</span><span class="o">=</span><span class="n">skip_download</span><span class="p">,</span>
+            <span class="n">skip_upload</span><span class="o">=</span><span class="n">skip_upload</span><span class="p">,</span>
+            <span class="n">channel_names</span><span class="o">=</span><span class="n">channel_names</span><span class="p">,</span>
+            <span class="n">name_mappings</span><span class="o">=</span><span class="n">name_mappings</span><span class="p">,</span>
+            <span class="n">skip_bookmarks</span><span class="o">=</span><span class="n">skip_bookmarks</span><span class="p">,</span>
+            <span class="n">ssl</span><span class="o">=</span><span class="n">ssl_context</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">traceback</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;This is the end of this program. Type Enter to exit. プログラムはこれで終了です．エンターキーを押すと終了します．&quot;</span>
+    <span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="p">:</span>
+            <span class="k">break</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>

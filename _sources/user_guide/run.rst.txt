@@ -2,6 +2,14 @@ How to use slack_transfer
 ============================
 This explanation assumes that the :doc:`environment` step has been completed.
 
+.. seealso::
+    A notebook that can run on Google Colab is also provided:
+
+    .. image:: https://colab.research.google.com/assets/colab-badge.svg
+        :alt: Open In Colab
+        :target: http://colab.research.google.com/github/masanorihirano/blob/main/examples/slack_transfer.ipynb
+
+
 0. Overview and definition of terms
 ---------------------
 Using :code:`slack_transfer.run`, you can transfer data from the original Slack workspace to the destination Slack workspace.
@@ -45,6 +53,7 @@ This user guide assumes that you have administrative privileges on both the down
     - Possible formatting errors of massages having more than 3000 characters (Due to API restrictions, the message will be split into separate submissions.)
     - Uploading emoji (due to API limitations, downloading is possible, but uploading is not.)
     - Width is limited to 50% when multiple media, such as markdown and non-text items (panels), are included (due to API limitation)
+ - Usernames in "mention" are not converted. This is not only because it is complicated to specify user correspondence, but also because user information is automatically imported and reflected once connecting between the original and destination WS via Slack connect.
  - Since migrated messages are posted by the API, the timestamp is changed. Instead, the original timestamp is added at the end of the users' name.
  - It is provided under the MIT license, and there is no warranty. (Only the built binary version is under the GPL3.0 license.)
  - Only Channel can be migrated; DM cannot.
@@ -271,6 +280,8 @@ Otherwise, if a duplicate channel name already exists in the uploading WS, there
  - Create a new channel as a separate channel → Set the channel mapping. The channel mapping is set by the optional argument described below.
 
 Based on these criteria, determine the mapping between the original channel and the new channel.
+
+.. _migrate_emojis:
 
 6. Migrate emojis
 ---------------------

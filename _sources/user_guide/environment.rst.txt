@@ -1,6 +1,13 @@
 Environmental Settings
 ==========
-* A python environment such as jupyter notebook is sufficient. For jupyter notebook, start with 2, "Installing directly into the machine's environment". :code:`!` can be used to execute the command. However, interactive mode is not available for jupyter notebook.
+\* A python environment such as jupyter notebook is sufficient. For jupyter notebook, start with 2, "Installing directly into the machine's environment". :code:`!` can be used to execute the command. However, interactive mode is not available for jupyter notebook.
+
+A notebook that can run on Google Colab is also provided:
+
+.. image:: https://colab.research.google.com/assets/colab-badge.svg
+    :alt: Open In Colab
+    :target: http://colab.research.google.com/github/masanorihirano/blob/main/examples/slack_transfer.ipynb
+
 
 1. Building a Python Environment
 -------------------
@@ -66,4 +73,4 @@ Then, run the program in interactive mode.
 If you are using Mac OS, you will need to set the execute permission in the "Security & Privacy" tab of the "Configuration" menu.
 For Linux, the Ubuntu version should work. However, please note that this version does not support all environments, so it may not work in all cases.
 
-*The CLI cannot be used.
+\*The CLI cannot be used.

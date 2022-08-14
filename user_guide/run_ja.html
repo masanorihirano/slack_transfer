@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>slack_transfer の使い方 &#8212; slack_transfer 0.2.1 documentation</title>
+    <title>slack_transfer の使い方 &#8212; slack_transfer 0.2.2 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.1 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.2 documentation</p>
   
 </a>
     
@@ -269,6 +269,11 @@
   <section id="slack-transfer">
 <h1>slack_transfer の使い方<a class="headerlink" href="#slack-transfer" title="Permalink to this heading">#</a></h1>
 <p><a class="reference internal" href="environment_ja.html"><span class="doc">環境構築</span></a> のステップが完了している前提で説明します．</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Google Colabで稼働可能なnotebookも例示しています:</p>
+<a class="reference external image-reference" href="http://colab.research.google.com/github/masanorihirano/blob/main/examples/slack_transfer.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>
+</div>
 <section id="id1">
 <h2>0. 全体像と用語定義<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
 <p><code class="code docutils literal notranslate"><span class="pre">slack_transfer</span></code> を用いることで，移行元のSlack workspaceから移行先のSlack workspaceにデータを移行することができます．</p>
@@ -296,7 +301,7 @@
 一般的に，大きい容量を必要とするものではありませんが，download側WSの添付ファイルなども端末にダウンロードするため，添付ファイルのサイズと量次第では，大きな容量を必要とする場合があります．
 フリープランを使用していれば，5GBを超える場合にアップロード時に警告が出ていると思われます．
 どうしても必要な容量を確認したい場合は，<a class="reference internal" href="cli.html"><span class="doc">CLI</span></a> のfile_volumeのCLIを使用して，概算してください．</p>
-<p>なお，このユーザーガイドでは，download側WSとUploadがわWSの双方で管理者に相当する権限があるという前提を想定していますが，そうでない場合でも使用できる場合はあると思われます．</p>
+<p>なお，このユーザーガイドでは，download側WSとUpload側WSの双方で管理者に相当する権限があるという前提を想定していますが，そうでない場合でも使用できる場合はあると思われます．</p>
 </section>
 <section id="id2">
 <h2>1. 注意事項<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
@@ -315,6 +320,7 @@
 </dd>
 </dl>
 </li>
+<li><p>mentionなどのユーザーネームは移植しません．これは，ユーザーの対応を指定する作業が煩雑であるだけではなく，Slack connectで一度Download側とUploader側WS間をconnectすると，ユーザー情報が自動的に取り込まれ，反映されるためです．</p></li>
 <li><p>メッセージの移植はAPIによる代理投稿として行われるので，タイムスタンプは移植時の物に変わります．代わりに，投稿者名の末尾にオリジナルのタイムスタンプを付与しています．</p></li>
 <li><p>MITライセンスで提供されており，なんら保証はありません． (ビルドされたバイナリ版だけはGPL3.0ライセンスです．)</p></li>
 <li><p>Channelしか移植できません．DMは移植できません．</p></li>
@@ -484,7 +490,7 @@ Public channelは特に作業せずとも，APIが自動的にjoinして作業�
 <p>これらの基準に基づき，マッピングを行うチャンネルを選定して，旧チャンネルに対応する新チャンネルのマッピングを決めてください．</p>
 </section>
 <section id="emoji">
-<h2>6. emojiの移行<a class="headerlink" href="#emoji" title="Permalink to this heading">#</a></h2>
+<span id="migrate-emojis-ja"></span><h2>6. emojiの移行<a class="headerlink" href="#emoji" title="Permalink to this heading">#</a></h2>
 <p>emojiの移行を実施します．
 emojiを先に移行しないと，後述の手順で，reactionの一部移設ができません．</p>
 <p>管理者画面またはスタンプを押す場所でadd emojiから手動で登録することになりますが，画像の元データがない場合は，先にツールを使ってダウンロードできます．</p>
