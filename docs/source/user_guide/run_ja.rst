@@ -71,6 +71,8 @@ Upload側でユーザーが行わなければいけない作業(=このツール
 不具合等があれば，githubのissue ( https://github.com/masanorihirano/slack_transfer/issues )を立てることもできますが，サポートやbug fixは保証していません．
 なお，記入の際にはトークン情報など，confidentialな情報を書き込まないように注意してください．
 
+.. _downloader_token_ja:
+
 2. slackトークンの取得(download側)
 ---------------------
 まず， https://api.slack.com/apps/ に進みます．
@@ -111,7 +113,7 @@ Select a workspaceからDownload側のワークスペースを選択します．
 .. image:: assets/create-app-dl-a-07.png
     :scale: 70%
 
-レビューを要求されるので， :ref:`scope_dl` も参考にしながら確認をします．
+レビューを要求されるので， :ref:`scope_dl_ja` も参考にしながら確認をします．
 
 .. image:: assets/create-app-dl-a-08.png
 
@@ -149,7 +151,7 @@ APIの名前と，ワークスペースの選択を求められますので，�
 
 .. image:: assets/create-app-dl-b-06.png
 
-「Bot Token Scopes」まで下に進み，:ref:`scope_dl` のリストにあるスコープを「Add permission by Scope or API method...」のところで選択し，「Add an OAuth Scope」を押して，追加していきます．
+「Bot Token Scopes」まで下に進み，:ref:`scope_dl_ja` のリストにあるスコープを「Add permission by Scope or API method...」のところで選択し，「Add an OAuth Scope」を押して，追加していきます．
 全部完了したら，上の方にある，「Install to Workspace」のボタンが押せるようになるので，クリックします．
 
 .. image:: assets/create-app-dl-a-08.png
@@ -170,7 +172,7 @@ APIの名前と，ワークスペースの選択を求められますので，�
 「Bot User OAuth Token」が今回欲しいTokenです．「xoxb-」からはじまることを確認してください．
 
 
-.. _scope_dl:
+.. _scope_dl_ja:
 
 Download側に必要なScope
 ~~~~~~~~~~~~~~~~~~~~~
@@ -188,6 +190,8 @@ Download側に必要になるScopeは以下です．
  - bookmarks:read
  - emoji:read
  - users:read
+
+.. _uploader_token_ja:
 
 3. slackトークンの取得(upload側)
 ---------------------
@@ -215,6 +219,7 @@ manifestファイルを用いて作成する場合は `uploader用のyml <../_st
  - bookmarks:write
  - reaction:write
 
+.. _invite_private_ja:
 
 4. Download側WSのPrivateチャンネルにAPI botの追加
 ---------------------
@@ -247,6 +252,8 @@ Slackの左側のパネルから，Add Appsを選択します．(出てこない
 すると，チャンネルリストを選べる画面が出てくるので，目的のチャンネルを選択します．
 ここでは，Public channelしか出ていませんが，自分が参加しているprivate channelであれば，選択することができます．
 Public channelは特に作業せずとも，APIが自動的にjoinして作業を行うことはできるので，わざわざ追加する必要はありません．
+
+.. _channel_mappings_ja:
 
 5. チャンネル名のマッピングの検討
 ---------------------

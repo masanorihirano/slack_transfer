@@ -125,9 +125,9 @@ def interactive() -> None:
             title="Input download token",
             text={
                 "en": "Please inputs download token. How to get is: \n"
-                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#slack-download",
+                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#downloader-token",
                 "ja": "ダウンロード用のAPI tokenを入力してください．\n詳細: "
-                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#slack-download",
+                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#downloader-token-ja",
             }[language],
         ).run()
         if downloader_token is None:
@@ -154,9 +154,9 @@ def interactive() -> None:
             title="Input upload token",
             text={
                 "en": "Please inputs upload token. How to get is: \n"
-                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#slack-upload",
+                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#uploader-token",
                 "ja": "アップロード用のAPI tokenを入力してください．\n詳細: "
-                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#slack-upload",
+                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#uploader-token-ja",
             }[language],
         ).run()
         if uploader_token is None:
@@ -170,9 +170,9 @@ def interactive() -> None:
             title="Bot invitation",
             text={
                 "en": "Please invite bot to private channels if needed. After finishing, please select OK. How to do is: \n"
-                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#uploadwsprivateapi-bot",
+                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#invite-private",
                 "ja": "必要に応じて，Botをprivate channelに招待してください．完了したら，OKを押してください．\n詳細: "
-                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#uploadwsprivateapi-bot",
+                + "https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#invite-private-ja",
             }[language],
         )
 
@@ -214,9 +214,9 @@ def interactive() -> None:
             title="Channel name mappings",
             text={
                 "en": "Do you need to name mappings of channels when uploading data to the destination WS? "
-                + "\nDetails: https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#id4",
+                + "\nDetails: https://slack-transfer.readthedocs.io/en/stable/user_guide/run.html#channel-mappings",
                 "ja": "アップロード時にチャンネル名のマッピングが必要ですか？"
-                + "\n詳細: https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#id4",
+                + "\n詳細: https://slack-transfer.readthedocs.io/en/stable/user_guide/run_ja.html#channel-mappings-ja",
             }[language],
             choices_and_values=[("Yes", True), ("No", False)],
         )

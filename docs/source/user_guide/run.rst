@@ -73,6 +73,8 @@ Before migrating to the production environment, it is recommended to create a te
 If you have any problems, you can submit an issue on github ( https://github.com/masanorihirano/slack_transfer/issues ), but we do not guarantee support or bug fixes.
 Please be careful not to include any confidential information such as token information when submitting an issue.
 
+.. _downloader_token:
+
 2. Obtaining Slack token (the original WS)
 ---------------------
 First, go to https://api.slack.com/apps/
@@ -191,6 +193,8 @@ Scopes required on the original WS side
  - emoji:read
  - users:read
 
+.. _uploader_token:
+
 3. Obtaining Slack token (the destination WS)
 ---------------------
 Basically, the same operations as in the previous section are performed on the destination WS.
@@ -218,6 +222,7 @@ Scopes required on the destination WS side is:
  - bookmarks:write
  - reaction:write
 
+.. _invite_private:
 
 4. Add API bot to Private channel on the original WS
 ---------------------
@@ -250,6 +255,8 @@ In the menu, select "Add this app to a channel".
 Then, a screen for selecting a channel list will appear, and select the desired private channel.
 In this example, only Public channel is shown, but you can select any private channel that you are a member of.
 Public channels can be automatically joined by the API without any special work, so there is no need to add it to them.
+
+.. _channel_mappings:
 
 5. Considering channel name mappings
 ---------------------
