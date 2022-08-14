@@ -7,7 +7,7 @@ This explanation assumes that the :doc:`environment` step has been completed.
 
     .. image:: https://colab.research.google.com/assets/colab-badge.svg
         :alt: Open In Colab
-        :target: http://colab.research.google.com/github/masanorihirano/blob/main/examples/slack_transfer.ipynb
+        :target: https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb
 
 
 0. Overview and definition of terms

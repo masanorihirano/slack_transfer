@@ -6,7 +6,7 @@ A notebook that can run on Google Colab is also provided:
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open In Colab
-    :target: http://colab.research.google.com/github/masanorihirano/blob/main/examples/slack_transfer.ipynb
+    :target: https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb
 
 
 1. Building a Python Environment
