@@ -1,6 +1,6 @@
 import argparse
 
-from ..run import run
+from slack_transfer.run import run
 
 
 def set_parser_download(parser: argparse.ArgumentParser) -> None:

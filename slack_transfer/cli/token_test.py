@@ -12,13 +12,6 @@ def set_parser_token_test(parser: argparse.ArgumentParser) -> None:
         help="Token obtained from slack. Starts with `xoxb-`",
     )
     parser.add_argument(
-        "--test_channels",
-        type=str,
-        required=True,
-        help="Test channel names. "
-        + "Multiple channels can be set by comma-separation like `general,private`",
-    )
-    parser.add_argument(
         "--as_downloader", action="store_true", help="for checking as downloader"
     )
     parser.add_argument(

@@ -1,7 +1,7 @@
 import argparse
 import math
 
-from .._base import CommonNoLocalVolumeClient
+from slack_transfer._base import CommonNoLocalVolumeClient
 
 
 def set_parser_file_volume(parser: argparse.ArgumentParser) -> None:
