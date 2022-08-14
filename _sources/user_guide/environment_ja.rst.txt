@@ -6,7 +6,7 @@ Google Colabで稼働可能なnotebookも例示しています:
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open In Colab
-    :target: http://colab.research.google.com/github/masanorihirano/blob/main/examples/slack_transfer.ipynb
+    :target: https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb
 
 
 1. Python環境の構築
