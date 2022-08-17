@@ -44,6 +44,15 @@ def create_all_channels(
         downloaded_channels = list(
             filter(lambda x: (x["name"] in channel_names), downloaded_channels)  # type: ignore
         )
+    else:
+        downloaded_channels = list(
+            filter(
+                lambda x: os.path.exists(
+                    os.path.join(client.local_data_dir, "channels", f"{x['name']}.json")
+                ),
+                downloaded_channels,
+            )
+        )
     channels_list: List[Dict] = get_channels_list(client=client)
     for old_channel_info in downloaded_channels:
         new_channel_name = (
