@@ -224,6 +224,7 @@ manifestファイルを用いて作成する場合は `uploader用のyml <../_st
  - channels:manage
  - files:write
  - chat:write
+ - chat:write.customize
  - pins:write
  - bookmarks:write
  - reaction:write
