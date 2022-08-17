@@ -58,7 +58,7 @@ def run(
         if uploader_token is None:
             raise ValueError("uploader_token is required")
         uploader = UploaderClient(
-            local_data_dir=local_data_dir, token=uploader_token, timeout=300, ssl=ssl
+            local_data_dir=local_data_dir, token=uploader_token, ssl=ssl
         )
         uploader.test_uploader()
     if not skip_download:

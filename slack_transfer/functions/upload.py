@@ -126,6 +126,9 @@ def upload_file(
             .replace("\n\n", "\n")
         )
         file_path = None
+    upload_start_st = int(time.time())
+    upload_results: Tuple[str, str]
+    delete_targets: List[str]
     try:
         response: SlackResponse = client.files_upload(
             file=file_path,
@@ -135,19 +138,42 @@ def upload_file(
             title=title,
             channels=channel_id,
         )
+        if not response["ok"]:
+            raise IOError(f"Error in uploading file {file_path}")
+        upload_results = response["file"]["id"], response["file"]["permalink_public"]
     except FileNotFoundError as e:
         warnings.warn(
             f"file is missing (possibly duu to original slack limitations): {file_path}"
         )
         return None
-    if not response["ok"]:
-        raise IOError(f"Error in uploading file {file_path}")
-    if channel_id:
-        for ts in list(
-            map(lambda x: x[0]["ts"], response["file"]["shares"]["public"].values())
-        ):
-            client.chat_delete(channel=channel_id, ts=ts)
-    return response["file"]["id"], response["file"]["permalink"]
+    except SlackApiError as e:
+        # ToDo: workaround for #11
+        for i_try in range(5):
+            try:
+                time.sleep(30 * i_try)
+                _response = client.files_list(
+                    channel=None, ts_from=str(upload_start_st)
+                )
+                # ToDo: paging: たぶんほとんどの場合不要
+                if not _response["ok"] or len(_response["files"]) == 0:
+                    raise IOError(f"Error in uploading file {file_name}")
+                file_candidates = list(
+                    filter(
+                        lambda x: x["name"] == file_name and x["title"] == title,
+                        _response["files"],
+                    )
+                )
+                if len(file_candidates) == 0:
+                    raise IOError(f"Error in uploading file {file_name}")
+                upload_results = (
+                    file_candidates[0]["id"],
+                    file_candidates[0]["permalink_public"],
+                )
+                break
+            except Exception as e2:
+                if i_try == 4:
+                    raise e2
+    return upload_results
 
 
 def check_channel_exists(client: UploaderClientABC, channel_name: str) -> bool:
@@ -318,47 +344,15 @@ def data_insert(
                 file_name = file["name"]
                 title = file["title"]
                 file_type = file["filetype"]
-                upload_start_st = int(time.time())
-                try:
-                    upload_results = upload_file(
-                        client=client,
-                        old_file_id=old_file_id,
-                        file_name=file_name,
-                        channel_id=new_channel_id,
-                        title=title,
-                        filetype=file_type,
-                        is_slack_post=(
-                            file["mimetype"] == "application/vnd.slack-docs"
-                        ),
-                    )
-                except SlackApiError as e:
-                    # ToDo: workaround for #11
-                    for i_try in range(5):
-                        try:
-                            time.sleep(30 * i_try)
-                            _response = client.files_list(
-                                channel=None, ts_from=str(upload_start_st)
-                            )
-                            # ToDo: paging: たぶんほとんどの場合不要
-                            if not _response["ok"] or len(_response["files"]) == 0:
-                                raise IOError(f"Error in uploading file {file_name}")
-                            file_candidates = list(
-                                filter(
-                                    lambda x: x["name"] == file_name
-                                    and x["title"] == title,
-                                    _response["files"],
-                                )
-                            )
-                            if len(file_candidates) == 0:
-                                raise IOError(f"Error in uploading file {file_name}")
-                            upload_results = (
-                                file_candidates[-1]["id"],
-                                file_candidates[-1]["permalink"],
-                            )
-                            break
-                        except Exception as e2:
-                            if i_try == 4:
-                                raise e2
+                upload_results = upload_file(
+                    client=client,
+                    old_file_id=old_file_id,
+                    file_name=file_name,
+                    channel_id=new_channel_id,
+                    title=title,
+                    filetype=file_type,
+                    is_slack_post=(file["mimetype"] == "application/vnd.slack-docs"),
+                )
 
                 if upload_results:
                     new_file_id, new_file_permalink = upload_results
