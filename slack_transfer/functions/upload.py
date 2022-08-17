@@ -142,6 +142,11 @@ def upload_file(
         return None
     if not response["ok"]:
         raise IOError(f"Error in uploading file {file_path}")
+    if channel_id:
+        for ts in list(
+            map(lambda x: x[0]["ts"], response["file"]["shares"]["public"].values())
+        ):
+            client.chat_delete(channel=channel_id, ts=ts)
     return response["file"]["id"], response["file"]["permalink"]
 
 
@@ -283,6 +288,8 @@ def data_insert(
     if old_members_icon_url_dict is None:
         old_members_icon_url_dict = {}
     tz_delta = tz.gettz(time_zone)
+    if tz_delta is None:
+        tz_delta = datetime.timezone(datetime.timedelta(hours=9), name="JST")
     channels_list: List[Dict] = get_channels_list(client=client)
     new_channel_info = list(filter(lambda x: x["name"] == channel_name, channels_list))[
         0
@@ -317,7 +324,7 @@ def data_insert(
                         client=client,
                         old_file_id=old_file_id,
                         file_name=file_name,
-                        channel_id=None,
+                        channel_id=new_channel_id,
                         title=title,
                         filetype=file_type,
                         is_slack_post=(

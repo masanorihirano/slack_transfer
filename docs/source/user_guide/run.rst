@@ -227,6 +227,7 @@ Scopes required on the destination WS side is:
  - channels:manage
  - files:write
  - chat:write
+ - chat:write.customize
  - pins:write
  - bookmarks:write
  - reaction:write
