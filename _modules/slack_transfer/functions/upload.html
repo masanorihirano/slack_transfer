@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slack_transfer.functions.upload &#8212; slack_transfer 0.2.3 documentation</title>
+    <title>slack_transfer.functions.upload &#8212; slack_transfer 0.2.4 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.3 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.4 documentation</p>
   
 </a>
     
@@ -202,6 +202,15 @@
     <span class="k">if</span> <span class="n">channel_names</span><span class="p">:</span>
         <span class="n">downloaded_channels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
             <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">channel_names</span><span class="p">),</span> <span class="n">downloaded_channels</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">downloaded_channels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">filter</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;channels&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span>
+                <span class="p">),</span>
+                <span class="n">downloaded_channels</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="p">)</span>
     <span class="n">channels_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_channels_list</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">old_channel_info</span> <span class="ow">in</span> <span class="n">downloaded_channels</span><span class="p">:</span>
