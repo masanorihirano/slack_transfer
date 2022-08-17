@@ -135,6 +135,11 @@ def upload_file(
             title=title,
             channels=channel_id,
         )
+        if channel_id:
+            for ts in list(
+                map(lambda x: x[0]["ts"], response["file"]["shares"]["public"].values())
+            ):
+                client.chat_delete(channel=channel_id, ts=ts)
     except FileNotFoundError as e:
         warnings.warn(
             f"file is missing (possibly duu to original slack limitations): {file_path}"
@@ -317,7 +322,7 @@ def data_insert(
                         client=client,
                         old_file_id=old_file_id,
                         file_name=file_name,
-                        channel_id=None,
+                        channel_id=new_channel_id,
                         title=title,
                         filetype=file_type,
                         is_slack_post=(
