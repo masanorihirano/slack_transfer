@@ -135,11 +135,6 @@ def upload_file(
             title=title,
             channels=channel_id,
         )
-        if channel_id:
-            for ts in list(
-                map(lambda x: x[0]["ts"], response["file"]["shares"]["public"].values())
-            ):
-                client.chat_delete(channel=channel_id, ts=ts)
     except FileNotFoundError as e:
         warnings.warn(
             f"file is missing (possibly duu to original slack limitations): {file_path}"
@@ -147,6 +142,11 @@ def upload_file(
         return None
     if not response["ok"]:
         raise IOError(f"Error in uploading file {file_path}")
+    if channel_id:
+        for ts in list(
+            map(lambda x: x[0]["ts"], response["file"]["shares"]["public"].values())
+        ):
+            client.chat_delete(channel=channel_id, ts=ts)
     return response["file"]["id"], response["file"]["permalink"]
 
 
