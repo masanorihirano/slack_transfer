@@ -288,6 +288,8 @@ def data_insert(
     if old_members_icon_url_dict is None:
         old_members_icon_url_dict = {}
     tz_delta = tz.gettz(time_zone)
+    if tz_delta is None:
+        tz_delta = datetime.timezone(datetime.timedelta(hours=9), name="JST")
     channels_list: List[Dict] = get_channels_list(client=client)
     new_channel_info = list(filter(lambda x: x["name"] == channel_name, channels_list))[
         0
