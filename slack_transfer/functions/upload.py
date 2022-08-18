@@ -279,7 +279,7 @@ def upload_file(
             HTTP_BACKEND.allow_slower = True
         else:
             if HTTP_BACKEND.chunk_size > 50 * 1024:
-                HTTP_BACKEND.chunk_size = HTTP_BACKEND.chunk_size // 2.0
+                HTTP_BACKEND.chunk_size = int(HTTP_BACKEND.chunk_size // 2.0)
             else:
                 break
 
