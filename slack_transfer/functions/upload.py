@@ -83,79 +83,99 @@ def create_all_channels(
         )
 
 
-def _send_output(self, message_body=None, encode_chunked=False):
-    """Send the currently buffered request and clear the buffer.
+class HTTP_send_output:
+    def __init__(
+        self, allow_slower: bool = True, progress: bool = False, chunk_size=200 * 1024
+    ):
+        self.allow_slower = allow_slower
+        self.progress = progress
+        self.chunk_size = chunk_size
 
-    Appends an extra \\r\\n to the buffer.
-    A message_body may be specified, to be appended to the request.
-    """
-    self._buffer.extend((b"", b""))
-    msg = b"\r\n".join(self._buffer)
-    del self._buffer[:]
-    self.send(msg)
+    def _send_output(self, cls, message_body=None, encode_chunked=False):  # type: ignore
+        """Send the currently buffered request and clear the buffer.
 
-    if message_body is not None:
+        Appends an extra \\r\\n to the buffer.
+        A message_body may be specified, to be appended to the request.
+        """
+        cls._buffer.extend((b"", b""))
+        msg = b"\r\n".join(cls._buffer)
+        del cls._buffer[:]
+        cls.send(msg)
 
-        # create a consistent interface to message_body
-        if hasattr(message_body, "read"):
-            # Let file-like take precedence over byte-like.  This
-            # is needed to allow the current position of mmap'ed
-            # files to be taken into account.
-            chunks = self._read_readable(message_body)
-        else:
-            try:
-                # this is solely to check to see if message_body
-                # implements the buffer API.  it /would/ be easier
-                # to capture if PyObject_CheckBuffer was exposed
-                # to Python.
-                memoryview(message_body)
-            except TypeError:
+        if message_body is not None:
+
+            # create a consistent interface to message_body
+            if hasattr(message_body, "read"):
+                # Let file-like take precedence over byte-like.  This
+                # is needed to allow the current position of mmap'ed
+                # files to be taken into account.
+                chunks = cls._read_readable(message_body)
+            else:
                 try:
-                    chunks = iter(message_body)
+                    # this is solely to check to see if message_body
+                    # implements the buffer API.  it /would/ be easier
+                    # to capture if PyObject_CheckBuffer was exposed
+                    # to Python.
+                    memoryview(message_body)
                 except TypeError:
-                    raise TypeError(
-                        "message_body should be a bytes-like "
-                        "object or an iterable, got %r" % type(message_body)
-                    )
-            else:
-                # the object implements the buffer interface and
-                # can be passed directly into socket methods
-                chunks = (message_body,)
-
-        for chunk in chunks:
-            if not chunk:
-                if self.debuglevel > 0:
-                    print("Zero length chunk ignored")
-                continue
-
-            if len(chunk) < 500 * 1024:
-                if encode_chunked and self._http_vsn == 11:
-                    # chunked encoding
-                    chunk = f"{len(chunk):X}\r\n".encode("ascii") + chunk + b"\r\n"
-                self.send(chunk)
-            else:
-                chunk_size = 1024
-                n_chunks = (len(chunk) - 1) // chunk_size + 1
-                last_time = time.time()
-                for i in tqdm.tqdm(range(n_chunks)):
-                    sub_chunk = chunk[
-                        (i * chunk_size) : min(len(chunk), (i + 1) * chunk_size)
-                    ]
-                    if encode_chunked and self._http_vsn == 11:
-                        # chunked encoding
-                        sub_chunk = (
-                            f"{len(sub_chunk):X}\r\n".encode("ascii")
-                            + sub_chunk
-                            + b"\r\n"
+                    try:
+                        chunks = iter(message_body)
+                    except TypeError:
+                        raise TypeError(
+                            "message_body should be a bytes-like "
+                            "object or an iterable, got %r" % type(message_body)
                         )
-                    self.send(sub_chunk)
-                    sec_from_last = time.time() - last_time
-                    time.sleep(max(0.0, 1.0 / 500 - sec_from_last))
-                    last_time = time.time()
+                else:
+                    # the object implements the buffer interface and
+                    # can be passed directly into socket methods
+                    chunks = (message_body,)
 
-        if encode_chunked and self._http_vsn == 11:
-            # end chunked transfer
-            self.send(b"0\r\n\r\n")
+            for chunk in chunks:
+                if not chunk:
+                    if cls.debuglevel > 0:
+                        print("Zero length chunk ignored")
+                    continue
+
+                if len(chunk) < 8 * 1024 * 1024 or not self.allow_slower:
+                    if encode_chunked and cls._http_vsn == 11:
+                        # chunked encoding
+                        chunk = f"{len(chunk):X}\r\n".encode("ascii") + chunk + b"\r\n"
+                    cls.send(chunk)
+                else:
+                    print("Now using slower uploader backend")
+                    chunk_size = self.chunk_size
+                    n_chunks = int((len(chunk) - 1) // chunk_size) + 1
+                    last_time = time.time()
+                    for i in tqdm.tqdm(range(n_chunks), disable=not self.progress):
+                        sub_chunk = chunk[
+                            (i * chunk_size) : min(len(chunk), (i + 1) * chunk_size)
+                        ]
+                        if encode_chunked and cls._http_vsn == 11:
+                            # chunked encoding
+                            sub_chunk = (
+                                f"{len(sub_chunk):X}\r\n".encode("ascii")
+                                + sub_chunk
+                                + b"\r\n"
+                            )
+                        cls.send(sub_chunk)
+                        sec_from_last = time.time() - last_time
+                        time.sleep(max(0.0, 1.0 / 5 - sec_from_last))
+                        last_time = time.time()
+
+            if encode_chunked and cls._http_vsn == 11:
+                # end chunked transfer
+                cls.send(b"0\r\n\r\n")
+
+    def return_function(self):
+        def fn_send_output(cls, message_body=None, encode_chunked=False):
+            self._send_output(
+                cls=cls, message_body=message_body, encode_chunked=encode_chunked
+            )
+
+        return fn_send_output
+
+
+HTTP_BACKEND = HTTP_send_output(allow_slower=False, progress=False)
 
 
 def upload_file(
@@ -205,55 +225,65 @@ def upload_file(
     upload_start_st = int(time.time())
     upload_results: Tuple[str, str]
     delete_targets: List[str]
-    try:
-        with patch("http.client.HTTPConnection._send_output", _send_output):
-            response: SlackResponse = client.files_upload(
-                file=file_path,
-                content=content,
-                filename=file_name,
-                filetype=filetype,
-                title=title,
-                channels=channel_id,
+
+    for i in range(3):
+        try:
+            with patch(
+                "http.client.HTTPConnection._send_output",
+                HTTP_BACKEND.return_function(),
+            ):
+                response: SlackResponse = client.files_upload(
+                    file=file_path,
+                    content=content,
+                    filename=file_name,
+                    filetype=filetype,
+                    title=title,
+                    channels=channel_id,
+                )
+            if not response["ok"]:
+                raise IOError(f"Error in uploading file {file_path}")
+            return response["file"]["id"], response["file"]["permalink"]
+        except FileNotFoundError as e:
+            print(
+                f"file is missing (possibly duu to original slack limitations): {file_path}"
             )
-        if not response["ok"]:
-            raise IOError(f"Error in uploading file {file_path}")
-        upload_results = response["file"]["id"], response["file"]["permalink_public"]
-    except FileNotFoundError as e:
-        warnings.warn(
-            f"file is missing (possibly duu to original slack limitations): {file_path}"
-        )
-        return None
-    except SlackApiError as e:
-        # ToDo: workaround for #11
-        for i_try in range(20):
-            try:
-                warnings.warn(
-                    f"uploaded file is waiting to be processed. Wait {30*i_try} sec."
-                )
-                time.sleep(30 * i_try)
-                _response = client.files_list(
-                    channel=None, ts_from=str(upload_start_st)
-                )
-                # ToDo: paging: たぶんほとんどの場合不要
-                if not _response["ok"] or len(_response["files"]) == 0:
-                    raise IOError(f"Error in uploading file {file_name}")
-                file_candidates = list(
-                    filter(
-                        lambda x: x["name"] == file_name and x["title"] == title,
-                        _response["files"],
+            return None
+        except Exception as e:
+            # ToDo: workaround for #11
+            n_try = 5
+            for i_try in range(n_try):
+                try:
+                    print(
+                        f"uploaded file is waiting to be processed. Wait {30*i_try} sec."
                     )
-                )
-                if len(file_candidates) == 0:
-                    raise IOError(f"Error in uploading file {file_name}")
-                upload_results = (
-                    file_candidates[0]["id"],
-                    file_candidates[0]["permalink_public"],
-                )
+                    time.sleep(30 * i_try)
+                    _response = client.files_list(
+                        channel=channel_id, ts_from=str(upload_start_st)
+                    )
+                    # ToDo: paging: たぶんほとんどの場合不要
+                    if not _response["ok"] or len(_response["files"]) == 0:
+                        raise IOError(f"Error in uploading file {file_name}")
+                    file_candidates = list(
+                        filter(
+                            lambda x: x["name"] == file_name and x["title"] == title,
+                            _response["files"],
+                        )
+                    )
+                    if len(file_candidates) == 0:
+                        raise IOError(f"Error in uploading file {file_name}")
+                    return (file_candidates[0]["id"], file_candidates[0]["permalink"])
+                except Exception as e:
+                    e
+                    pass
+        if HTTP_BACKEND.allow_slower is False:
+            HTTP_BACKEND.allow_slower = True
+        else:
+            if HTTP_BACKEND.chunk_size > 50 * 1024:
+                HTTP_BACKEND.chunk_size = HTTP_BACKEND.chunk_size // 2.0
+            else:
                 break
-            except Exception as e2:
-                if i_try == 4:
-                    raise e2
-    return upload_results
+
+    raise IOError(f"Error in uploading file {file_name}")
 
 
 def check_channel_exists(client: UploaderClientABC, channel_name: str) -> bool:
