@@ -146,7 +146,7 @@ def upload_file(
             f"file is missing (possibly duu to original slack limitations): {file_path}"
         )
         return None
-    except SlackApiError as e:
+    except Exception as e:
         # ToDo: workaround for #11
         for i_try in range(5):
             try:
