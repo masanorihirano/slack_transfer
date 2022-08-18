@@ -273,7 +273,6 @@ def upload_file(
                         raise IOError(f"Error in uploading file {file_name}")
                     return (file_candidates[0]["id"], file_candidates[0]["permalink"])
                 except Exception as e:
-                    e
                     pass
         if HTTP_BACKEND.allow_slower is False:
             HTTP_BACKEND.allow_slower = True
