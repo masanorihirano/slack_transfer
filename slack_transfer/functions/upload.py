@@ -453,15 +453,28 @@ def data_insert(
                 file_name = file["name"]
                 title = file["title"]
                 file_type = file["filetype"]
-                upload_results = upload_file(
-                    client=client,
-                    old_file_id=old_file_id,
-                    file_name=file_name,
-                    channel_id=new_channel_id,
-                    title=title,
-                    filetype=file_type,
-                    is_slack_post=(file["mimetype"] == "application/vnd.slack-docs"),
-                )
+                upload_results = None
+                try:
+                    upload_results = upload_file(
+                        client=client,
+                        old_file_id=old_file_id,
+                        file_name=file_name,
+                        channel_id=new_channel_id,
+                        title=title,
+                        filetype=file_type,
+                        is_slack_post=(
+                            file["mimetype"] == "application/vnd.slack-docs"
+                        ),
+                    )
+                except:
+                    with open(
+                        os.path.join(client.local_data_dir, "file_upload_failure.txt"),
+                        mode="a",
+                        encoding="utf-8",
+                    ) as f:
+                        f.write(
+                            f"{datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')}, {file_name} ({old_file_id}--{file_name})\n"
+                        )
 
                 if upload_results:
                     new_file_id, new_file_permalink = upload_results
