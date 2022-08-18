@@ -403,3 +403,6 @@ Starts program by:
 
 Then, follow the instructions.
 
+8. check for files failed to upload
+~~~~~~~~~~~~~~~~~~~~~
+A list of files that failed to upload is written under :code:`<local_data_dir>/file_upload_failure.txt`. If necessary, save the file in a different location.

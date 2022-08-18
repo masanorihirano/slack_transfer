@@ -249,6 +249,7 @@ def upload_file(
             )
             return None
         except Exception as e:
+            print(e)
             # ToDo: workaround for #11
             n_try = 5
             for i_try in range(n_try):
