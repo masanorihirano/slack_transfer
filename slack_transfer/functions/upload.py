@@ -3,6 +3,7 @@ import json
 import os.path
 import time
 import warnings
+from typing import Callable
 from typing import Dict
 from typing import List
 from typing import Optional
@@ -85,8 +86,11 @@ def create_all_channels(
 
 class HTTP_send_output:
     def __init__(
-        self, allow_slower: bool = True, progress: bool = False, chunk_size=200 * 1024
-    ):
+        self,
+        allow_slower: bool = True,
+        progress: bool = False,
+        chunk_size: int = 200 * 1024,
+    ) -> None:
         self.allow_slower = allow_slower
         self.progress = progress
         self.chunk_size = chunk_size
@@ -166,8 +170,8 @@ class HTTP_send_output:
                 # end chunked transfer
                 cls.send(b"0\r\n\r\n")
 
-    def return_function(self):
-        def fn_send_output(cls, message_body=None, encode_chunked=False):
+    def return_function(self) -> Callable:
+        def fn_send_output(cls, message_body=None, encode_chunked=False):  # type: ignore
             self._send_output(
                 cls=cls, message_body=message_body, encode_chunked=encode_chunked
             )
