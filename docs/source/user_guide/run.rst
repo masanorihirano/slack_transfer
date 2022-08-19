@@ -53,6 +53,8 @@ This user guide assumes that you have administrative privileges on both the down
     - Possible formatting errors of massages having more than 3000 characters (Due to API restrictions, the message will be split into separate submissions.)
     - Uploading emoji (due to API limitations, downloading is possible, but uploading is not.)
     - Width is limited to 50% when multiple media, such as markdown and non-text items (panels), are included (due to API limitation)
+    - Attachments will be posted as separate posts, one per file, and then posted with the same formatting as the original post. i.e., if you have attached N files, you will have N separate file shares and a copy of the original post.  (due to API limitation)
+    - Files larger than several MB may not be uploaded due to a bug in the Slack API. In particular, the threshold is often 10 MB or less for WSs under OrG, while general WSs may work with files as small as 200 MB. The file upload process may take an extremely long time due to retries and automatic attempts workarounds for this problem.
  - Usernames in "mention" are not converted. This is not only because it is complicated to specify user correspondence, but also because user information is automatically imported and reflected once connecting between the original and destination WS via Slack connect.
  - Since migrated messages are posted by the API, the timestamp is changed. Instead, the original timestamp is added at the end of the users' name.
  - It is provided under the MIT license, and there is no warranty. (Only the built binary version is under the GPL3.0 license.)
@@ -325,6 +327,8 @@ The emojis are stored in the folder :code:`<local_data_dir>/emojis`. Basically, 
 
 There is a tool for migrating emoji ( https://github.com/smashwilson/slack-emojinator ), but we do not recommend it here because there is no guarantee that it can be done properly, and it uses a unofficial Slack API.
 
+When your destination WS is under OrG, please note that emoji may conflict or be inappropriate for WS under OrG, since emojis are common to all WS in OrG.
+
 7. Migrate data
 ---------------------
 After all preparations are finished, it is time to start the data migration.
@@ -399,3 +403,6 @@ Starts program by:
 
 Then, follow the instructions.
 
+8. check for files failed to upload
+~~~~~~~~~~~~~~~~~~~~~
+A list of files that failed to upload is written under :code:`<local_data_dir>/file_upload_failure.txt`. If necessary, save the file in a different location.
