@@ -106,15 +106,16 @@ def download_channel_history(
     def _download_files_in_message(message: Dict) -> None:
         if "files" in message:
             for file in message["files"]:
-                url_private: str = file["url_private"]
-                file_id: str = file["id"]
-                file_name: str = file["name"]
-                download_file(
-                    client=client,
-                    file_id=file_id,
-                    file_name=file_name,
-                    url_private=url_private,
-                )
+                if "url_private" in file:
+                    url_private: str = file["url_private"]
+                    file_id: str = file["id"]
+                    file_name: str = file["name"]
+                    download_file(
+                        client=client,
+                        file_id=file_id,
+                        file_name=file_name,
+                        url_private=url_private,
+                    )
 
     messages = []
     next_cursor: Optional[str] = None
