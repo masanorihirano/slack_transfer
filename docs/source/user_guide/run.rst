@@ -59,6 +59,7 @@ This user guide assumes that you have administrative privileges on both the down
  - Since migrated messages are posted by the API, the timestamp is changed. Instead, the original timestamp is added at the end of the users' name.
  - It is provided under the MIT license, and there is no warranty. (Only the built binary version is under the GPL3.0 license.)
  - Only Channel can be migrated; DM cannot.
+ - Slack API output values (especially during download) are not precisely defined and may cause unexpected errors. We appreciate your cooperation in reporting potential bugs!
 
 
 The tool is designed to avoid destructive operation as long as possible.
