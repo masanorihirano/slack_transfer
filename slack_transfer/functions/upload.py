@@ -450,6 +450,11 @@ def data_insert(
         progress_bar = tqdm.tqdm(total=len(messages), disable=not progress)
     else:
         progress_bar = progress
+    response: SlackResponse = client.chat_postMessage(
+        channel=new_channel_id,
+        text="File thread for message migration by slack_transfer. Please ignore this.",
+    )
+    file_thread_ts = response["message"]["ts"]
     for message in messages:
         file_ids = []
         file_permalinks = []
@@ -472,6 +477,7 @@ def data_insert(
                         is_slack_post=(
                             file["mimetype"] == "application/vnd.slack-docs"
                         ),
+                        thread_ts=file_thread_ts,
                     )
                 except:
                     with open(
@@ -554,7 +560,7 @@ def data_insert(
                                 attachments[i_attachment]["blocks"],
                             )
                         )
-                response: SlackResponse = client.chat_postMessage(
+                response = client.chat_postMessage(
                     channel=new_channel_id,
                     text=message["text"],
                     attachments=attachments,
