@@ -53,7 +53,6 @@ This user guide assumes that you have administrative privileges on both the down
     - Possible formatting errors of massages having more than 3000 characters (Due to API restrictions, the message will be split into separate submissions.)
     - Uploading emoji (due to API limitations, downloading is possible, but uploading is not.)
     - Width is limited to 50% when multiple media, such as markdown and non-text items (panels), are included (due to API limitation)
-    - Attachments will be posted as separate posts, one per file, and then posted with the same formatting as the original post. i.e., if you have attached N files, you will have N separate file shares and a copy of the original post.  (due to API limitation)
     - Files larger than several MB may not be uploaded due to a bug in the Slack API. In particular, the threshold is often 10 MB or less for WSs under OrG, while general WSs may work with files as small as 200 MB. The file upload process may take an extremely long time due to retries and automatic attempts workarounds for this problem.
  - Usernames in "mention" are not converted. This is not only because it is complicated to specify user correspondence, but also because user information is automatically imported and reflected once connecting between the original and destination WS via Slack connect.
  - Since migrated messages are posted by the API, the timestamp is changed. Instead, the original timestamp is added at the end of the users' name.
