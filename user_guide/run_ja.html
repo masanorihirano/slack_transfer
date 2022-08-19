@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>slack_transfer の使い方 &#8212; slack_transfer 0.2.5 documentation</title>
+    <title>slack_transfer の使い方 &#8212; slack_transfer 0.2.6a0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.5 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.6a0 documentation</p>
   
 </a>
     
@@ -245,6 +245,11 @@
      7-2. interactiveコマンドを使用して，すべて画面操作で設定を進める方法
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     8. アップロードに失敗したファイルを確認する
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -316,6 +321,8 @@
 <li><p>3000文字を越える投稿におけるフォーマット崩れの可能性 (APIの制限のため，分割投稿となるから．)</p></li>
 <li><p>emojiのアップロード (APIの制限のため，ダウンロードはできますが，アップロードはできません．)</p></li>
 <li><p>markdownを含めた複数のメディアやパネル等のテキスト以外の物が含まれている場合に，横幅が50%に抑えられてしまう (APIの制限によるものです)</p></li>
+<li><p>添付ファイルは，1ファイルごとの個別の投稿として投稿されたのちに，元の投稿と同じフォーマッティングの投稿が行われます．つまり，Nファイル添付していた場合には，N個の個別のファイル共有と，1個のもとの投稿のコピーとなります．(Slack APIの実装にないためです．)</p></li>
+<li><p>数MB以上のファイルについては，Slack APIのバグにより，アップロードできない可能性があります．特にOrG配下のWSではその閾値が10MB以上であることが多く，一般のWSでは，200MB程度でも機能する場合があります．また，そのリトライや，回避策を自動的に試す関係で，ファイルのアップロード処理にきわめて時間がかかる場合があります．</p></li>
 </ul>
 </dd>
 </dl>
@@ -521,6 +528,7 @@ Mac/Linux/WSLの場合</p>
 </div></blockquote>
 <p>:code:<a href="#id5"><span class="problematic" id="id6">`</span></a>&lt;local_data_dir&gt;/emojis`のフォルダーに絵文字が保存されるので，これを移行します．基本的には，そのままインポートすればemojiの名前も元の通りインポートできます．</p>
 <p>絵文字を移行するツールが存在します( <a class="reference external" href="https://github.com/smashwilson/slack-emojinator">https://github.com/smashwilson/slack-emojinator</a> )が，適切に移行できる保証がないうえ，非公開APIを使用しているため，ここでは推奨しません．</p>
+<p>また，OrG配下のWSにおいては，絵文字がOrG内全WS共通であることから，emojiがコンフリクトする場合があったり，アップロードが不適切な場合もありますので，ご注意ください．</p>
 </section>
 <section id="id7">
 <h2>7. データ移行の実行<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
@@ -586,6 +594,10 @@ Mac/Linux/WSLの場合</p>
 </pre></div>
 </div>
 <p>でプログラムを開始できます．あとは，指示に従って進めるだけです．</p>
+</section>
+<section id="id10">
+<h3>8. アップロードに失敗したファイルを確認する<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<p>:code:<a href="#id11"><span class="problematic" id="id12">`</span></a>&lt;local_data_dir&gt;/file_upload_failure.txt’ 配下に，アップロードに失敗したファイルのリストが表示されます．必要に応じて，別の場所に保存してください．</p>
 </section>
 </section>
 </section>

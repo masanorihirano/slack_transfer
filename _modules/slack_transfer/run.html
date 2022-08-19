@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slack_transfer.run &#8212; slack_transfer 0.2.5 documentation</title>
+    <title>slack_transfer.run &#8212; slack_transfer 0.2.6a0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.5 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.6a0 documentation</p>
   
 </a>
     
@@ -217,7 +217,7 @@
         <span class="k">if</span> <span class="n">uploader_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;uploader_token is required&quot;</span><span class="p">)</span>
         <span class="n">uploader</span> <span class="o">=</span> <span class="n">UploaderClient</span><span class="p">(</span>
-            <span class="n">local_data_dir</span><span class="o">=</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">uploader_token</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="n">ssl</span>
+            <span class="n">local_data_dir</span><span class="o">=</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">uploader_token</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="n">ssl</span>
         <span class="p">)</span>
         <span class="n">uploader</span><span class="o">.</span><span class="n">test_uploader</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span><span class="p">:</span>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slack_transfer.functions.upload &#8212; slack_transfer 0.2.5 documentation</title>
+    <title>slack_transfer.functions.upload &#8212; slack_transfer 0.2.6a0 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.5 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.6a0 documentation</p>
   
 </a>
     
@@ -162,11 +162,13 @@
 <span class="kn">import</span> <span class="nn">os.path</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span>
 
 <span class="kn">import</span> <span class="nn">tqdm</span>
 <span class="kn">from</span> <span class="nn">dateutil</span> <span class="kn">import</span> <span class="n">tz</span>
@@ -241,6 +243,104 @@
         <span class="p">)</span></div>
 
 
+<span class="k">class</span> <span class="nc">HTTP_send_output</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">allow_slower</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allow_slower</span> <span class="o">=</span> <span class="n">allow_slower</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">progress</span> <span class="o">=</span> <span class="n">progress</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chunk_size</span> <span class="o">=</span> <span class="n">chunk_size</span>
+
+    <span class="k">def</span> <span class="nf">_send_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">message_body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encode_chunked</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+        <span class="sd">&quot;&quot;&quot;Send the currently buffered request and clear the buffer.</span>
+
+<span class="sd">        Appends an extra \\r\\n to the buffer.</span>
+<span class="sd">        A message_body may be specified, to be appended to the request.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_buffer</span><span class="p">)</span>
+        <span class="k">del</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_buffer</span><span class="p">[:]</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">message_body</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="c1"># create a consistent interface to message_body</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">message_body</span><span class="p">,</span> <span class="s2">&quot;read&quot;</span><span class="p">):</span>
+                <span class="c1"># Let file-like take precedence over byte-like.  This</span>
+                <span class="c1"># is needed to allow the current position of mmap&#39;ed</span>
+                <span class="c1"># files to be taken into account.</span>
+                <span class="n">chunks</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_read_readable</span><span class="p">(</span><span class="n">message_body</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># this is solely to check to see if message_body</span>
+                    <span class="c1"># implements the buffer API.  it /would/ be easier</span>
+                    <span class="c1"># to capture if PyObject_CheckBuffer was exposed</span>
+                    <span class="c1"># to Python.</span>
+                    <span class="nb">memoryview</span><span class="p">(</span><span class="n">message_body</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">chunks</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">message_body</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                            <span class="s2">&quot;message_body should be a bytes-like &quot;</span>
+                            <span class="s2">&quot;object or an iterable, got </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">message_body</span><span class="p">)</span>
+                        <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># the object implements the buffer interface and</span>
+                    <span class="c1"># can be passed directly into socket methods</span>
+                    <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">message_body</span><span class="p">,)</span>
+
+            <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">chunk</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">debuglevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Zero length chunk ignored&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">8</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">allow_slower</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">encode_chunked</span> <span class="ow">and</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_http_vsn</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
+                        <span class="c1"># chunked encoding</span>
+                        <span class="n">chunk</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span><span class="si">:</span><span class="s2">X</span><span class="si">}</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">chunk</span> <span class="o">+</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+                    <span class="bp">cls</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Now using slower uploader backend&quot;</span><span class="p">)</span>
+                    <span class="n">chunk_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunk_size</span>
+                    <span class="n">n_chunks</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">chunk_size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="n">last_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_chunks</span><span class="p">),</span> <span class="n">disable</span><span class="o">=</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="p">):</span>
+                        <span class="n">sub_chunk</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span>
+                            <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">chunk_size</span><span class="p">)</span> <span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">),</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">chunk_size</span><span class="p">)</span>
+                        <span class="p">]</span>
+                        <span class="k">if</span> <span class="n">encode_chunked</span> <span class="ow">and</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_http_vsn</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
+                            <span class="c1"># chunked encoding</span>
+                            <span class="n">sub_chunk</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sub_chunk</span><span class="p">)</span><span class="si">:</span><span class="s2">X</span><span class="si">}</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
+                                <span class="o">+</span> <span class="n">sub_chunk</span>
+                                <span class="o">+</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+                            <span class="p">)</span>
+                        <span class="bp">cls</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">sub_chunk</span><span class="p">)</span>
+                        <span class="n">sec_from_last</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">last_time</span>
+                        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mi">5</span> <span class="o">-</span> <span class="n">sec_from_last</span><span class="p">))</span>
+                        <span class="n">last_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">encode_chunked</span> <span class="ow">and</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_http_vsn</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
+                <span class="c1"># end chunked transfer</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;0</span><span class="se">\r\n\r\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">return_function</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">fn_send_output</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">message_body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encode_chunked</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_send_output</span><span class="p">(</span>
+                <span class="bp">cls</span><span class="o">=</span><span class="bp">cls</span><span class="p">,</span> <span class="n">message_body</span><span class="o">=</span><span class="n">message_body</span><span class="p">,</span> <span class="n">encode_chunked</span><span class="o">=</span><span class="n">encode_chunked</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fn_send_output</span>
+
+
+<span class="n">HTTP_BACKEND</span> <span class="o">=</span> <span class="n">HTTP_send_output</span><span class="p">(</span><span class="n">allow_slower</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="upload_file"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.upload_file.html#slack_transfer.functions.upload.upload_file">[docs]</a><span class="k">def</span> <span class="nf">upload_file</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span>
     <span class="n">old_file_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -285,28 +385,67 @@
             <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">response</span><span class="p">:</span> <span class="n">SlackResponse</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files_upload</span><span class="p">(</span>
-            <span class="n">file</span><span class="o">=</span><span class="n">file_path</span><span class="p">,</span>
-            <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
-            <span class="n">filename</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
-            <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
-            <span class="n">channels</span><span class="o">=</span><span class="n">channel_id</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;file is missing (possibly duu to original slack limitations): </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in uploading file </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">channel_id</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">ts</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span>
-            <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;ts&quot;</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">][</span><span class="s2">&quot;shares&quot;</span><span class="p">][</span><span class="s2">&quot;public&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-        <span class="p">):</span>
-            <span class="n">client</span><span class="o">.</span><span class="n">chat_delete</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="n">channel_id</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="n">ts</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">][</span><span class="s2">&quot;permalink&quot;</span><span class="p">]</span></div>
+    <span class="n">upload_start_st</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+    <span class="n">upload_results</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">delete_targets</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">patch</span><span class="p">(</span>
+                <span class="s2">&quot;http.client.HTTPConnection._send_output&quot;</span><span class="p">,</span>
+                <span class="n">HTTP_BACKEND</span><span class="o">.</span><span class="n">return_function</span><span class="p">(),</span>
+            <span class="p">):</span>
+                <span class="n">response</span><span class="p">:</span> <span class="n">SlackResponse</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files_upload</span><span class="p">(</span>
+                    <span class="n">file</span><span class="o">=</span><span class="n">file_path</span><span class="p">,</span>
+                    <span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
+                    <span class="n">filename</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
+                    <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                    <span class="n">channels</span><span class="o">=</span><span class="n">channel_id</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in uploading file </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">][</span><span class="s2">&quot;permalink&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;file is missing (possibly duu to original slack limitations): </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="c1"># ToDo: workaround for #11</span>
+            <span class="n">n_try</span> <span class="o">=</span> <span class="mi">5</span>
+            <span class="k">for</span> <span class="n">i_try</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_try</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;uploaded file is waiting to be processed. Wait </span><span class="si">{</span><span class="mi">30</span><span class="o">*</span><span class="n">i_try</span><span class="si">}</span><span class="s2"> sec.&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="n">i_try</span><span class="p">)</span>
+                    <span class="n">_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files_list</span><span class="p">(</span>
+                        <span class="n">channel</span><span class="o">=</span><span class="n">channel_id</span><span class="p">,</span> <span class="n">ts_from</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">upload_start_st</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="c1"># ToDo: paging: たぶんほとんどの場合不要</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">_response</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">_response</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in uploading file </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">file_candidates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                        <span class="nb">filter</span><span class="p">(</span>
+                            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">file_name</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">title</span><span class="p">,</span>
+                            <span class="n">_response</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">],</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_candidates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in uploading file </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="n">file_candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">file_candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;permalink&quot;</span><span class="p">])</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">HTTP_BACKEND</span><span class="o">.</span><span class="n">allow_slower</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">HTTP_BACKEND</span><span class="o">.</span><span class="n">allow_slower</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">HTTP_BACKEND</span><span class="o">.</span><span class="n">chunk_size</span> <span class="o">&gt;</span> <span class="mi">50</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">:</span>
+                <span class="n">HTTP_BACKEND</span><span class="o">.</span><span class="n">chunk_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">HTTP_BACKEND</span><span class="o">.</span><span class="n">chunk_size</span> <span class="o">//</span> <span class="mf">2.0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+
+    <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in uploading file </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="check_channel_exists"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.check_channel_exists.html#slack_transfer.functions.upload.check_channel_exists">[docs]</a><span class="k">def</span> <span class="nf">check_channel_exists</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span> <span class="n">channel_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -477,7 +616,7 @@
                 <span class="n">file_name</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
                 <span class="n">title</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
                 <span class="n">file_type</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;filetype&quot;</span><span class="p">]</span>
-                <span class="n">upload_start_st</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+                <span class="n">upload_results</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">upload_results</span> <span class="o">=</span> <span class="n">upload_file</span><span class="p">(</span>
                         <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
@@ -490,34 +629,15 @@
                             <span class="n">file</span><span class="p">[</span><span class="s2">&quot;mimetype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;application/vnd.slack-docs&quot;</span>
                         <span class="p">),</span>
                     <span class="p">)</span>
-                <span class="k">except</span> <span class="n">SlackApiError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="c1"># ToDo: workaround for #11</span>
-                    <span class="k">for</span> <span class="n">i_try</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-                        <span class="k">try</span><span class="p">:</span>
-                            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="n">i_try</span><span class="p">)</span>
-                            <span class="n">_response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">files_list</span><span class="p">(</span>
-                                <span class="n">channel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ts_from</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">upload_start_st</span><span class="p">)</span>
-                            <span class="p">)</span>
-                            <span class="c1"># ToDo: paging: たぶんほとんどの場合不要</span>
-                            <span class="k">if</span> <span class="ow">not</span> <span class="n">_response</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">_response</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in uploading file </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                            <span class="n">file_candidates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-                                <span class="nb">filter</span><span class="p">(</span>
-                                    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">file_name</span>
-                                    <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">title</span><span class="p">,</span>
-                                    <span class="n">_response</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">],</span>
-                                <span class="p">)</span>
-                            <span class="p">)</span>
-                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_candidates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in uploading file </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-                            <span class="n">upload_results</span> <span class="o">=</span> <span class="p">(</span>
-                                <span class="n">file_candidates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">],</span>
-                                <span class="n">file_candidates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;permalink&quot;</span><span class="p">],</span>
-                            <span class="p">)</span>
-                            <span class="k">break</span>
-                        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e2</span><span class="p">:</span>
-                            <span class="k">if</span> <span class="n">i_try</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-                                <span class="k">raise</span> <span class="n">e2</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;file_upload_failure.txt&quot;</span><span class="p">),</span>
+                        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">,</span>
+                        <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+                    <span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">old_file_id</span><span class="si">}</span><span class="s2">--</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">upload_results</span><span class="p">:</span>
                     <span class="n">new_file_id</span><span class="p">,</span> <span class="n">new_file_permalink</span> <span class="o">=</span> <span class="n">upload_results</span>
