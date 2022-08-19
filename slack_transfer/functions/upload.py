@@ -190,6 +190,7 @@ def upload_file(
     title: Optional[str] = None,
     filetype: Optional[str] = None,
     is_slack_post: bool = False,
+    thread_ts: Optional[str] = None,
 ) -> Optional[Tuple[str, str]]:
     """upload a file. This is usually preprocess for posting message attaching files.
     **So, this method is not usually directly used by users.**
@@ -204,6 +205,7 @@ def upload_file(
         title (str; Optional; default=None): title for appending to the file when uploading.
         filetype (str; Optional; default=None): file type. It is not mimetype. See: https://api.slack.com/types/file#types
         is_slack_post (bool; Optional; default=False): set True if this file is slack post.
+        thread_ts (str; Optional; default=None): thread ts.
     """
     file_path: Optional[str] = os.path.join(
         client.local_data_dir, "files", f"{old_file_id}--{file_name}"
@@ -242,6 +244,7 @@ def upload_file(
                     filetype=filetype,
                     title=title,
                     channels=channel_id,
+                    thread_ts=thread_ts,
                 )
             if not response["ok"]:
                 raise IOError(f"Error in uploading file {file_path}")
