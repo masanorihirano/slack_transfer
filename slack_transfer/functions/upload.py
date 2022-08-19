@@ -461,7 +461,7 @@ def data_insert(
         file_titles = []
         if "files" in message:
             for file in message["files"]:
-                if "name" in file:
+                if "name" in file and "title" in file and "filetype" in file:
                     old_file_id = file["id"]
                     file_name = file["name"]
                     title = file["title"]
@@ -477,6 +477,8 @@ def data_insert(
                             filetype=file_type,
                             is_slack_post=(
                                 file["mimetype"] == "application/vnd.slack-docs"
+                                if "mimetype" in file
+                                else False
                             ),
                             thread_ts=file_thread_ts,
                         )
