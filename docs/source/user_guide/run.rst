@@ -241,10 +241,10 @@ Scopes required on the destination WS side is:
 By default, the API cannot read private channels, so it performs the operations equivalent to inviting a user.
 For public channels, it is possible to join a channel without an invitation, so no action is required.
 
-.. image:: assets/add-api-to-private-01.png
+.. image:: assets/add-api-to-private-01-b.png
     :scale: 100%
 
-From the left panel of Slack, select "Add Apps". (If it does not appear, section 2 has failed.)
+From the left panel of Slack, select "Apps".
 
 .. image:: assets/add-api-to-private-02.png
     :scale: 70%

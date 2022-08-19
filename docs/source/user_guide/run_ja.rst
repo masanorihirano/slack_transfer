@@ -238,10 +238,10 @@ manifestファイルを用いて作成する場合は `uploader用のyml <../_st
 デフォルトでは，APIはprivate channelを読み込むことができないので，ユーザーのinviteに相当する作業を行います．
 Public channelに関しては，招待なくとも自分で参加することができるのが一般なので，操作は不要です．
 
-.. image:: assets/add-api-to-private-01.png
+.. image:: assets/add-api-to-private-01-b.png
     :scale: 100%
 
-Slackの左側のパネルから，Add Appsを選択します．(出てこない場合は，2のステップに失敗しています．)
+Slackの左側のパネルから，Appsを選択します．
 
 .. image:: assets/add-api-to-private-02.png
     :scale: 70%
