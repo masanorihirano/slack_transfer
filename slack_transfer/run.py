@@ -25,6 +25,7 @@ def run(
     channel_names: Optional[List[str]] = None,
     skip_bookmarks: bool = False,
     ssl: Optional[SSLContext] = None,
+    time_zone: str = "Asia/Tokyo",
 ) -> None:
     """See run section in :doc:`/user_guide/cli`
 
@@ -46,6 +47,8 @@ def run(
         skip_bookmarks (bool; Optional; default=False): Skip process bookmarks.
         ssl: (SSLContext; Optional; default=None): : An [`ssl.SSLContext`][1] instance, helpful for specifying
             your own custom certificate chain.
+        time_zone (str; Optional; default=Asia/Tokyo): time zone to preview the original post data on the destination WS.
+            See: https://dateutil.readthedocs.io/en/stable/tz.html
     """
     os.makedirs(local_data_dir, exist_ok=True)
     if not skip_download:
@@ -137,6 +140,7 @@ def run(
                             if x in reverse_name_mappings
                             else x
                         ),
+                        time_zone=time_zone,
                     )
                 ),
                 conflicts,
@@ -176,6 +180,7 @@ def run(
                     channel_name=new_channel_name,
                     old_members_dict=old_members_dict,
                     old_channel_name=old_channel_name,
+                    time_zone=time_zone,
                 )
                 and not override
             ):
@@ -186,6 +191,7 @@ def run(
                 old_members_dict=old_members_dict,
                 old_members_icon_url_dict=old_members_icon_url_dict,
                 old_channel_name=old_channel_name,
+                time_zone=time_zone,
             )
             if not skip_bookmarks:
                 uploader.insert_bookmarks(

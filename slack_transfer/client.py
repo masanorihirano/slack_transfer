@@ -162,6 +162,7 @@ class UploaderClient(UploaderClientABC):
         channel_id: Optional[str] = None,
         title: Optional[str] = None,
         filetype: Optional[str] = None,
+        thread_ts: Optional[str] = None,
     ) -> Optional[Tuple[str, str]]:
 
         return upload_file(
@@ -171,6 +172,7 @@ class UploaderClient(UploaderClientABC):
             channel_id=channel_id,
             title=title,
             filetype=filetype,
+            thread_ts=thread_ts,
         )
 
     def data_insert(

@@ -190,6 +190,7 @@ def upload_file(
     title: Optional[str] = None,
     filetype: Optional[str] = None,
     is_slack_post: bool = False,
+    thread_ts: Optional[str] = None,
 ) -> Optional[Tuple[str, str]]:
     """upload a file. This is usually preprocess for posting message attaching files.
     **So, this method is not usually directly used by users.**
@@ -204,6 +205,7 @@ def upload_file(
         title (str; Optional; default=None): title for appending to the file when uploading.
         filetype (str; Optional; default=None): file type. It is not mimetype. See: https://api.slack.com/types/file#types
         is_slack_post (bool; Optional; default=False): set True if this file is slack post.
+        thread_ts (str; Optional; default=None): thread ts.
     """
     file_path: Optional[str] = os.path.join(
         client.local_data_dir, "files", f"{old_file_id}--{file_name}"
@@ -242,6 +244,7 @@ def upload_file(
                     filetype=filetype,
                     title=title,
                     channels=channel_id,
+                    thread_ts=thread_ts,
                 )
             if not response["ok"]:
                 raise IOError(f"Error in uploading file {file_path}")
@@ -447,44 +450,55 @@ def data_insert(
         progress_bar = tqdm.tqdm(total=len(messages), disable=not progress)
     else:
         progress_bar = progress
+    response: SlackResponse = client.chat_postMessage(
+        channel=new_channel_id,
+        text="File thread for message migration by slack_transfer. Please ignore this.",
+    )
+    file_thread_ts = response["message"]["ts"]
     for message in messages:
         file_ids = []
         file_permalinks = []
         file_titles = []
         if "files" in message:
             for file in message["files"]:
-                old_file_id = file["id"]
-                file_name = file["name"]
-                title = file["title"]
-                file_type = file["filetype"]
-                upload_results = None
-                try:
-                    upload_results = upload_file(
-                        client=client,
-                        old_file_id=old_file_id,
-                        file_name=file_name,
-                        channel_id=new_channel_id,
-                        title=title,
-                        filetype=file_type,
-                        is_slack_post=(
-                            file["mimetype"] == "application/vnd.slack-docs"
-                        ),
-                    )
-                except:
-                    with open(
-                        os.path.join(client.local_data_dir, "file_upload_failure.txt"),
-                        mode="a",
-                        encoding="utf-8",
-                    ) as f:
-                        f.write(
-                            f"{datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')}, {file_name} ({old_file_id}--{file_name})\n"
+                if "name" in file and "title" in file and "filetype" in file:
+                    old_file_id = file["id"]
+                    file_name = file["name"]
+                    title = file["title"]
+                    file_type = file["filetype"]
+                    upload_results = None
+                    try:
+                        upload_results = upload_file(
+                            client=client,
+                            old_file_id=old_file_id,
+                            file_name=file_name,
+                            channel_id=new_channel_id,
+                            title=title,
+                            filetype=file_type,
+                            is_slack_post=(
+                                file["mimetype"] == "application/vnd.slack-docs"
+                                if "mimetype" in file
+                                else False
+                            ),
+                            thread_ts=file_thread_ts,
                         )
+                    except:
+                        with open(
+                            os.path.join(
+                                client.local_data_dir, "file_upload_failure.txt"
+                            ),
+                            mode="a",
+                            encoding="utf-8",
+                        ) as f:
+                            f.write(
+                                f"{datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')}, {file_name} ({old_file_id}--{file_name})\n"
+                            )
 
-                if upload_results:
-                    new_file_id, new_file_permalink = upload_results
-                    file_ids.append(new_file_id)
-                    file_permalinks.append(new_file_permalink)
-                    file_titles.append(title)
+                    if upload_results:
+                        new_file_id, new_file_permalink = upload_results
+                        file_ids.append(new_file_id)
+                        file_permalinks.append(new_file_permalink)
+                        file_titles.append(title)
 
         new_thread_ts = None
         if "thread_ts" in message.keys() and message["thread_ts"] != "":
@@ -551,7 +565,7 @@ def data_insert(
                                 attachments[i_attachment]["blocks"],
                             )
                         )
-                response: SlackResponse = client.chat_postMessage(
+                response = client.chat_postMessage(
                     channel=new_channel_id,
                     text=message["text"],
                     attachments=attachments,
