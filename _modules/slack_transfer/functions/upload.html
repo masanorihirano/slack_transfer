@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slack_transfer.functions.upload &#8212; slack_transfer 0.2.6a0 documentation</title>
+    <title>slack_transfer.functions.upload &#8212; slack_transfer 0.2.6 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.6a0 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.6 documentation</p>
   
 </a>
     
@@ -349,6 +349,7 @@
     <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">filetype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">is_slack_post</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">thread_ts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;upload a file. This is usually preprocess for posting message attaching files.</span>
 <span class="sd">    **So, this method is not usually directly used by users.**</span>
@@ -363,6 +364,7 @@
 <span class="sd">        title (str; Optional; default=None): title for appending to the file when uploading.</span>
 <span class="sd">        filetype (str; Optional; default=None): file type. It is not mimetype. See: https://api.slack.com/types/file#types</span>
 <span class="sd">        is_slack_post (bool; Optional; default=False): set True if this file is slack post.</span>
+<span class="sd">        thread_ts (str; Optional; default=None): thread ts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
         <span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;files&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">old_file_id</span><span class="si">}</span><span class="s2">--</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -401,6 +403,7 @@
                     <span class="n">filetype</span><span class="o">=</span><span class="n">filetype</span><span class="p">,</span>
                     <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
                     <span class="n">channels</span><span class="o">=</span><span class="n">channel_id</span><span class="p">,</span>
+                    <span class="n">thread_ts</span><span class="o">=</span><span class="n">thread_ts</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;ok&quot;</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in uploading file </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -606,44 +609,55 @@
         <span class="n">progress_bar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">messages</span><span class="p">),</span> <span class="n">disable</span><span class="o">=</span><span class="ow">not</span> <span class="n">progress</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">progress_bar</span> <span class="o">=</span> <span class="n">progress</span>
+    <span class="n">response</span><span class="p">:</span> <span class="n">SlackResponse</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_postMessage</span><span class="p">(</span>
+        <span class="n">channel</span><span class="o">=</span><span class="n">new_channel_id</span><span class="p">,</span>
+        <span class="n">text</span><span class="o">=</span><span class="s2">&quot;File thread for message migration by slack_transfer. Please ignore this.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">file_thread_ts</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;message&quot;</span><span class="p">][</span><span class="s2">&quot;ts&quot;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
         <span class="n">file_ids</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">file_permalinks</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">file_titles</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="s2">&quot;files&quot;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">]:</span>
-                <span class="n">old_file_id</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
-                <span class="n">file_name</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-                <span class="n">title</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
-                <span class="n">file_type</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;filetype&quot;</span><span class="p">]</span>
-                <span class="n">upload_results</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">upload_results</span> <span class="o">=</span> <span class="n">upload_file</span><span class="p">(</span>
-                        <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
-                        <span class="n">old_file_id</span><span class="o">=</span><span class="n">old_file_id</span><span class="p">,</span>
-                        <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
-                        <span class="n">channel_id</span><span class="o">=</span><span class="n">new_channel_id</span><span class="p">,</span>
-                        <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
-                        <span class="n">filetype</span><span class="o">=</span><span class="n">file_type</span><span class="p">,</span>
-                        <span class="n">is_slack_post</span><span class="o">=</span><span class="p">(</span>
-                            <span class="n">file</span><span class="p">[</span><span class="s2">&quot;mimetype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;application/vnd.slack-docs&quot;</span>
-                        <span class="p">),</span>
-                    <span class="p">)</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
-                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;file_upload_failure.txt&quot;</span><span class="p">),</span>
-                        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">,</span>
-                        <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
-                    <span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">old_file_id</span><span class="si">}</span><span class="s2">--</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">file</span> <span class="ow">and</span> <span class="s2">&quot;title&quot;</span> <span class="ow">in</span> <span class="n">file</span> <span class="ow">and</span> <span class="s2">&quot;filetype&quot;</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+                    <span class="n">old_file_id</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                    <span class="n">file_name</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                    <span class="n">title</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+                    <span class="n">file_type</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;filetype&quot;</span><span class="p">]</span>
+                    <span class="n">upload_results</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">upload_results</span> <span class="o">=</span> <span class="n">upload_file</span><span class="p">(</span>
+                            <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+                            <span class="n">old_file_id</span><span class="o">=</span><span class="n">old_file_id</span><span class="p">,</span>
+                            <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
+                            <span class="n">channel_id</span><span class="o">=</span><span class="n">new_channel_id</span><span class="p">,</span>
+                            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+                            <span class="n">filetype</span><span class="o">=</span><span class="n">file_type</span><span class="p">,</span>
+                            <span class="n">is_slack_post</span><span class="o">=</span><span class="p">(</span>
+                                <span class="n">file</span><span class="p">[</span><span class="s2">&quot;mimetype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;application/vnd.slack-docs&quot;</span>
+                                <span class="k">if</span> <span class="s2">&quot;mimetype&quot;</span> <span class="ow">in</span> <span class="n">file</span>
+                                <span class="k">else</span> <span class="kc">False</span>
+                            <span class="p">),</span>
+                            <span class="n">thread_ts</span><span class="o">=</span><span class="n">file_thread_ts</span><span class="p">,</span>
                         <span class="p">)</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+                            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                                <span class="n">client</span><span class="o">.</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="s2">&quot;file_upload_failure.txt&quot;</span>
+                            <span class="p">),</span>
+                            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">,</span>
+                            <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
+                        <span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y/%m/</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">old_file_id</span><span class="si">}</span><span class="s2">--</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                            <span class="p">)</span>
 
-                <span class="k">if</span> <span class="n">upload_results</span><span class="p">:</span>
-                    <span class="n">new_file_id</span><span class="p">,</span> <span class="n">new_file_permalink</span> <span class="o">=</span> <span class="n">upload_results</span>
-                    <span class="n">file_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_file_id</span><span class="p">)</span>
-                    <span class="n">file_permalinks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_file_permalink</span><span class="p">)</span>
-                    <span class="n">file_titles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">upload_results</span><span class="p">:</span>
+                        <span class="n">new_file_id</span><span class="p">,</span> <span class="n">new_file_permalink</span> <span class="o">=</span> <span class="n">upload_results</span>
+                        <span class="n">file_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_file_id</span><span class="p">)</span>
+                        <span class="n">file_permalinks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_file_permalink</span><span class="p">)</span>
+                        <span class="n">file_titles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
 
         <span class="n">new_thread_ts</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="s2">&quot;thread_ts&quot;</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;thread_ts&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
@@ -710,7 +724,7 @@
                                 <span class="n">attachments</span><span class="p">[</span><span class="n">i_attachment</span><span class="p">][</span><span class="s2">&quot;blocks&quot;</span><span class="p">],</span>
                             <span class="p">)</span>
                         <span class="p">)</span>
-                <span class="n">response</span><span class="p">:</span> <span class="n">SlackResponse</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_postMessage</span><span class="p">(</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">chat_postMessage</span><span class="p">(</span>
                     <span class="n">channel</span><span class="o">=</span><span class="n">new_channel_id</span><span class="p">,</span>
                     <span class="n">text</span><span class="o">=</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">],</span>
                     <span class="n">attachments</span><span class="o">=</span><span class="n">attachments</span><span class="p">,</span>

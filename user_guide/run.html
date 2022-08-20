@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>How to use slack_transfer &#8212; slack_transfer 0.2.6a0 documentation</title>
+    <title>How to use slack_transfer &#8212; slack_transfer 0.2.6 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.6a0 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.6 documentation</p>
   
 </a>
     
@@ -322,7 +322,6 @@ If you really want to check how much space you need, please go to <a class="refe
 <li><p>Possible formatting errors of massages having more than 3000 characters (Due to API restrictions, the message will be split into separate submissions.)</p></li>
 <li><p>Uploading emoji (due to API limitations, downloading is possible, but uploading is not.)</p></li>
 <li><p>Width is limited to 50% when multiple media, such as markdown and non-text items (panels), are included (due to API limitation)</p></li>
-<li><p>Attachments will be posted as separate posts, one per file, and then posted with the same formatting as the original post. i.e., if you have attached N files, you will have N separate file shares and a copy of the original post.  (due to API limitation)</p></li>
 <li><p>Files larger than several MB may not be uploaded due to a bug in the Slack API. In particular, the threshold is often 10 MB or less for WSs under OrG, while general WSs may work with files as small as 200 MB. The file upload process may take an extremely long time due to retries and automatic attempts workarounds for this problem.</p></li>
 </ul>
 </dd>
@@ -332,6 +331,7 @@ If you really want to check how much space you need, please go to <a class="refe
 <li><p>Since migrated messages are posted by the API, the timestamp is changed. Instead, the original timestamp is added at the end of the users’ name.</p></li>
 <li><p>It is provided under the MIT license, and there is no warranty. (Only the built binary version is under the GPL3.0 license.)</p></li>
 <li><p>Only Channel can be migrated; DM cannot.</p></li>
+<li><p>Slack API output values (especially during download) are not precisely defined and may cause unexpected errors. We appreciate your cooperation in reporting potential bugs!</p></li>
 </ul>
 </div></blockquote>
 <p>The tool is designed to avoid destructive operation as long as possible.</p>
@@ -471,8 +471,8 @@ When all is complete, click the “Install to Workspace” button at the top.</p
 <span id="invite-private"></span><h2>4. Add API bot to Private channel on the original WS<a class="headerlink" href="#add-api-bot-to-private-channel-on-the-original-ws" title="Permalink to this heading">#</a></h2>
 <p>By default, the API cannot read private channels, so it performs the operations equivalent to inviting a user.
 For public channels, it is possible to join a channel without an invitation, so no action is required.</p>
-<a class="reference internal image-reference" href="../_images/add-api-to-private-01.png"><img alt="../_images/add-api-to-private-01.png" src="../_images/add-api-to-private-01.png" style="width: 264.0px; height: 255.0px;" /></a>
-<p>From the left panel of Slack, select “Add Apps”. (If it does not appear, section 2 has failed.)</p>
+<a class="reference internal image-reference" href="../_images/add-api-to-private-01-b.png"><img alt="../_images/add-api-to-private-01-b.png" src="../_images/add-api-to-private-01-b.png" style="width: 327.0px; height: 348.0px;" /></a>
+<p>From the left panel of Slack, select “Apps”.</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-02.png"><img alt="../_images/add-api-to-private-02.png" src="../_images/add-api-to-private-02.png" style="width: 702.8px; height: 364.7px;" /></a>
 <p>Next, select Downloader API (created in section 2) from the list of applications that appear.</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-03.png"><img alt="../_images/add-api-to-private-03.png" src="../_images/add-api-to-private-03.png" style="width: 703.5px; height: 348.59999999999997px;" /></a>

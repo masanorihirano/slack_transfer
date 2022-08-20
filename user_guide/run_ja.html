@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>slack_transfer の使い方 &#8212; slack_transfer 0.2.6a0 documentation</title>
+    <title>slack_transfer の使い方 &#8212; slack_transfer 0.2.6 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.6a0 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.6 documentation</p>
   
 </a>
     
@@ -321,7 +321,6 @@
 <li><p>3000文字を越える投稿におけるフォーマット崩れの可能性 (APIの制限のため，分割投稿となるから．)</p></li>
 <li><p>emojiのアップロード (APIの制限のため，ダウンロードはできますが，アップロードはできません．)</p></li>
 <li><p>markdownを含めた複数のメディアやパネル等のテキスト以外の物が含まれている場合に，横幅が50%に抑えられてしまう (APIの制限によるものです)</p></li>
-<li><p>添付ファイルは，1ファイルごとの個別の投稿として投稿されたのちに，元の投稿と同じフォーマッティングの投稿が行われます．つまり，Nファイル添付していた場合には，N個の個別のファイル共有と，1個のもとの投稿のコピーとなります．(Slack APIの実装にないためです．)</p></li>
 <li><p>数MB以上のファイルについては，Slack APIのバグにより，アップロードできない可能性があります．特にOrG配下のWSではその閾値が10MB以上であることが多く，一般のWSでは，200MB程度でも機能する場合があります．また，そのリトライや，回避策を自動的に試す関係で，ファイルのアップロード処理にきわめて時間がかかる場合があります．</p></li>
 </ul>
 </dd>
@@ -331,6 +330,7 @@
 <li><p>メッセージの移植はAPIによる代理投稿として行われるので，タイムスタンプは移植時の物に変わります．代わりに，投稿者名の末尾にオリジナルのタイムスタンプを付与しています．</p></li>
 <li><p>MITライセンスで提供されており，なんら保証はありません． (ビルドされたバイナリ版だけはGPL3.0ライセンスです．)</p></li>
 <li><p>Channelしか移植できません．DMは移植できません．</p></li>
+<li><p>Slack APIの出力値(特にDownload時)は正確に定義されておらず，予期せぬエラーを起こす場合があります．是非，潜在的なバグのご報告にご協力お願いいたします．</p></li>
 </ul>
 </div></blockquote>
 <p>なお，このツールは，できる限り，破壊的操作を行わないように設計されています．</p>
@@ -469,8 +469,8 @@
 <span id="invite-private-ja"></span><h2>4. Download側WSのPrivateチャンネルにAPI botの追加<a class="headerlink" href="#downloadwsprivateapi-bot" title="Permalink to this heading">#</a></h2>
 <p>デフォルトでは，APIはprivate channelを読み込むことができないので，ユーザーのinviteに相当する作業を行います．
 Public channelに関しては，招待なくとも自分で参加することができるのが一般なので，操作は不要です．</p>
-<a class="reference internal image-reference" href="../_images/add-api-to-private-01.png"><img alt="../_images/add-api-to-private-01.png" src="../_images/add-api-to-private-01.png" style="width: 264.0px; height: 255.0px;" /></a>
-<p>Slackの左側のパネルから，Add Appsを選択します．(出てこない場合は，2のステップに失敗しています．)</p>
+<a class="reference internal image-reference" href="../_images/add-api-to-private-01-b.png"><img alt="../_images/add-api-to-private-01-b.png" src="../_images/add-api-to-private-01-b.png" style="width: 327.0px; height: 348.0px;" /></a>
+<p>Slackの左側のパネルから，Appsを選択します．</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-02.png"><img alt="../_images/add-api-to-private-02.png" src="../_images/add-api-to-private-02.png" style="width: 702.8px; height: 364.7px;" /></a>
 <p>続いて，出てくるアプリのリストの中からDownloader API(2で作成)を選びます．</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-03.png"><img alt="../_images/add-api-to-private-03.png" src="../_images/add-api-to-private-03.png" style="width: 703.5px; height: 348.59999999999997px;" /></a>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slack_transfer.functions.download &#8212; slack_transfer 0.2.6a0 documentation</title>
+    <title>slack_transfer.functions.download &#8212; slack_transfer 0.2.6 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.6a0 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.6 documentation</p>
   
 </a>
     
@@ -265,15 +265,16 @@
     <span class="k">def</span> <span class="nf">_download_files_in_message</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="s2">&quot;files&quot;</span> <span class="ow">in</span> <span class="n">message</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">message</span><span class="p">[</span><span class="s2">&quot;files&quot;</span><span class="p">]:</span>
-                <span class="n">url_private</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;url_private&quot;</span><span class="p">]</span>
-                <span class="n">file_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
-                <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-                <span class="n">download_file</span><span class="p">(</span>
-                    <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
-                    <span class="n">file_id</span><span class="o">=</span><span class="n">file_id</span><span class="p">,</span>
-                    <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
-                    <span class="n">url_private</span><span class="o">=</span><span class="n">url_private</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="k">if</span> <span class="s2">&quot;url_private&quot;</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+                    <span class="n">url_private</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;url_private&quot;</span><span class="p">]</span>
+                    <span class="n">file_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+                    <span class="n">file_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">file</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                    <span class="n">download_file</span><span class="p">(</span>
+                        <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+                        <span class="n">file_id</span><span class="o">=</span><span class="n">file_id</span><span class="p">,</span>
+                        <span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
+                        <span class="n">url_private</span><span class="o">=</span><span class="n">url_private</span><span class="p">,</span>
+                    <span class="p">)</span>
 
     <span class="n">messages</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">next_cursor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>

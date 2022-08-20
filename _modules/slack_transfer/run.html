@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>slack_transfer.run &#8212; slack_transfer 0.2.6a0 documentation</title>
+    <title>slack_transfer.run &#8212; slack_transfer 0.2.6 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -61,7 +61,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.6a0 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.6 documentation</p>
   
 </a>
     
@@ -184,6 +184,7 @@
     <span class="n">channel_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">skip_bookmarks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">ssl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SSLContext</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">time_zone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Asia/Tokyo&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;See run section in :doc:`/user_guide/cli`</span>
 
@@ -205,6 +206,8 @@
 <span class="sd">        skip_bookmarks (bool; Optional; default=False): Skip process bookmarks.</span>
 <span class="sd">        ssl: (SSLContext; Optional; default=None): : An [`ssl.SSLContext`][1] instance, helpful for specifying</span>
 <span class="sd">            your own custom certificate chain.</span>
+<span class="sd">        time_zone (str; Optional; default=Asia/Tokyo): time zone to preview the original post data on the destination WS.</span>
+<span class="sd">            See: https://dateutil.readthedocs.io/en/stable/tz.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">local_data_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_download</span><span class="p">:</span>
@@ -296,6 +299,7 @@
                             <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">reverse_name_mappings</span>
                             <span class="k">else</span> <span class="n">x</span>
                         <span class="p">),</span>
+                        <span class="n">time_zone</span><span class="o">=</span><span class="n">time_zone</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="p">),</span>
                 <span class="n">conflicts</span><span class="p">,</span>
@@ -335,6 +339,7 @@
                     <span class="n">channel_name</span><span class="o">=</span><span class="n">new_channel_name</span><span class="p">,</span>
                     <span class="n">old_members_dict</span><span class="o">=</span><span class="n">old_members_dict</span><span class="p">,</span>
                     <span class="n">old_channel_name</span><span class="o">=</span><span class="n">old_channel_name</span><span class="p">,</span>
+                    <span class="n">time_zone</span><span class="o">=</span><span class="n">time_zone</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="ow">and</span> <span class="ow">not</span> <span class="n">override</span>
             <span class="p">):</span>
@@ -345,6 +350,7 @@
                 <span class="n">old_members_dict</span><span class="o">=</span><span class="n">old_members_dict</span><span class="p">,</span>
                 <span class="n">old_members_icon_url_dict</span><span class="o">=</span><span class="n">old_members_icon_url_dict</span><span class="p">,</span>
                 <span class="n">old_channel_name</span><span class="o">=</span><span class="n">old_channel_name</span><span class="p">,</span>
+                <span class="n">time_zone</span><span class="o">=</span><span class="n">time_zone</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_bookmarks</span><span class="p">:</span>
                 <span class="n">uploader</span><span class="o">.</span><span class="n">insert_bookmarks</span><span class="p">(</span>
