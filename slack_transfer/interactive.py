@@ -278,7 +278,7 @@ def interactive() -> None:
 
         if not skip_download and not skip_upload:
             downloader = DownloaderClient(
-                local_data_dir=local_data_dir, token=downloader_token
+                local_data_dir=local_data_dir, token=downloader_token, ssl=ssl_context
             )
             downloader.download_emoji()
             confirmation(
