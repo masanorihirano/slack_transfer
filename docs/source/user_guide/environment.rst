@@ -11,6 +11,8 @@ A notebook that can run on Google Colab is also provided:
 
 1. Building a Python Environment
 -------------------
+\* If you are using the binary version (exe version), this is not necessary.
+
 Windows
 ~~~~~~~~~~~~~~~
 For Windows, the use of  WSL is highly recommended.
@@ -35,6 +37,7 @@ Probably no initial setup is required, but if python3 is not found, install it w
 
 2. Installing slack-transfer
 -------------------
+\* If you are using the binary version (exe version), this is not necessary.
 
 Installing directly into the machine's environment
 ~~~~~~~~~~~~~~~
