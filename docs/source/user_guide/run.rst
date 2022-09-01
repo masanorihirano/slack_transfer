@@ -278,7 +278,7 @@ Therefore, you should be cautious about putting data into the general (or equiva
 In general, it is not recommended to transfer data from the general channel of the original WS to the general channel of the destination WS.
 
 Otherwise, if a duplicate channel name already exists in the uploading WS, there are three options
- - Add migrated messages to the end of the existing postings --> No additional work is required.　(Later, please use :code:`--override` flag)
+ - Add migrated messages to the end of the existing postings --> In the following work, use the :code:`--override` flag, allow overwriting, or :code:`override=True`. In the Uploader side WS, please also add the Uploader API to the existing channel as in step 4.
  - Create a new channel by removing the existing one → Delete the channel first (if you want to keep it as an archive, rename the channel and then archive it).
  - Create a new channel as a separate channel → Set the channel mapping. The channel mapping is set by the optional argument described below.
 
@@ -293,6 +293,7 @@ If you do not migrate the emoji first, you will not be able to move some reactio
 If you do not have the original image data, you can use the download tool including in slack_transfer.
 
 When you are using interactive mode (described below in 7-2), you can skip this step because the guidance will appear automatically.
+If the migration has been completed manually, no work is required here.
 
 The emoji will be downloaded to the :code:`emojis` folder in the specified directory.
 Upload and add emoji on the destination WS's administration screen if necessary.
@@ -365,6 +366,7 @@ There are two way to operate the following procedures
  2. use the interactive mode to proceed with all settings on the screen.
 
 Either one can be used, but in rare cases, the second one may not work depending on your terminal environment.
+(The default python for Mac does not work with the interactive mode.)
 
 7-1. Use the run command to run all settings from the CLI
 ~~~~~~~~~~~~~~~~~~~~~
