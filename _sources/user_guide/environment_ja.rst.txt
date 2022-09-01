@@ -12,6 +12,7 @@ Google Colabで稼働可能なnotebookも例示しています:
 1. Python環境の構築
 -------------------
 ※binary版(exe版)を使用する場合は不要です．3に進んでください．
+
 Windows
 ~~~~~~~~~~~~~~~
 Windowsの場合は，WSLの仕様をお勧めします．
