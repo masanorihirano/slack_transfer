@@ -405,6 +405,19 @@ Windowsの場合
 
 
 8. アップロードに失敗したファイルを確認する
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 :code:`<local_data_dir>/file_upload_failure.txt' 配下に，アップロードに失敗したファイルのリストが表示されます．必要に応じて，別の場所に保存してください．
 
+9. FAQ
+---------------------
+
+uploaderでnot_in_channelとでる．
+~~~~~~~~~~~~~~~~~~~~~
+.. code-block::
+
+    slack_sdk.errors.SlackApiError: The request to the Slack API failed. (url: https://www.slack.com/api/conversations.history)
+    The server responded with: {'ok': False, 'error': 'not_in_channel'}
+
+このようなエラーが出る場合は，5のステップでのチャンネル名のマッピングの設定が不適切で，既存のチャンネルとの重複があります．
+重複を回避するようにname mappingを設定するか，既存のチャンネルに追加を行う場合には，Uploader APIをチャンネルに追加する必要があります．
+詳しくは5のセクションを確認してください．

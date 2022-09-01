@@ -406,5 +406,19 @@ Starts program by:
 Then, follow the instructions.
 
 8. check for files failed to upload
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 A list of files that failed to upload is written under :code:`<local_data_dir>/file_upload_failure.txt`. If necessary, save the file in a different location.
+
+9. FAQ
+---------------------
+
+not_in_channel error appears during uploading.
+~~~~~~~~~~~~~~~~~~~~~
+.. code-block::
+
+    slack_sdk.errors.SlackApiError: The request to the Slack API failed. (url: https://www.slack.com/api/conversations.history)
+    The server responded with: {'ok': False, 'error': 'not_in_channel'}
+
+If you get such an error, the channel name mapping in step 5 is incorrectly set and there is a duplication with an existing channel.
+Either set the name mapping to avoid duplication, or add the Uploader API to the channel if you are adding to an existing channel.
+See section 5 for details.
