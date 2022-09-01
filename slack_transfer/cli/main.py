@@ -60,10 +60,16 @@ This is CLI v.{__version__}
 
     try:
         import tkinter
+
         from slack_transfer.interactive import interactive
+
         interactive_wrap = lambda _: interactive()
-        parser_interactive = subparsers.add_parser("interactive", help="interactive mode.")
+        parser_interactive = subparsers.add_parser(
+            "interactive", help="interactive mode."
+        )
         parser_interactive.set_defaults(handler=interactive_wrap)
+    except:
+        pass
 
     args = parser.parse_args()
     if hasattr(args, "handler"):
