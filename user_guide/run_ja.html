@@ -654,7 +654,7 @@ Mac/Linux/WSLの場合(venv環境でなければ作業不要です)</p>
 (Mac版のデフォルトのpythonでは2が動かないようです．)</p>
 <section id="run-cli">
 <h3>7-1. runコマンドを使用して，すべての設定をCLIから流し込む方法<a class="headerlink" href="#run-cli" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer　run --data_dir<span class="o">=</span>&lt;local_data_dir&gt; --downloader_token<span class="o">=</span>&lt;downloader_token&gt; --uploader_token<span class="o">=</span>&lt;uploader_token&gt; --channel_names<span class="o">=</span>&lt;channel_names&gt; --name_mappings<span class="o">=</span>&lt;name_mappings&gt; <span class="o">[</span>--override<span class="o">]</span> <span class="o">[</span>--skip_bookmarks<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer run --data_dir<span class="o">=</span>&lt;local_data_dir&gt; --downloader_token<span class="o">=</span>&lt;downloader_token&gt; --uploader_token<span class="o">=</span>&lt;uploader_token&gt; --channel_names<span class="o">=</span>&lt;channel_names&gt; --name_mappings<span class="o">=</span>&lt;name_mappings&gt; <span class="o">[</span>--override<span class="o">]</span> <span class="o">[</span>--skip_bookmarks<span class="o">]</span>
 </pre></div>
 </div>
 <p>などと実行します．
@@ -674,13 +674,13 @@ Mac/Linux/WSLの場合(venv環境でなければ作業不要です)</p>
 <p>それ以外の詳細な引数に関しては，
 <a class="reference internal" href="../reference/generated/other/slack_transfer.run.run.html"><span class="doc">slack_transfer.run.run</span></a> を参照してください．</p>
 <p>これらを総合すると，実行すべきコマンド例は以下のような形になります．</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer　run --data_dir<span class="o">=</span>local_data_dir --downloader_token<span class="o">=</span>xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token<span class="o">=</span>xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings<span class="o">=</span>general:_general,random:_random
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer run --data_dir<span class="o">=</span>local_data_dir --downloader_token<span class="o">=</span>xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token<span class="o">=</span>xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings<span class="o">=</span>general:_general,random:_random
 </pre></div>
 </div>
 </section>
 <section id="interactive">
 <h3>7-2. interactiveコマンドを使用して，すべて画面操作で設定を進める方法<a class="headerlink" href="#interactive" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer　interactive
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer interactive
 </pre></div>
 </div>
 <p>でプログラムを開始できます．あとは，指示に従って進めるだけです．</p>
