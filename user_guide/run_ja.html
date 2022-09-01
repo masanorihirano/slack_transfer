@@ -245,9 +245,21 @@
      7-2. interactiveコマンドを使用して，すべて画面操作で設定を進める方法
     </a>
    </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id10">
+   8. アップロードに失敗したファイルを確認する
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#faq">
+   9. FAQ
+  </a>
+  <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id10">
-     8. アップロードに失敗したファイルを確認する
+    <a class="reference internal nav-link" href="#uploadernot-in-channel">
+     uploaderでnot_in_channelとでる．
     </a>
    </li>
   </ul>
@@ -476,7 +488,8 @@ Public channelに関しては，招待なくとも自分で参加することが
 <a class="reference internal image-reference" href="../_images/add-api-to-private-03.png"><img alt="../_images/add-api-to-private-03.png" src="../_images/add-api-to-private-03.png" style="width: 703.5px; height: 348.59999999999997px;" /></a>
 <p>すると，チャットのような画面が出てくるので，ユーザー名の下矢印を開いて，メニューを開きます．</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-04.png"><img alt="../_images/add-api-to-private-04.png" src="../_images/add-api-to-private-04.png" style="width: 436.09999999999997px; height: 350.0px;" /></a>
-<p>メニューになかに，「Add this app to a channel」を選択します．</p>
+<p>メニューになかに，「Add this app to a channel」を選択します．
+日本語版の場合，「チャンネルにこのアプリを連携する」と表示されている場合もあります．</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-05.png"><img alt="../_images/add-api-to-private-05.png" src="../_images/add-api-to-private-05.png" style="width: 384.29999999999995px; height: 164.5px;" /></a>
 <p>すると，チャンネルリストを選べる画面が出てくるので，目的のチャンネルを選択します．
 ここでは，Public channelしか出ていませんが，自分が参加しているprivate channelであれば，選択することができます．
@@ -489,7 +502,7 @@ Public channelは特に作業せずとも，APIが自動的にjoinして作業�
 <p>一般に，download側WSのgeneralチャンネルをupload側WSのgeneralチャンネルにデータ移行することはお勧めしません．</p>
 <dl class="simple">
 <dt>それ以外にも，すでにupload側WSにチャンネル名の重複が存在する場合には，以下の3つの選択肢があります．</dt><dd><ul class="simple">
-<li><p>そのままこれまでの投稿の末尾に追加する → 特に追加の作業不要 (<code class="code docutils literal notranslate"><span class="pre">--override</span></code> フラグを使用します)</p></li>
+<li><p>そのままこれまでの投稿の末尾に追加する → 後述の作業で <code class="code docutils literal notranslate"><span class="pre">--override</span></code> フラグを使用したり，上書きを許可したり， <code class="code docutils literal notranslate"><span class="pre">override=True</span></code> を引数に追加するなどします．また，Uploader側WSで，Uploader APIを4の手順と同様に既存のチャンネルに追加してください．</p></li>
 <li><p>一旦まっさらにして，新規で作りたい → 先にチャンネルを削除(アーカイブとして残したい場合はチャンネル名を変更してからアーカイブ)</p></li>
 <li><p>別チャンネルとして新しく作りたい → チャンネルマッピングを設定します．後述の引数で設定します．</p></li>
 </ul>
@@ -502,7 +515,8 @@ Public channelは特に作業せずとも，APIが自動的にjoinして作業�
 <p>emojiの移行を実施します．
 emojiを先に移行しないと，後述の手順で，reactionの一部移設ができません．</p>
 <p>管理者画面またはスタンプを押す場所でadd emojiから手動で登録することになりますが，画像の元データがない場合は，先にツールを使ってダウンロードできます．</p>
-<p>7-2で後述するinteractive modeの場合は，自動で案内が出るので，スキップ可能です．</p>
+<p>7-2で後述するinteractive modeの場合は，自動で案内が出るので，スキップ可能です．
+また，先に手動で移行が完了していれば，作業不要です．</p>
 <p>emojiは指定したディレクトリのemojisフォルダー内にダウンロードされます．必要に応じて，Uploader側の管理画面からアップロードして追加してください．</p>
 <p>7-1で述べるCLIで絵文字をダウンロードする方法は以下です．</p>
 <p>まずはpython環境に入ります．
@@ -561,7 +575,8 @@ Mac/Linux/WSLの場合</p>
 </ol>
 </dd>
 </dl>
-<p>どちらでも構いませんが2は環境によってはまれに動かない場合があるので，その場合は，1を選んでください．</p>
+<p>どちらでも構いませんが2は環境によってはまれに動かない場合があるので，その場合は，1を選んでください．
+(Mac版のデフォルトのpythonでは2が動かないようです．)</p>
 <section id="run-cli">
 <h3>7-1. runコマンドを使用して，すべての設定をCLIから流し込む方法<a class="headerlink" href="#run-cli" title="Permalink to this heading">#</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer　run --data_dir<span class="o">=</span>&lt;local_data_dir&gt; --downloader_token<span class="o">=</span>&lt;downloader_token&gt; --uploader_token<span class="o">=</span>&lt;uploader_token&gt; --channel_names<span class="o">=</span>&lt;channel_names&gt; --name_mappings<span class="o">=</span>&lt;name_mappings&gt; <span class="o">[</span>--override<span class="o">]</span> <span class="o">[</span>--skip_bookmarks<span class="o">]</span>
@@ -595,9 +610,22 @@ Mac/Linux/WSLの場合</p>
 </div>
 <p>でプログラムを開始できます．あとは，指示に従って進めるだけです．</p>
 </section>
+</section>
 <section id="id10">
-<h3>8. アップロードに失敗したファイルを確認する<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<h2>8. アップロードに失敗したファイルを確認する<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
 <p>:code:<a href="#id11"><span class="problematic" id="id12">`</span></a>&lt;local_data_dir&gt;/file_upload_failure.txt’ 配下に，アップロードに失敗したファイルのリストが表示されます．必要に応じて，別の場所に保存してください．</p>
+</section>
+<section id="faq">
+<h2>9. FAQ<a class="headerlink" href="#faq" title="Permalink to this heading">#</a></h2>
+<section id="uploadernot-in-channel">
+<h3>uploaderでnot_in_channelとでる．<a class="headerlink" href="#uploadernot-in-channel" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">slack_sdk</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">SlackApiError</span><span class="p">:</span> <span class="n">The</span> <span class="n">request</span> <span class="n">to</span> <span class="n">the</span> <span class="n">Slack</span> <span class="n">API</span> <span class="n">failed</span><span class="o">.</span> <span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">slack</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">conversations</span><span class="o">.</span><span class="n">history</span><span class="p">)</span>
+<span class="n">The</span> <span class="n">server</span> <span class="n">responded</span> <span class="k">with</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;ok&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;not_in_channel&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>このようなエラーが出る場合は，5のステップでのチャンネル名のマッピングの設定が不適切で，既存のチャンネルとの重複があります．
+重複を回避するようにname mappingを設定するか，既存のチャンネルに追加を行う場合には，Uploader APIをチャンネルに追加する必要があります．
+詳しくは5のセクションを確認してください．</p>
 </section>
 </section>
 </section>
