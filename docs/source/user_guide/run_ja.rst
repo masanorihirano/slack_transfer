@@ -3,11 +3,11 @@ slack_transfer の使い方
 :doc:`environment_ja` のステップが完了している前提で説明します．
 
 .. seealso::
-    Google Colabで稼働可能なnotebookも例示しています:
+    Google Colabで稼働可能なnotebookも例示しています: |COLAB|
 
-    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-        :alt: Open In Colab
-        :target: https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb
+.. |COLAB| raw:: html
+
+    <a href="https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 
 
 0. 全体像と用語定義
@@ -79,109 +79,174 @@ Upload側でユーザーが行わなければいけない作業(=このツール
  - 希望に応じて他人をチャンネルに追加する操作
 
 なお，本番環境への移行の前に，一旦テスト用のWSを作成し，正常に移行できることを確認してから，本番環境への移行をおこなうことをお勧めします．
-不具合等があれば，githubのissue ( https://github.com/masanorihirano/slack_transfer/issues )を立てることもできますが，サポートやbug fixは保証していません．
+不具合等があれば，githubのissue ( |GITHUB_ISSUE| )を立てることもできますが，サポートやbug fixは保証していません．
 なお，記入の際にはトークン情報など，confidentialな情報を書き込まないように注意してください．
+
+.. |GITHUB_ISSUE| raw:: html
+
+    <a href="https://github.com/masanorihirano/slack_transfer/issues" target="_blank" rel="noopener">https://github.com/masanorihirano/slack_transfer/issues</a>
 
 .. _downloader_token_ja:
 
 2. slackトークンの取得(download側)
 ---------------------
-まず， https://api.slack.com/apps/ に進みます．
+\(1) まず， |SLACK_API_APP| に進みます．
+
+.. |SLACK_API_APP| raw:: html
+
+    <a href="https://api.slack.com/apps/" target="_blank" rel="noopener">https://api.slack.com/apps/</a>
 
 .. image:: assets/create-app-dl-01.png
 
-「Create New App」をクリックします．
+----
+
+\(2)「Create New App」をクリックします．
+ここで，どちらを選択してもかまわないのですが，「From an app manifest」を選択すると，一気に設定を負えることができるので，お勧めです．
 
 .. image:: assets/create-app-dl-02.png
     :scale: 70%
 
-ここで，どちらを選択してもかまわないのですが，「From an app manifest」を選択すると，一気に設定を負えることができるので，お勧めです．
-
 選択肢A: 「From an app manifest」を選んだ場合
 ~~~~~~~~~~~~~~~~~~~~~
+
+\(3) Select a workspaceからDownload側のワークスペースを選択します．
 
 .. image:: assets/create-app-dl-a-03.png
     :scale: 70%
 
-Select a workspaceからDownload側のワークスペースを選択します．
+----
+
+\(4) 次に進みます．
 
 .. image:: assets/create-app-dl-a-04.png
     :scale: 70%
 
-次に進みます．
+----
+
+\(5) このような画面がでてくるので，タブはYAMLのままで，中のコードを削除します．
+そのうえで， 画像の下の内容をコピペします．
 
 .. image:: assets/create-app-dl-a-05.png
     :scale: 70%
 
-このような画面がでてくるので，タブはYAMLのままで，中のコードを削除します．
-そのうえで， `こちらのリンク <../_static/downloader.yml>`_ の内容をコピペします．
+.. code-block:: yml
+
+    display_information:
+      name: Downloader API
+    features:
+      bot_user:
+        display_name: Downloader API
+        always_online: true
+    oauth_config:
+      scopes:
+        bot:
+          - bookmarks:read
+          - channels:history
+          - channels:join
+          - channels:read
+          - emoji:read
+          - files:read
+          - groups:history
+          - groups:read
+          - users:read
+    settings:
+      org_deploy_enabled: false
+      socket_mode_enabled: false
+      token_rotation_enabled: false
+
+----
+
+\(6) これで次へ進みます．
 
 .. image:: assets/create-app-dl-a-06.png
     :scale: 70%
 
-これで次へ進みます．
+----
+
+\(7) レビューを要求されるので， :ref:`scope_dl_ja` も参考にしながら確認をします．
 
 .. image:: assets/create-app-dl-a-07.png
     :scale: 70%
 
-レビューを要求されるので， :ref:`scope_dl_ja` も参考にしながら確認をします．
+----
+
+\(8) 「Install to Workspace」をクリックします．
 
 .. image:: assets/create-app-dl-a-08.png
 
-「Install to Workspace」をクリックします．
+----
+
+\(9) 許可を要求されるので許可します．(Allow)
 
 .. image:: assets/create-app-dl-a-09.png
     :scale: 70%
 
-許可を要求されるので許可します．(Allow)
+----
+
+\(10) 画面が戻るので，「OAuth & Permissions」をクリックします．
 
 .. image:: assets/create-app-dl-a-10.png
 
-画面が戻るので，「OAuth & Permissions」をクリックします．
+----
+
+\(11) 「Bot User OAuth Token」が今回欲しいTokenです．「xoxb-」からはじまることを確認してください．
+「COPY」ボタンを押すとクリップボードにコピーされるので，ctrl + Vでどこでも貼り付けられます．
 
 .. image:: assets/create-app-dl-a-11.png
-
-「Bot User OAuth Token」が今回欲しいTokenです．「xoxb-」からはじまることを確認してください．
 
 選択肢B: 「From scratch」を選択した場合
 ~~~~~~~~~~~~~~~~~~~~~
 
+\(3) APIの名前と，ワークスペースの選択を求められますので，入力します．
+
 .. image:: assets/create-app-dl-a-03.png
     :scale: 70%
 
-APIの名前と，ワークスペースの選択を求められますので，入力します．
+----
+
+\(4) 入力後，次に進みます．
 
 .. image:: assets/create-app-dl-a-04.png
     :scale: 70%
 
-入力後，次に進みます．
+----
+
+\(5) 画面が戻るので，「OAuth & Permissions」をクリックします．
 
 .. image:: assets/create-app-dl-a-10.png
 
-画面が戻るので，「OAuth & Permissions」をクリックします．
+----
+
+\(6) 「Bot Token Scopes」まで下に進み，:ref:`scope_dl_ja` のリストにあるスコープを「Add permission by Scope or API method...」のところで選択し，「Add an OAuth Scope」を押して，追加していきます．
+全部完了したら，上の方にある，「Install to Workspace」のボタンが押せるようになるので，クリックします．
 
 .. image:: assets/create-app-dl-b-06.png
 
-「Bot Token Scopes」まで下に進み，:ref:`scope_dl_ja` のリストにあるスコープを「Add permission by Scope or API method...」のところで選択し，「Add an OAuth Scope」を押して，追加していきます．
-全部完了したら，上の方にある，「Install to Workspace」のボタンが押せるようになるので，クリックします．
+----
+
+\(7) 「Install to Workspace」をクリックします．
 
 .. image:: assets/create-app-dl-a-08.png
 
-「Install to Workspace」をクリックします．
+----
+
+\(8) 許可を要求されるので許可します．(Allow)
 
 .. image:: assets/create-app-dl-a-09.png
     :scale: 70%
 
-許可を要求されるので許可します．(Allow)
+----
+
+\(9) 画面が戻るので，「OAuth & Permissions」をクリックします．
 
 .. image:: assets/create-app-dl-a-10.png
 
-画面が戻るので，「OAuth & Permissions」をクリックします．
+----
+
+\(10) 「Bot User OAuth Token」が今回欲しいTokenです．「xoxb-」からはじまることを確認してください．
+「COPY」ボタンを押すとクリップボードにコピーされるので，ctrl + Vでどこでも貼り付けられます．
 
 .. image:: assets/create-app-dl-a-11.png
-
-「Bot User OAuth Token」が今回欲しいTokenです．「xoxb-」からはじまることを確認してください．
-
 
 .. _scope_dl_ja:
 
@@ -210,7 +275,37 @@ Download側に必要になるScopeは以下です．
 
 API名はUploader APIなどとわかりやすいようにしましょう．また，インストール先のWSを間違えないように気を付けてください．
 
-manifestファイルを用いて作成する場合は `uploader用のyml <../_static/uploader.yml>`_ の内容をコピペします．
+manifestファイルを用いて作成する場合は 下記の内容をコピペします．
+
+.. code-block:: yml
+
+    display_information:
+      name: Uploader API
+    features:
+      bot_user:
+        display_name: Uploader API
+        always_online: true
+    oauth_config:
+      scopes:
+        bot:
+          - bookmarks:write
+          - channels:history
+          - channels:join
+          - channels:manage
+          - channels:read
+          - chat:write
+          - chat:write.customize
+          - files:read
+          - files:write
+          - groups:history
+          - groups:read
+          - pins:write
+          - reactions:write
+    settings:
+      org_deploy_enabled: false
+      socket_mode_enabled: false
+      token_rotation_enabled: false
+
 
 なお，Upload側に必要になるScopeは以下です．
 
@@ -235,34 +330,44 @@ manifestファイルを用いて作成する場合は `uploader用のyml <../_st
 
 4. Download側WSのPrivateチャンネルにAPI botの追加
 ---------------------
-デフォルトでは，APIはprivate channelを読み込むことができないので，ユーザーのinviteに相当する作業を行います．
+\(1) デフォルトでは，APIはprivate channelを読み込むことができないので，ユーザーのinviteに相当する作業を行います．
 Public channelに関しては，招待なくとも自分で参加することができるのが一般なので，操作は不要です．
 
 .. image:: assets/add-api-to-private-01-b.png
     :scale: 100%
 
-Slackの左側のパネルから，Appsを選択します．
+----
+
+\(2) Slackの左側のパネルから，Appsを選択します．
 
 .. image:: assets/add-api-to-private-02.png
     :scale: 70%
 
-続いて，出てくるアプリのリストの中からDownloader API(2で作成)を選びます．
+----
+
+\(3) 続いて，出てくるアプリのリストの中からDownloader API(2で作成)を選びます．
 
 .. image:: assets/add-api-to-private-03.png
     :scale: 70%
 
-すると，チャットのような画面が出てくるので，ユーザー名の下矢印を開いて，メニューを開きます．
+----
+
+\(4) すると，チャットのような画面が出てくるので，ユーザー名の下矢印を開いて，メニューを開きます．
 
 .. image:: assets/add-api-to-private-04.png
     :scale: 70%
 
-メニューになかに，「Add this app to a channel」を選択します．
+----
+
+\(5) メニューになかに，「Add this app to a channel」を選択します．
 日本語版の場合，「チャンネルにこのアプリを連携する」と表示されている場合もあります．
 
 .. image:: assets/add-api-to-private-05.png
     :scale: 70%
 
-すると，チャンネルリストを選べる画面が出てくるので，目的のチャンネルを選択します．
+----
+
+\(6) すると，チャンネルリストを選べる画面が出てくるので，目的のチャンネルを選択します．
 ここでは，Public channelしか出ていませんが，自分が参加しているprivate channelであれば，選択することができます．
 Public channelは特に作業せずとも，APIが自動的にjoinして作業を行うことはできるので，わざわざ追加する必要はありません．
 
@@ -286,26 +391,27 @@ generalチャンネル(あるいはそれを改称した場合も)は，特別�
 
 6. emojiの移行
 ---------------------
+**7-2で後述するinteractive modeの場合や，binary(exe)版をお使いの場合は，自動で案内が出るので，スキップしてください．**
+
 emojiの移行を実施します．
 emojiを先に移行しないと，後述の手順で，reactionの一部移設ができません．
 
 管理者画面またはスタンプを押す場所でadd emojiから手動で登録することになりますが，画像の元データがない場合は，先にツールを使ってダウンロードできます．
 
-7-2で後述するinteractive modeの場合は，自動で案内が出るので，スキップ可能です．
-また，先に手動で移行が完了していれば，作業不要です．
+先に手動で移行が完了していれば，作業不要です．
 
 emojiは指定したディレクトリのemojisフォルダー内にダウンロードされます．必要に応じて，Uploader側の管理画面からアップロードして追加してください．
 
 7-1で述べるCLIで絵文字をダウンロードする方法は以下です．
 
 まずはpython環境に入ります．
-Mac/Linux/WSLの場合
+Mac/Linux/WSLの場合(venv環境でなければ作業不要です)
 
 .. code-block:: bash
 
     $ . .venv/bin/activate
 
-Windowsの場合
+Windowsの場合(venv環境でなければ作業不要です)
 
 .. code-block:: bash
 
@@ -331,6 +437,8 @@ Windowsの場合
 
 7. データ移行の実行
 ---------------------
+**binary(exe)版を使用している場合は，このセクションは基本的に読まなくて大丈夫です．**
+
 ここまで準備したら，いよいよデータの移行を開始します．
 
 大体の時間の目安としては，メッセージ数をMとすると，
@@ -347,13 +455,13 @@ Mが充分に大きい場合には，作業を行う端末が長時間にわた�
 
 まず，venvを使用する場合にはvenvに入ります．
 
-Mac/Linux/WSLの場合
+Mac/Linux/WSLの場合(venv環境でなければ作業不要です)
 
 .. code-block:: bash
 
     $ . .venv/bin/activate
 
-Windowsの場合
+Windowsの場合(venv環境でなければ作業不要です)
 
 .. code-block:: bash
 

@@ -3,16 +3,15 @@ How to use slack_transfer
 This explanation assumes that the :doc:`environment` step has been completed.
 
 .. seealso::
-    A notebook that can run on Google Colab is also provided:
+    A notebook that can run on Google Colab is also provided: |COLAB|
 
-    .. image:: https://colab.research.google.com/assets/colab-badge.svg
-        :alt: Open In Colab
-        :target: https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb
+.. |COLAB| raw:: html
 
+    <a href="https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 
 0. Overview and definition of terms
 ---------------------
-Using :code:`slack_transfer.run`, you can transfer data from the original Slack workspace to the destination Slack workspace.
+Using :code:`slack_transfer`, you can transfer data from the original Slack workspace to the destination Slack workspace.
 
 Note that if the Slack trial is still available, you can temporarily activate it to retrieve all past data.
 
@@ -81,111 +80,177 @@ What users must do on the destination WS (=things that this tool does not do):
  - Add others to the channel as needed.
 
 Before migrating to the production environment, it is recommended to create a test WS and confirm that the migration is successful before migrating to the production environment.
-If you have any problems, you can submit an issue on github ( https://github.com/masanorihirano/slack_transfer/issues ), but we do not guarantee support or bug fixes.
+If you have any problems, you can submit an issue on github ( |GITHUB_ISSUE| ), but we do not guarantee support or bug fixes.
 Please be careful not to include any confidential information such as token information when submitting an issue.
+
+.. |GITHUB_ISSUE| raw:: html
+
+    <a href="https://github.com/masanorihirano/slack_transfer/issues" target="_blank" rel="noopener">https://github.com/masanorihirano/slack_transfer/issues</a>
 
 .. _downloader_token:
 
 2. Obtaining Slack token (the original WS)
 ---------------------
-First, go to https://api.slack.com/apps/
+\(1) First, go to |SLACK_API_APP|
+
+.. |SLACK_API_APP| raw:: html
+
+    <a href="https://api.slack.com/apps/" target="_blank" rel="noopener">https://api.slack.com/apps/</a>
 
 .. image:: assets/create-app-dl-01.png
 
-Click "Create New App".
+----
+
+\(2) Click "Create New App".
+You can choose either of the two options here, but selecting "From an app manifest" is recommended because it allows you to configure all the settings at once.
 
 .. image:: assets/create-app-dl-02.png
     :scale: 70%
 
-You can choose either of the two options here, but selecting "From an app manifest" is recommended because it allows you to configure all the settings at once.
-
 Choice A: If you choose "From an app manifest"
 ~~~~~~~~~~~~~~~~~~~~~
+
+\(3) Select the original workspace from Select a workspace.
 
 .. image:: assets/create-app-dl-a-03.png
     :scale: 70%
 
-Select the original workspace from Select a workspace.
+----
+
+\(4) Go next,
 
 .. image:: assets/create-app-dl-a-04.png
     :scale: 70%
 
-Go next,
+----
+
+\(5) You will see a screen like this. Use the tabs in YAML and delete the code inside.
+Then, copy and paste the contents following to the image.
 
 .. image:: assets/create-app-dl-a-05.png
     :scale: 70%
 
-You will see a screen like this. Use the tabs in YAML and delete the code inside.
-Then, copy and paste the contents of `here is the link <... /_static/downloader.yml>`_ to this field.
+
+.. code-block:: yml
+
+    display_information:
+      name: Downloader API
+    features:
+      bot_user:
+        display_name: Downloader API
+        always_online: true
+    oauth_config:
+      scopes:
+        bot:
+          - bookmarks:read
+          - channels:history
+          - channels:join
+          - channels:read
+          - emoji:read
+          - files:read
+          - groups:history
+          - groups:read
+          - users:read
+    settings:
+      org_deploy_enabled: false
+      socket_mode_enabled: false
+      token_rotation_enabled: false
+
+----
+
+\(6) Go next,
 
 .. image:: assets/create-app-dl-a-06.png
     :scale: 70%
 
-Go next,
+----
+
+\(7) Review is requested. Also referring to :ref:`scope_dl`.
 
 .. image:: assets/create-app-dl-a-07.png
     :scale: 70%
 
-Review is requested. Also referring to :ref:`scope_dl`.
+----
+
+\(8) Click "Install to Workspace".
 
 .. image:: assets/create-app-dl-a-08.png
 
-Click "Install to Workspace".
+----
+
+\(9) Permission is requested; so allow this
 
 .. image:: assets/create-app-dl-a-09.png
     :scale: 70%
 
-Permission is requested; so allow this
+----
+
+\(10) When the screen returns, click "OAuth & Permissions".
 
 .. image:: assets/create-app-dl-a-10.png
 
-When the screen returns, click "OAuth & Permissions".
+----
+
+\(11) "Bot User OAuth Token" is the Token that you want this time. Make sure it starts with "xoxb-".
+Pressing the "COPY" button to copy it to the clipboard. You can paste it anywhere by pressing ctrl + V.
 
 .. image:: assets/create-app-dl-a-11.png
-
-"Bot User OAuth Token" is the Token that you want this time. Make sure it starts with "xoxb-".
 
 Choice B: If you choose "From scratch"
 ~~~~~~~~~~~~~~~~~~~~~
 
+\(3) You will be asked to select the name of the API and the workspace.
+
 .. image:: assets/create-app-dl-a-03.png
     :scale: 70%
 
-You will be asked to select the name of the API and the workspace.
+----
+
+\(4) Inputs, then go next,
 
 .. image:: assets/create-app-dl-a-04.png
     :scale: 70%
 
-Inputs, then go next,
+----
+
+\(5) When the screen returns, click "OAuth & Permissions".
 
 .. image:: assets/create-app-dl-a-10.png
 
-When the screen returns, click "OAuth & Permissions".
+----
 
-.. image:: assets/create-app-dl-b-06.png
-
-Go down to "Bot Token Scopes".
-Them select and add scopes by "Add permission by Scope or API method..." and "Add an OAuth Scope".
+\(6) Go down to "Bot Token Scopes".
+Then, select and add scopes by "Add permission by Scope or API method..." and "Add an OAuth Scope".
 Required scopes are listed in :ref:`scope_dl`.
 When all is complete, click the "Install to Workspace" button at the top.
 
+.. image:: assets/create-app-dl-b-06.png
+
+----
+
+\(7) Click "Install to Workspace".
+
 .. image:: assets/create-app-dl-a-08.png
 
-Click "Install to Workspace".
+----
+
+\(8) Permission is requested; so allow this
 
 .. image:: assets/create-app-dl-a-09.png
     :scale: 70%
 
-Permission is requested; so allow this
+----
+
+\(9) When the screen returns, click "OAuth & Permissions".
 
 .. image:: assets/create-app-dl-a-10.png
 
-When the screen returns, click "OAuth & Permissions".
+----
+
+\(10) "Bot User OAuth Token" is the Token that you want this time. Make sure it starts with "xoxb-".
+Pressing the "COPY" button to copy it to the clipboard. You can paste it anywhere by pressing ctrl + V.
 
 .. image:: assets/create-app-dl-a-11.png
-
-"Bot User OAuth Token" is the Token that you want this time. Make sure it starts with "xoxb-".
-
 
 .. _scope_dl:
 
@@ -212,8 +277,36 @@ Basically, the same operations as in the previous section are performed on the d
 
 The API name should be easy to understand, such as Uploader API. Also, be careful that this is for the destination WS.
 
-If a manifest file is used to create the file, use the `uploader.yml <. /_static/uploader.yml>`_ and copy and paste the contents.
+If a manifest file is used to create the file, use copy and paste the following contents.
 
+.. code-block:: yml
+
+    display_information:
+      name: Uploader API
+    features:
+      bot_user:
+        display_name: Uploader API
+        always_online: true
+    oauth_config:
+      scopes:
+        bot:
+          - bookmarks:write
+          - channels:history
+          - channels:join
+          - channels:manage
+          - channels:read
+          - chat:write
+          - chat:write.customize
+          - files:read
+          - files:write
+          - groups:history
+          - groups:read
+          - pins:write
+          - reactions:write
+    settings:
+      org_deploy_enabled: false
+      socket_mode_enabled: false
+      token_rotation_enabled: false
 
 Scopes required on the destination WS side is:
 
@@ -238,33 +331,43 @@ Scopes required on the destination WS side is:
 
 4. Add API bot to Private channel on the original WS
 ---------------------
-By default, the API cannot read private channels, so it performs the operations equivalent to inviting a user.
+\(1) By default, the API cannot read private channels, so it performs the operations equivalent to inviting a user.
 For public channels, it is possible to join a channel without an invitation, so no action is required.
 
 .. image:: assets/add-api-to-private-01-b.png
     :scale: 100%
 
-From the left panel of Slack, select "Apps".
+----
+
+\(2) From the left panel of Slack, select "Apps".
 
 .. image:: assets/add-api-to-private-02.png
     :scale: 70%
 
-Next, select Downloader API (created in section 2) from the list of applications that appear.
+----
+
+\(3) Next, select Downloader API (created in section 2) from the list of applications that appear.
 
 .. image:: assets/add-api-to-private-03.png
     :scale: 70%
 
-Open the menu by clicking on the arrow right to the user's name.
+----
+
+\(4) Open the menu by clicking on the arrow right to the user's name.
 
 .. image:: assets/add-api-to-private-04.png
     :scale: 70%
 
-In the menu, select "Add this app to a channel".
+----
+
+\(5) In the menu, select "Add this app to a channel".
 
 .. image:: assets/add-api-to-private-05.png
     :scale: 70%
 
-Then, a screen for selecting a channel list will appear, and select the desired private channel.
+----
+
+\(6) Then, a screen for selecting a channel list will appear, and select the desired private channel.
 In this example, only Public channel is shown, but you can select any private channel that you are a member of.
 Public channels can be automatically joined by the API without any special work, so there is no need to add it to them.
 
@@ -288,11 +391,12 @@ Based on these criteria, determine the mapping between the original channel and 
 
 6. Migrate emojis
 ---------------------
+**When you are using interactive mode (described below in 7-2)　or binary (exe) version, skip this step because the guidance will appear automatically.**
+
 If you do not migrate the emoji first, you will not be able to move some reactions in the later procedure described below.
 
 If you do not have the original image data, you can use the download tool including in slack_transfer.
 
-When you are using interactive mode (described below in 7-2), you can skip this step because the guidance will appear automatically.
 If the migration has been completed manually, no work is required here.
 
 The emoji will be downloaded to the :code:`emojis` folder in the specified directory.
@@ -301,13 +405,13 @@ Upload and add emoji on the destination WS's administration screen if necessary.
 The method for downloading emoji via the CLI is as follows.
 
 First, enter the python environment.
-For Mac/Linux/WSL:
+For Mac/Linux/WSL　(If you are not using a venv environment, skip this):
 
 .. code-block:: bash
 
     $ . .venv/bin/activate
 
-For Windows:
+For Windows　(If you are not using a venv environment, skip this):
 
 .. code-block:: bash
 
@@ -332,6 +436,8 @@ When your destination WS is under OrG, please note that emoji may conflict or be
 
 7. Migrate data
 ---------------------
+**If you are using the binary (exe) version, you can skip reading this section.**
+
 After all preparations are finished, it is time to start the data migration.
 
 The approximate time required is
@@ -349,13 +455,13 @@ Now, let's migrate actually.
 
 First, if you are using venv, enter venv.
 
-Mac/Linux/WSL:
+Mac/Linux/WSL (If you are not using a venv environment, skip this):
 
 .. code-block:: bash
 
     $ . .venv/bin/activate
 
-Windows:
+Windows (If you are not using a venv environment, skip this):
 
 .. code-block:: bash
 
