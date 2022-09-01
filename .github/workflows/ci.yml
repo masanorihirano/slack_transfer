@@ -41,3 +41,4 @@ jobs:
           poetry run isort --check --force-single-line-imports --quiet .
           poetry run mypy .
           poetry run pytest tests/
+          poetry run slack_transfer
