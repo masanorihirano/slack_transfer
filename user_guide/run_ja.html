@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>slack_transfer の使い方 &#8212; slack_transfer 0.2.7 documentation</title>
+    <title>slack_transfer の使い方 &#8212; slack_transfer 0.2.8 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.7 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.8 documentation</p>
   
 </a>
     
@@ -231,7 +231,7 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id7">
+  <a class="reference internal nav-link" href="#id6">
    7. データ移行の実行
   </a>
   <ul class="nav section-nav flex-column">
@@ -248,7 +248,7 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id10">
+  <a class="reference internal nav-link" href="#id9">
    8. アップロードに失敗したファイルを確認する
   </a>
  </li>
@@ -288,8 +288,7 @@
 <p><a class="reference internal" href="environment_ja.html"><span class="doc">環境構築</span></a> のステップが完了している前提で説明します．</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>Google Colabで稼働可能なnotebookも例示しています:</p>
-<a class="reference external image-reference" href="https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>
+<p>Google Colabで稼働可能なnotebookも例示しています: <a href="https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 </div>
 <section id="id1">
 <h2>0. 全体像と用語定義<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
@@ -375,57 +374,99 @@
 </dd>
 </dl>
 <p>なお，本番環境への移行の前に，一旦テスト用のWSを作成し，正常に移行できることを確認してから，本番環境への移行をおこなうことをお勧めします．
-不具合等があれば，githubのissue ( <a class="reference external" href="https://github.com/masanorihirano/slack_transfer/issues">https://github.com/masanorihirano/slack_transfer/issues</a> )を立てることもできますが，サポートやbug fixは保証していません．
+不具合等があれば，githubのissue ( <a href="https://github.com/masanorihirano/slack_transfer/issues" target="_blank" rel="noopener">https://github.com/masanorihirano/slack_transfer/issues</a> )を立てることもできますが，サポートやbug fixは保証していません．
 なお，記入の際にはトークン情報など，confidentialな情報を書き込まないように注意してください．</p>
 </section>
 <section id="slack-download">
 <span id="downloader-token-ja"></span><h2>2. slackトークンの取得(download側)<a class="headerlink" href="#slack-download" title="Permalink to this heading">#</a></h2>
-<p>まず， <a class="reference external" href="https://api.slack.com/apps/">https://api.slack.com/apps/</a> に進みます．</p>
+<p>(1) まず， <a href="https://api.slack.com/apps/" target="_blank" rel="noopener">https://api.slack.com/apps/</a> に進みます．</p>
 <img alt="../_images/create-app-dl-01.png" src="../_images/create-app-dl-01.png" />
-<p>「Create New App」をクリックします．</p>
+<hr class="docutils" />
+<p>(2)「Create New App」をクリックします．
+ここで，どちらを選択してもかまわないのですが，「From an app manifest」を選択すると，一気に設定を負えることができるので，お勧めです．</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-02.png"><img alt="../_images/create-app-dl-02.png" src="../_images/create-app-dl-02.png" style="width: 452.9px; height: 296.09999999999997px;" /></a>
-<p>ここで，どちらを選択してもかまわないのですが，「From an app manifest」を選択すると，一気に設定を負えることができるので，お勧めです．</p>
 <section id="a-from-an-app-manifest">
 <h3>選択肢A: 「From an app manifest」を選んだ場合<a class="headerlink" href="#a-from-an-app-manifest" title="Permalink to this heading">#</a></h3>
+<p>(3) Select a workspaceからDownload側のワークスペースを選択します．</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-03.png"><img alt="../_images/create-app-dl-a-03.png" src="../_images/create-app-dl-a-03.png" style="width: 420.0px; height: 290.5px;" /></a>
-<p>Select a workspaceからDownload側のワークスペースを選択します．</p>
+<hr class="docutils" />
+<p>(4) 次に進みます．</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-04.png"><img alt="../_images/create-app-dl-a-04.png" src="../_images/create-app-dl-a-04.png" style="width: 452.9px; height: 288.4px;" /></a>
-<p>次に進みます．</p>
+<hr class="docutils" />
+<p>(5) このような画面がでてくるので，タブはYAMLのままで，中のコードを削除します．
+そのうえで， 画像の下の内容をコピペします．</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-05.png"><img alt="../_images/create-app-dl-a-05.png" src="../_images/create-app-dl-a-05.png" style="width: 449.4px; height: 324.09999999999997px;" /></a>
-<p>このような画面がでてくるので，タブはYAMLのままで，中のコードを削除します．
-そのうえで， <a class="reference external" href="../_static/downloader.yml">こちらのリンク</a> の内容をコピペします．</p>
+<div class="highlight-yml notranslate"><div class="highlight"><pre><span></span>display_information:
+  name: Downloader API
+features:
+  bot_user:
+    display_name: Downloader API
+    always_online: true
+oauth_config:
+  scopes:
+    bot:
+      - bookmarks:read
+      - channels:history
+      - channels:join
+      - channels:read
+      - emoji:read
+      - files:read
+      - groups:history
+      - groups:read
+      - users:read
+settings:
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  token_rotation_enabled: false
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>(6) これで次へ進みます．</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-06.png"><img alt="../_images/create-app-dl-a-06.png" src="../_images/create-app-dl-a-06.png" style="width: 508.2px; height: 412.29999999999995px;" /></a>
-<p>これで次へ進みます．</p>
+<hr class="docutils" />
+<p>(7) レビューを要求されるので， <a class="reference internal" href="#scope-dl-ja"><span class="std std-ref">Download側に必要なScope</span></a> も参考にしながら確認をします．</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-07.png"><img alt="../_images/create-app-dl-a-07.png" src="../_images/create-app-dl-a-07.png" style="width: 476.7px; height: 279.29999999999995px;" /></a>
-<p>レビューを要求されるので， <a class="reference internal" href="#scope-dl-ja"><span class="std std-ref">Download側に必要なScope</span></a> も参考にしながら確認をします．</p>
+<hr class="docutils" />
+<p>(8) 「Install to Workspace」をクリックします．</p>
 <img alt="../_images/create-app-dl-a-08.png" src="../_images/create-app-dl-a-08.png" />
-<p>「Install to Workspace」をクリックします．</p>
+<hr class="docutils" />
+<p>(9) 許可を要求されるので許可します．(Allow)</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-09.png"><img alt="../_images/create-app-dl-a-09.png" src="../_images/create-app-dl-a-09.png" style="width: 357.7px; height: 350.0px;" /></a>
-<p>許可を要求されるので許可します．(Allow)</p>
+<hr class="docutils" />
+<p>(10) 画面が戻るので，「OAuth &amp; Permissions」をクリックします．</p>
 <img alt="../_images/create-app-dl-a-10.png" src="../_images/create-app-dl-a-10.png" />
-<p>画面が戻るので，「OAuth &amp; Permissions」をクリックします．</p>
+<hr class="docutils" />
+<p>(11) 「Bot User OAuth Token」が今回欲しいTokenです．「xoxb-」からはじまることを確認してください．
+「COPY」ボタンを押すとクリップボードにコピーされるので，ctrl + Vでどこでも貼り付けられます．</p>
 <img alt="../_images/create-app-dl-a-11.png" src="../_images/create-app-dl-a-11.png" />
-<p>「Bot User OAuth Token」が今回欲しいTokenです．「xoxb-」からはじまることを確認してください．</p>
 </section>
 <section id="b-from-scratch">
 <h3>選択肢B: 「From scratch」を選択した場合<a class="headerlink" href="#b-from-scratch" title="Permalink to this heading">#</a></h3>
+<p>(3) APIの名前と，ワークスペースの選択を求められますので，入力します．</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-03.png"><img alt="../_images/create-app-dl-a-03.png" src="../_images/create-app-dl-a-03.png" style="width: 420.0px; height: 290.5px;" /></a>
-<p>APIの名前と，ワークスペースの選択を求められますので，入力します．</p>
+<hr class="docutils" />
+<p>(4) 入力後，次に進みます．</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-04.png"><img alt="../_images/create-app-dl-a-04.png" src="../_images/create-app-dl-a-04.png" style="width: 452.9px; height: 288.4px;" /></a>
-<p>入力後，次に進みます．</p>
+<hr class="docutils" />
+<p>(5) 画面が戻るので，「OAuth &amp; Permissions」をクリックします．</p>
 <img alt="../_images/create-app-dl-a-10.png" src="../_images/create-app-dl-a-10.png" />
-<p>画面が戻るので，「OAuth &amp; Permissions」をクリックします．</p>
-<img alt="../_images/create-app-dl-b-06.png" src="../_images/create-app-dl-b-06.png" />
-<p>「Bot Token Scopes」まで下に進み，<a class="reference internal" href="#scope-dl-ja"><span class="std std-ref">Download側に必要なScope</span></a> のリストにあるスコープを「Add permission by Scope or API method…」のところで選択し，「Add an OAuth Scope」を押して，追加していきます．
+<hr class="docutils" />
+<p>(6) 「Bot Token Scopes」まで下に進み，<a class="reference internal" href="#scope-dl-ja"><span class="std std-ref">Download側に必要なScope</span></a> のリストにあるスコープを「Add permission by Scope or API method…」のところで選択し，「Add an OAuth Scope」を押して，追加していきます．
 全部完了したら，上の方にある，「Install to Workspace」のボタンが押せるようになるので，クリックします．</p>
+<img alt="../_images/create-app-dl-b-06.png" src="../_images/create-app-dl-b-06.png" />
+<hr class="docutils" />
+<p>(7) 「Install to Workspace」をクリックします．</p>
 <img alt="../_images/create-app-dl-a-08.png" src="../_images/create-app-dl-a-08.png" />
-<p>「Install to Workspace」をクリックします．</p>
+<hr class="docutils" />
+<p>(8) 許可を要求されるので許可します．(Allow)</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-09.png"><img alt="../_images/create-app-dl-a-09.png" src="../_images/create-app-dl-a-09.png" style="width: 357.7px; height: 350.0px;" /></a>
-<p>許可を要求されるので許可します．(Allow)</p>
+<hr class="docutils" />
+<p>(9) 画面が戻るので，「OAuth &amp; Permissions」をクリックします．</p>
 <img alt="../_images/create-app-dl-a-10.png" src="../_images/create-app-dl-a-10.png" />
-<p>画面が戻るので，「OAuth &amp; Permissions」をクリックします．</p>
+<hr class="docutils" />
+<p>(10) 「Bot User OAuth Token」が今回欲しいTokenです．「xoxb-」からはじまることを確認してください．
+「COPY」ボタンを押すとクリップボードにコピーされるので，ctrl + Vでどこでも貼り付けられます．</p>
 <img alt="../_images/create-app-dl-a-11.png" src="../_images/create-app-dl-a-11.png" />
-<p>「Bot User OAuth Token」が今回欲しいTokenです．「xoxb-」からはじまることを確認してください．</p>
 </section>
 <section id="downloadscope">
 <span id="scope-dl-ja"></span><h3>Download側に必要なScope<a class="headerlink" href="#downloadscope" title="Permalink to this heading">#</a></h3>
@@ -453,7 +494,35 @@
 <span id="uploader-token-ja"></span><h2>3. slackトークンの取得(upload側)<a class="headerlink" href="#slack-upload" title="Permalink to this heading">#</a></h2>
 <p>基本的に前項と同じ操作をUpload側WSでも行います．</p>
 <p>API名はUploader APIなどとわかりやすいようにしましょう．また，インストール先のWSを間違えないように気を付けてください．</p>
-<p>manifestファイルを用いて作成する場合は <a class="reference external" href="../_static/uploader.yml">uploader用のyml</a> の内容をコピペします．</p>
+<p>manifestファイルを用いて作成する場合は 下記の内容をコピペします．</p>
+<div class="highlight-yml notranslate"><div class="highlight"><pre><span></span>display_information:
+  name: Uploader API
+features:
+  bot_user:
+    display_name: Uploader API
+    always_online: true
+oauth_config:
+  scopes:
+    bot:
+      - bookmarks:write
+      - channels:history
+      - channels:join
+      - channels:manage
+      - channels:read
+      - chat:write
+      - chat:write.customize
+      - files:read
+      - files:write
+      - groups:history
+      - groups:read
+      - pins:write
+      - reactions:write
+settings:
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  token_rotation_enabled: false
+</pre></div>
+</div>
 <p>なお，Upload側に必要になるScopeは以下です．</p>
 <dl class="simple">
 <dt>【Downloader/Uploader共通で必要】</dt><dd><ul class="simple">
@@ -479,24 +548,29 @@
 </section>
 <section id="downloadwsprivateapi-bot">
 <span id="invite-private-ja"></span><h2>4. Download側WSのPrivateチャンネルにAPI botの追加<a class="headerlink" href="#downloadwsprivateapi-bot" title="Permalink to this heading">#</a></h2>
-<p>デフォルトでは，APIはprivate channelを読み込むことができないので，ユーザーのinviteに相当する作業を行います．
+<p>(1) デフォルトでは，APIはprivate channelを読み込むことができないので，ユーザーのinviteに相当する作業を行います．
 Public channelに関しては，招待なくとも自分で参加することができるのが一般なので，操作は不要です．</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-01-b.png"><img alt="../_images/add-api-to-private-01-b.png" src="../_images/add-api-to-private-01-b.png" style="width: 327.0px; height: 348.0px;" /></a>
-<p>Slackの左側のパネルから，Appsを選択します．</p>
+<hr class="docutils" />
+<p>(2) Slackの左側のパネルから，Appsを選択します．</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-02.png"><img alt="../_images/add-api-to-private-02.png" src="../_images/add-api-to-private-02.png" style="width: 702.8px; height: 364.7px;" /></a>
-<p>続いて，出てくるアプリのリストの中からDownloader API(2で作成)を選びます．</p>
+<hr class="docutils" />
+<p>(3) 続いて，出てくるアプリのリストの中からDownloader API(2で作成)を選びます．</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-03.png"><img alt="../_images/add-api-to-private-03.png" src="../_images/add-api-to-private-03.png" style="width: 703.5px; height: 348.59999999999997px;" /></a>
-<p>すると，チャットのような画面が出てくるので，ユーザー名の下矢印を開いて，メニューを開きます．</p>
+<hr class="docutils" />
+<p>(4) すると，チャットのような画面が出てくるので，ユーザー名の下矢印を開いて，メニューを開きます．</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-04.png"><img alt="../_images/add-api-to-private-04.png" src="../_images/add-api-to-private-04.png" style="width: 436.09999999999997px; height: 350.0px;" /></a>
-<p>メニューになかに，「Add this app to a channel」を選択します．
+<hr class="docutils" />
+<p>(5) メニューになかに，「Add this app to a channel」を選択します．
 日本語版の場合，「チャンネルにこのアプリを連携する」と表示されている場合もあります．</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-05.png"><img alt="../_images/add-api-to-private-05.png" src="../_images/add-api-to-private-05.png" style="width: 384.29999999999995px; height: 164.5px;" /></a>
-<p>すると，チャンネルリストを選べる画面が出てくるので，目的のチャンネルを選択します．
+<hr class="docutils" />
+<p>(6) すると，チャンネルリストを選べる画面が出てくるので，目的のチャンネルを選択します．
 ここでは，Public channelしか出ていませんが，自分が参加しているprivate channelであれば，選択することができます．
 Public channelは特に作業せずとも，APIが自動的にjoinして作業を行うことはできるので，わざわざ追加する必要はありません．</p>
 </section>
 <section id="channel-mappings-ja">
-<span id="id4"></span><h2>5. チャンネル名のマッピングの検討<a class="headerlink" href="#channel-mappings-ja" title="Permalink to this heading">#</a></h2>
+<span id="id3"></span><h2>5. チャンネル名のマッピングの検討<a class="headerlink" href="#channel-mappings-ja" title="Permalink to this heading">#</a></h2>
 <p>generalチャンネル(あるいはそれを改称した場合も)は，特別な取扱いをされ，privateへの変更ができないだけでなく，Slack connectができません．
 そのため，Upload側WSのgeneralチャンネルにデータを流し込むことには慎重になるべきです．</p>
 <p>一般に，download側WSのgeneralチャンネルをupload側WSのgeneralチャンネルにデータ移行することはお勧めしません．</p>
@@ -512,19 +586,19 @@ Public channelは特に作業せずとも，APIが自動的にjoinして作業�
 </section>
 <section id="emoji">
 <span id="migrate-emojis-ja"></span><h2>6. emojiの移行<a class="headerlink" href="#emoji" title="Permalink to this heading">#</a></h2>
+<p><strong>7-2で後述するinteractive modeの場合や，binary(exe)版をお使いの場合は，自動で案内が出るので，スキップしてください．</strong></p>
 <p>emojiの移行を実施します．
 emojiを先に移行しないと，後述の手順で，reactionの一部移設ができません．</p>
 <p>管理者画面またはスタンプを押す場所でadd emojiから手動で登録することになりますが，画像の元データがない場合は，先にツールを使ってダウンロードできます．</p>
-<p>7-2で後述するinteractive modeの場合は，自動で案内が出るので，スキップ可能です．
-また，先に手動で移行が完了していれば，作業不要です．</p>
+<p>先に手動で移行が完了していれば，作業不要です．</p>
 <p>emojiは指定したディレクトリのemojisフォルダー内にダウンロードされます．必要に応じて，Uploader側の管理画面からアップロードして追加してください．</p>
 <p>7-1で述べるCLIで絵文字をダウンロードする方法は以下です．</p>
 <p>まずはpython環境に入ります．
-Mac/Linux/WSLの場合</p>
+Mac/Linux/WSLの場合(venv環境でなければ作業不要です)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv/bin/activate
 </pre></div>
 </div>
-<p>Windowsの場合</p>
+<p>Windowsの場合(venv環境でなければ作業不要です)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
@@ -540,12 +614,13 @@ Mac/Linux/WSLの場合</p>
 <li><p><code class="code docutils literal notranslate"><span class="pre">&lt;downloader_token&gt;</span></code>: 2で取得したdownload側WSのAPI tokenです． xoxb-から始まります．</p></li>
 </ul>
 </div></blockquote>
-<p>:code:<a href="#id5"><span class="problematic" id="id6">`</span></a>&lt;local_data_dir&gt;/emojis`のフォルダーに絵文字が保存されるので，これを移行します．基本的には，そのままインポートすればemojiの名前も元の通りインポートできます．</p>
+<p>:code:<a href="#id4"><span class="problematic" id="id5">`</span></a>&lt;local_data_dir&gt;/emojis`のフォルダーに絵文字が保存されるので，これを移行します．基本的には，そのままインポートすればemojiの名前も元の通りインポートできます．</p>
 <p>絵文字を移行するツールが存在します( <a class="reference external" href="https://github.com/smashwilson/slack-emojinator">https://github.com/smashwilson/slack-emojinator</a> )が，適切に移行できる保証がないうえ，非公開APIを使用しているため，ここでは推奨しません．</p>
 <p>また，OrG配下のWSにおいては，絵文字がOrG内全WS共通であることから，emojiがコンフリクトする場合があったり，アップロードが不適切な場合もありますので，ご注意ください．</p>
 </section>
-<section id="id7">
-<h2>7. データ移行の実行<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
+<section id="id6">
+<h2>7. データ移行の実行<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<p><strong>binary(exe)版を使用している場合は，このセクションは基本的に読まなくて大丈夫です．</strong></p>
 <p>ここまで準備したら，いよいよデータの移行を開始します．</p>
 <dl class="simple">
 <dt>大体の時間の目安としては，メッセージ数をMとすると，</dt><dd><ul class="simple">
@@ -560,11 +635,11 @@ Mac/Linux/WSLの場合</p>
 なお，CLIを使った個別の移行も可能ですので，そちらもご検討ください．</p>
 <p>では，実際に移行の作業に入ります．</p>
 <p>まず，venvを使用する場合にはvenvに入ります．</p>
-<p>Mac/Linux/WSLの場合</p>
+<p>Mac/Linux/WSLの場合(venv環境でなければ作業不要です)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv/bin/activate
 </pre></div>
 </div>
-<p>Windowsの場合</p>
+<p>Windowsの場合(venv環境でなければ作業不要です)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
@@ -589,7 +664,7 @@ Mac/Linux/WSLの場合</p>
 <li><p><code class="code docutils literal notranslate"><span class="pre">&lt;local_data_dir&gt;</span></code>: ダウンロードしたデータを端末内に一時保存するディレクトリです．相対ディレクトリ，絶対ディレクトリのどちらでも設定できます．存在しない場合は自動生成されます．わからなければ， <code class="code docutils literal notranslate"><span class="pre">local_data_dir</span></code> などと設定してください．</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">&lt;downloader_token&gt;</span></code>: 2で取得したdownload側WSのAPI tokenです． xoxb-から始まります．</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">&lt;uploader_token&gt;</span></code>: 3で取得したupload側WSのAPI tokenです． xoxb-から始まります．</p></li>
-<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;channel_names&gt;</span></code>: 処理の対象にしたいチャンネル名を指定します．カンマ区切りで，Download側WSの名前で指定します．指定せず，すべてを対象にする場合は，:code:<a href="#id8"><span class="problematic" id="id9">`</span></a>–channel_names=&lt;channel_names&gt;`を丸ごと削除します．</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;channel_names&gt;</span></code>: 処理の対象にしたいチャンネル名を指定します．カンマ区切りで，Download側WSの名前で指定します．指定せず，すべてを対象にする場合は，:code:<a href="#id7"><span class="problematic" id="id8">`</span></a>–channel_names=&lt;channel_names&gt;`を丸ごと削除します．</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">&lt;name_mappings&gt;</span></code>: 4で決めたチャンネル名のマッピングを設定します．不要な場合は <code class="code docutils literal notranslate"><span class="pre">--name_mappings=&lt;name_mappings&gt;</span></code> を丸っと削除してください．なお，設定方法は <code class="code docutils literal notranslate"><span class="pre">old_name1:new_name1,old_name2:new_name2</span></code> などと設定します．old_nameがdownload側，new_nameがupload側のチャンネル名で，マッピングが必要なものだけを記載すれば充分です．(そのままの名前でよい場合は設定不用意)</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">--override</span></code>: 4で「そのままこれまでの投稿の末尾に追加する」を選択した場合には，これを付与してください．不要な場合は削除します．</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">--skip_bookmarks</span></code>: bookmarkの移植を行わない場合に使用するフラグです．bookmarkも移植する場合は削除します．</p></li>
@@ -611,9 +686,9 @@ Mac/Linux/WSLの場合</p>
 <p>でプログラムを開始できます．あとは，指示に従って進めるだけです．</p>
 </section>
 </section>
-<section id="id10">
-<h2>8. アップロードに失敗したファイルを確認する<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
-<p>:code:<a href="#id11"><span class="problematic" id="id12">`</span></a>&lt;local_data_dir&gt;/file_upload_failure.txt’ 配下に，アップロードに失敗したファイルのリストが表示されます．必要に応じて，別の場所に保存してください．</p>
+<section id="id9">
+<h2>8. アップロードに失敗したファイルを確認する<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h2>
+<p>:code:<a href="#id10"><span class="problematic" id="id11">`</span></a>&lt;local_data_dir&gt;/file_upload_failure.txt’ 配下に，アップロードに失敗したファイルのリストが表示されます．必要に応じて，別の場所に保存してください．</p>
 </section>
 <section id="faq">
 <h2>9. FAQ<a class="headerlink" href="#faq" title="Permalink to this heading">#</a></h2>

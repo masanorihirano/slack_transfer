@@ -156,9 +156,8 @@ optional arguments:
 
 interactive
 ----------------
-interactive mode.
+interactive mode. This mode is disabled when tkinker is not available
 
 .. code-block:: bash
 
     $ slack_transfer　interactive
-

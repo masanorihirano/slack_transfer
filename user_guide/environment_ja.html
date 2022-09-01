@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>環境構築 &#8212; slack_transfer 0.2.7 documentation</title>
+    <title>環境構築 &#8212; slack_transfer 0.2.8 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.7 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.8 documentation</p>
   
 </a>
     
@@ -218,8 +218,8 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id5">
-   3. もし万が一，どうしても環境構築が困難な場合
+  <a class="reference internal nav-link" href="#binary-ja">
+   3. 環境構築が困難な場合
   </a>
  </li>
 </ul>
@@ -244,17 +244,22 @@
   <section id="id1">
 <h1>環境構築<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
 <p>※ jupyter notebookなどのpythonが使用できる環境があれば充分です．jupyter notebookの場合は，2の「マシーンの環境に直接インストールする場合」から始めてください． <a href="#id2"><span class="problematic" id="id3">`</span></a>!`をつけて実行することで，コマンドを実行することができます．ただし，jupyter notebookの場合は，インタラクティブモードは使用できません．</p>
-<p>Google Colabで稼働可能なnotebookも例示しています:</p>
-<a class="reference external image-reference" href="https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>
+<p>Google Colabで稼働可能なnotebookも例示しています: <a href="https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<p>また，環境構築が不要なbinary版(exe版)も用意しています．詳しくは <a class="reference internal" href="#binary-ja"><span class="std std-ref">3. 環境構築が困難な場合</span></a> をご参照ください．
+シェルって何？Windowsをお使いの場合，pwsh, cmdって何？って方は，binary版(exe版)一択です．</p>
 <section id="python">
 <h2>1. Python環境の構築<a class="headerlink" href="#python" title="Permalink to this heading">#</a></h2>
-<p>※binary版(exe版)を使用する場合は不要です．3に進んでください．</p>
+<p>※binary版(exe版)を使用する場合は不要です． <a class="reference internal" href="#binary-ja"><span class="std std-ref">3. 環境構築が困難な場合</span></a> に進んでください．</p>
 <section id="windows">
 <h3>Windows<a class="headerlink" href="#windows" title="Permalink to this heading">#</a></h3>
 <p>Windowsの場合は，WSLの仕様をお勧めします．
 WSLはlinuxと同じです．</p>
-<p>WSLを使用しない場合は，以下のリンクからPythonを取得します．</p>
-<p><a class="reference external" href="https://www.microsoft.com/store/productId/9P7QFQMJRFP7">https://www.microsoft.com/store/productId/9P7QFQMJRFP7</a></p>
+<p>WSLを使用しない場合は，以下のリンクからPythonを取得します．
+<a href="#id6"><span class="problematic" id="id7">|MS_PYTHON|</span></a>
+.. <a href="#id8"><span class="problematic" id="id9">|MS_PYTHON|</span></a> raw:: html</p>
+<blockquote>
+<div><p>&lt;a href=”<a class="reference external" href="https://www.microsoft.com/store/productId/9P7QFQMJRFP7">https://www.microsoft.com/store/productId/9P7QFQMJRFP7</a>” target=”_blank” rel=”noopener”&gt;https://www.microsoft.com/store/productId/9P7QFQMJRFP7&lt;/a&gt;</p>
+</div></blockquote>
 <p>なお，移行の作業はシェルを必要とします．
 pwshなり，cmdなりで操作をしてください．</p>
 </section>
@@ -269,7 +274,7 @@ pwshなり，cmdなりで操作をしてください．</p>
 </section>
 <section id="slack-transfer">
 <h2>2. slack-transfer のインストール<a class="headerlink" href="#slack-transfer" title="Permalink to this heading">#</a></h2>
-<p>※binary版(exe版)を使用する場合は不要です．3に進んでください．</p>
+<p>※binary版(exe版)を使用する場合は不要です． <a class="reference internal" href="#binary-ja"><span class="std std-ref">3. 環境構築が困難な場合</span></a> に進んでください．</p>
 <section id="id4">
 <h3>マシーンの環境に直接インストールする場合<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3 install slack-transfer
@@ -282,13 +287,19 @@ pwshなり，cmdなりで操作をしてください．</p>
 <p>Windows:</p>
 </section>
 </section>
-<section id="id5">
-<h2>3. もし万が一，どうしても環境構築が困難な場合<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
-<p>下記のリリースページの各バージョンの場所に，ビルド済みの実行ファイルが環境ごとにzipファイルでおかれています．</p>
-<p><a class="reference external" href="https://github.com/masanorihirano/slack_transfer/releases">https://github.com/masanorihirano/slack_transfer/releases</a></p>
-<p>セキュリティー上のリスクがあるため，推奨はしていませんが，どうしても環境構築が困難である場合には，OSに合わせたファイルをダウンロードし，実行することで，インタラクティブモードで作業をすることができます．
-ZIPを解凍すると，中に実行ファイルが入っています．Mac OSの場合は，設定のセキュリティー&amp;プライバシーから実行許可をする必要があります．Windowsの場合は，ダブルクリック後，詳細から実行するを選ぶ必要があります．
-Linuxの場合は，Ubuntu版が挙動すると思われます．ただし，すべての環境での挙動をサポートしているわけではないので，動かない可能性があることを予めご了承ください．</p>
+<section id="binary-ja">
+<span id="id5"></span><h2>3. 環境構築が困難な場合<a class="headerlink" href="#binary-ja" title="Permalink to this heading">#</a></h2>
+<p>下記のリリースページの各バージョンの場所に，ビルド済みの実行ファイルが環境ごとにzipファイルでおかれています．
+<a href="#id10"><span class="problematic" id="id11">|BINARY_RELEASE|</span></a>
+.. <a href="#id12"><span class="problematic" id="id13">|BINARY_RELEASE|</span></a> raw:: html</p>
+<blockquote>
+<div><p>&lt;a href=”<a class="reference external" href="https://github.com/masanorihirano/slack_transfer/releases">https://github.com/masanorihirano/slack_transfer/releases</a>” target=”_blank” rel=”noopener”&gt;https://github.com/masanorihirano/slack_transfer/releases&lt;/a&gt;</p>
+</div></blockquote>
+<p>OSに合わせたファイルをダウンロードし，実行することで，インタラクティブモードで作業をすることができます．
+ZIPを解凍すると，中に実行ファイルが入っています．Mac OSの場合は，設定のセキュリティー&amp;プライバシーから実行許可をする必要があります．
+Windowsの場合は，ダブルクリック後，詳細から実行するを選ぶ必要があります．
+Linuxの場合は，Ubuntu版が挙動すると思われます．Linuxの場合，terminalから解凍後のファイルを <code class="code docutils literal notranslate"><span class="pre">./interactive</span></code> と実行する必要があります．
+ただし，すべての環境での挙動をサポートしているわけではないので，動かない可能性があることを予めご了承ください．</p>
 <p>※インタラクティブモード以外のCLIを使用することはできません．</p>
 </section>
 </section>

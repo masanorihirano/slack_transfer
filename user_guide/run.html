@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>How to use slack_transfer &#8212; slack_transfer 0.2.7 documentation</title>
+    <title>How to use slack_transfer &#8212; slack_transfer 0.2.8 documentation</title>
 <script>
   document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
   document.documentElement.dataset.theme = localStorage.getItem("theme") || "light"
@@ -64,7 +64,7 @@
   
   
   
-    <p class="title logo__title">slack_transfer 0.2.7 documentation</p>
+    <p class="title logo__title">slack_transfer 0.2.8 documentation</p>
   
 </a>
     
@@ -288,12 +288,11 @@
 <p>This explanation assumes that the <a class="reference internal" href="environment.html"><span class="doc">Environmental Settings</span></a> step has been completed.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>A notebook that can run on Google Colab is also provided:</p>
-<a class="reference external image-reference" href="https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>
+<p>A notebook that can run on Google Colab is also provided: <a href="https://colab.research.google.com/github/masanorihirano/slack_transfer/blob/main/examples/slack_transfer.ipynb" target="_blank" rel="noopener"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 </div>
 <section id="overview-and-definition-of-terms">
 <h2>0. Overview and definition of terms<a class="headerlink" href="#overview-and-definition-of-terms" title="Permalink to this heading">#</a></h2>
-<p>Using <code class="code docutils literal notranslate"><span class="pre">slack_transfer.run</span></code>, you can transfer data from the original Slack workspace to the destination Slack workspace.</p>
+<p>Using <code class="code docutils literal notranslate"><span class="pre">slack_transfer</span></code>, you can transfer data from the original Slack workspace to the destination Slack workspace.</p>
 <p>Note that if the Slack trial is still available, you can temporarily activate it to retrieve all past data.</p>
 <dl class="simple">
 <dt>First, let us define the terms as follows</dt><dd><ul class="simple">
@@ -376,59 +375,101 @@ If you really want to check how much space you need, please go to <a class="refe
 </dd>
 </dl>
 <p>Before migrating to the production environment, it is recommended to create a test WS and confirm that the migration is successful before migrating to the production environment.
-If you have any problems, you can submit an issue on github ( <a class="reference external" href="https://github.com/masanorihirano/slack_transfer/issues">https://github.com/masanorihirano/slack_transfer/issues</a> ), but we do not guarantee support or bug fixes.
+If you have any problems, you can submit an issue on github ( <a href="https://github.com/masanorihirano/slack_transfer/issues" target="_blank" rel="noopener">https://github.com/masanorihirano/slack_transfer/issues</a> ), but we do not guarantee support or bug fixes.
 Please be careful not to include any confidential information such as token information when submitting an issue.</p>
 </section>
 <section id="obtaining-slack-token-the-original-ws">
 <span id="downloader-token"></span><h2>2. Obtaining Slack token (the original WS)<a class="headerlink" href="#obtaining-slack-token-the-original-ws" title="Permalink to this heading">#</a></h2>
-<p>First, go to <a class="reference external" href="https://api.slack.com/apps/">https://api.slack.com/apps/</a></p>
+<p>(1) First, go to <a href="https://api.slack.com/apps/" target="_blank" rel="noopener">https://api.slack.com/apps/</a></p>
 <img alt="../_images/create-app-dl-01.png" src="../_images/create-app-dl-01.png" />
-<p>Click “Create New App”.</p>
+<hr class="docutils" />
+<p>(2) Click “Create New App”.
+You can choose either of the two options here, but selecting “From an app manifest” is recommended because it allows you to configure all the settings at once.</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-02.png"><img alt="../_images/create-app-dl-02.png" src="../_images/create-app-dl-02.png" style="width: 452.9px; height: 296.09999999999997px;" /></a>
-<p>You can choose either of the two options here, but selecting “From an app manifest” is recommended because it allows you to configure all the settings at once.</p>
 <section id="choice-a-if-you-choose-from-an-app-manifest">
 <h3>Choice A: If you choose “From an app manifest”<a class="headerlink" href="#choice-a-if-you-choose-from-an-app-manifest" title="Permalink to this heading">#</a></h3>
+<p>(3) Select the original workspace from Select a workspace.</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-03.png"><img alt="../_images/create-app-dl-a-03.png" src="../_images/create-app-dl-a-03.png" style="width: 420.0px; height: 290.5px;" /></a>
-<p>Select the original workspace from Select a workspace.</p>
+<hr class="docutils" />
+<p>(4) Go next,</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-04.png"><img alt="../_images/create-app-dl-a-04.png" src="../_images/create-app-dl-a-04.png" style="width: 452.9px; height: 288.4px;" /></a>
-<p>Go next,</p>
+<hr class="docutils" />
+<p>(5) You will see a screen like this. Use the tabs in YAML and delete the code inside.
+Then, copy and paste the contents following to the image.</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-05.png"><img alt="../_images/create-app-dl-a-05.png" src="../_images/create-app-dl-a-05.png" style="width: 449.4px; height: 324.09999999999997px;" /></a>
-<p>You will see a screen like this. Use the tabs in YAML and delete the code inside.
-Then, copy and paste the contents of <a class="reference external" href=".../_static/downloader.yml">here is the link</a> to this field.</p>
+<div class="highlight-yml notranslate"><div class="highlight"><pre><span></span>display_information:
+  name: Downloader API
+features:
+  bot_user:
+    display_name: Downloader API
+    always_online: true
+oauth_config:
+  scopes:
+    bot:
+      - bookmarks:read
+      - channels:history
+      - channels:join
+      - channels:read
+      - emoji:read
+      - files:read
+      - groups:history
+      - groups:read
+      - users:read
+settings:
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  token_rotation_enabled: false
+</pre></div>
+</div>
+<hr class="docutils" />
+<p>(6) Go next,</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-06.png"><img alt="../_images/create-app-dl-a-06.png" src="../_images/create-app-dl-a-06.png" style="width: 508.2px; height: 412.29999999999995px;" /></a>
-<p>Go next,</p>
+<hr class="docutils" />
+<p>(7) Review is requested. Also referring to <a class="reference internal" href="#scope-dl"><span class="std std-ref">Scopes required on the original WS side</span></a>.</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-07.png"><img alt="../_images/create-app-dl-a-07.png" src="../_images/create-app-dl-a-07.png" style="width: 476.7px; height: 279.29999999999995px;" /></a>
-<p>Review is requested. Also referring to <a class="reference internal" href="#scope-dl"><span class="std std-ref">Scopes required on the original WS side</span></a>.</p>
+<hr class="docutils" />
+<p>(8) Click “Install to Workspace”.</p>
 <img alt="../_images/create-app-dl-a-08.png" src="../_images/create-app-dl-a-08.png" />
-<p>Click “Install to Workspace”.</p>
+<hr class="docutils" />
+<p>(9) Permission is requested; so allow this</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-09.png"><img alt="../_images/create-app-dl-a-09.png" src="../_images/create-app-dl-a-09.png" style="width: 357.7px; height: 350.0px;" /></a>
-<p>Permission is requested; so allow this</p>
+<hr class="docutils" />
+<p>(10) When the screen returns, click “OAuth &amp; Permissions”.</p>
 <img alt="../_images/create-app-dl-a-10.png" src="../_images/create-app-dl-a-10.png" />
-<p>When the screen returns, click “OAuth &amp; Permissions”.</p>
+<hr class="docutils" />
+<p>(11) “Bot User OAuth Token” is the Token that you want this time. Make sure it starts with “xoxb-“.
+Pressing the “COPY” button to copy it to the clipboard. You can paste it anywhere by pressing ctrl + V.</p>
 <img alt="../_images/create-app-dl-a-11.png" src="../_images/create-app-dl-a-11.png" />
-<p>“Bot User OAuth Token” is the Token that you want this time. Make sure it starts with “xoxb-“.</p>
 </section>
 <section id="choice-b-if-you-choose-from-scratch">
 <h3>Choice B: If you choose “From scratch”<a class="headerlink" href="#choice-b-if-you-choose-from-scratch" title="Permalink to this heading">#</a></h3>
+<p>(3) You will be asked to select the name of the API and the workspace.</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-03.png"><img alt="../_images/create-app-dl-a-03.png" src="../_images/create-app-dl-a-03.png" style="width: 420.0px; height: 290.5px;" /></a>
-<p>You will be asked to select the name of the API and the workspace.</p>
+<hr class="docutils" />
+<p>(4) Inputs, then go next,</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-04.png"><img alt="../_images/create-app-dl-a-04.png" src="../_images/create-app-dl-a-04.png" style="width: 452.9px; height: 288.4px;" /></a>
-<p>Inputs, then go next,</p>
+<hr class="docutils" />
+<p>(5) When the screen returns, click “OAuth &amp; Permissions”.</p>
 <img alt="../_images/create-app-dl-a-10.png" src="../_images/create-app-dl-a-10.png" />
-<p>When the screen returns, click “OAuth &amp; Permissions”.</p>
-<img alt="../_images/create-app-dl-b-06.png" src="../_images/create-app-dl-b-06.png" />
-<p>Go down to “Bot Token Scopes”.
-Them select and add scopes by “Add permission by Scope or API method…” and “Add an OAuth Scope”.
+<hr class="docutils" />
+<p>(6) Go down to “Bot Token Scopes”.
+Then, select and add scopes by “Add permission by Scope or API method…” and “Add an OAuth Scope”.
 Required scopes are listed in <a class="reference internal" href="#scope-dl"><span class="std std-ref">Scopes required on the original WS side</span></a>.
 When all is complete, click the “Install to Workspace” button at the top.</p>
+<img alt="../_images/create-app-dl-b-06.png" src="../_images/create-app-dl-b-06.png" />
+<hr class="docutils" />
+<p>(7) Click “Install to Workspace”.</p>
 <img alt="../_images/create-app-dl-a-08.png" src="../_images/create-app-dl-a-08.png" />
-<p>Click “Install to Workspace”.</p>
+<hr class="docutils" />
+<p>(8) Permission is requested; so allow this</p>
 <a class="reference internal image-reference" href="../_images/create-app-dl-a-09.png"><img alt="../_images/create-app-dl-a-09.png" src="../_images/create-app-dl-a-09.png" style="width: 357.7px; height: 350.0px;" /></a>
-<p>Permission is requested; so allow this</p>
+<hr class="docutils" />
+<p>(9) When the screen returns, click “OAuth &amp; Permissions”.</p>
 <img alt="../_images/create-app-dl-a-10.png" src="../_images/create-app-dl-a-10.png" />
-<p>When the screen returns, click “OAuth &amp; Permissions”.</p>
+<hr class="docutils" />
+<p>(10) “Bot User OAuth Token” is the Token that you want this time. Make sure it starts with “xoxb-“.
+Pressing the “COPY” button to copy it to the clipboard. You can paste it anywhere by pressing ctrl + V.</p>
 <img alt="../_images/create-app-dl-a-11.png" src="../_images/create-app-dl-a-11.png" />
-<p>“Bot User OAuth Token” is the Token that you want this time. Make sure it starts with “xoxb-“.</p>
 </section>
 <section id="scopes-required-on-the-original-ws-side">
 <span id="scope-dl"></span><h3>Scopes required on the original WS side<a class="headerlink" href="#scopes-required-on-the-original-ws-side" title="Permalink to this heading">#</a></h3>
@@ -455,7 +496,35 @@ When all is complete, click the “Install to Workspace” button at the top.</p
 <span id="uploader-token"></span><h2>3. Obtaining Slack token (the destination WS)<a class="headerlink" href="#obtaining-slack-token-the-destination-ws" title="Permalink to this heading">#</a></h2>
 <p>Basically, the same operations as in the previous section are performed on the destination WS.</p>
 <p>The API name should be easy to understand, such as Uploader API. Also, be careful that this is for the destination WS.</p>
-<p>If a manifest file is used to create the file, use the <a class="reference external" href="./_static/uploader.yml">uploader.yml</a> and copy and paste the contents.</p>
+<p>If a manifest file is used to create the file, use copy and paste the following contents.</p>
+<div class="highlight-yml notranslate"><div class="highlight"><pre><span></span>display_information:
+  name: Uploader API
+features:
+  bot_user:
+    display_name: Uploader API
+    always_online: true
+oauth_config:
+  scopes:
+    bot:
+      - bookmarks:write
+      - channels:history
+      - channels:join
+      - channels:manage
+      - channels:read
+      - chat:write
+      - chat:write.customize
+      - files:read
+      - files:write
+      - groups:history
+      - groups:read
+      - pins:write
+      - reactions:write
+settings:
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  token_rotation_enabled: false
+</pre></div>
+</div>
 <p>Scopes required on the destination WS side is:</p>
 <dl class="simple">
 <dt>[Common in Download/Upload operation]</dt><dd><ul class="simple">
@@ -481,18 +550,23 @@ When all is complete, click the “Install to Workspace” button at the top.</p
 </section>
 <section id="add-api-bot-to-private-channel-on-the-original-ws">
 <span id="invite-private"></span><h2>4. Add API bot to Private channel on the original WS<a class="headerlink" href="#add-api-bot-to-private-channel-on-the-original-ws" title="Permalink to this heading">#</a></h2>
-<p>By default, the API cannot read private channels, so it performs the operations equivalent to inviting a user.
+<p>(1) By default, the API cannot read private channels, so it performs the operations equivalent to inviting a user.
 For public channels, it is possible to join a channel without an invitation, so no action is required.</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-01-b.png"><img alt="../_images/add-api-to-private-01-b.png" src="../_images/add-api-to-private-01-b.png" style="width: 327.0px; height: 348.0px;" /></a>
-<p>From the left panel of Slack, select “Apps”.</p>
+<hr class="docutils" />
+<p>(2) From the left panel of Slack, select “Apps”.</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-02.png"><img alt="../_images/add-api-to-private-02.png" src="../_images/add-api-to-private-02.png" style="width: 702.8px; height: 364.7px;" /></a>
-<p>Next, select Downloader API (created in section 2) from the list of applications that appear.</p>
+<hr class="docutils" />
+<p>(3) Next, select Downloader API (created in section 2) from the list of applications that appear.</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-03.png"><img alt="../_images/add-api-to-private-03.png" src="../_images/add-api-to-private-03.png" style="width: 703.5px; height: 348.59999999999997px;" /></a>
-<p>Open the menu by clicking on the arrow right to the user’s name.</p>
+<hr class="docutils" />
+<p>(4) Open the menu by clicking on the arrow right to the user’s name.</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-04.png"><img alt="../_images/add-api-to-private-04.png" src="../_images/add-api-to-private-04.png" style="width: 436.09999999999997px; height: 350.0px;" /></a>
-<p>In the menu, select “Add this app to a channel”.</p>
+<hr class="docutils" />
+<p>(5) In the menu, select “Add this app to a channel”.</p>
 <a class="reference internal image-reference" href="../_images/add-api-to-private-05.png"><img alt="../_images/add-api-to-private-05.png" src="../_images/add-api-to-private-05.png" style="width: 384.29999999999995px; height: 164.5px;" /></a>
-<p>Then, a screen for selecting a channel list will appear, and select the desired private channel.
+<hr class="docutils" />
+<p>(6) Then, a screen for selecting a channel list will appear, and select the desired private channel.
 In this example, only Public channel is shown, but you can select any private channel that you are a member of.
 Public channels can be automatically joined by the API without any special work, so there is no need to add it to them.</p>
 </section>
@@ -513,19 +587,19 @@ Therefore, you should be cautious about putting data into the general (or equiva
 </section>
 <section id="migrate-emojis">
 <span id="id1"></span><h2>6. Migrate emojis<a class="headerlink" href="#migrate-emojis" title="Permalink to this heading">#</a></h2>
+<p><strong>When you are using interactive mode (described below in 7-2)　or binary (exe) version, skip this step because the guidance will appear automatically.</strong></p>
 <p>If you do not migrate the emoji first, you will not be able to move some reactions in the later procedure described below.</p>
 <p>If you do not have the original image data, you can use the download tool including in slack_transfer.</p>
-<p>When you are using interactive mode (described below in 7-2), you can skip this step because the guidance will appear automatically.
-If the migration has been completed manually, no work is required here.</p>
+<p>If the migration has been completed manually, no work is required here.</p>
 <p>The emoji will be downloaded to the <code class="code docutils literal notranslate"><span class="pre">emojis</span></code> folder in the specified directory.
 Upload and add emoji on the destination WS’s administration screen if necessary.</p>
 <p>The method for downloading emoji via the CLI is as follows.</p>
 <p>First, enter the python environment.
-For Mac/Linux/WSL:</p>
+For Mac/Linux/WSL　(If you are not using a venv environment, skip this):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv/bin/activate
 </pre></div>
 </div>
-<p>For Windows:</p>
+<p>For Windows　(If you are not using a venv environment, skip this):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
@@ -546,6 +620,7 @@ For Mac/Linux/WSL:</p>
 </section>
 <section id="migrate-data">
 <h2>7. Migrate data<a class="headerlink" href="#migrate-data" title="Permalink to this heading">#</a></h2>
+<p><strong>If you are using the binary (exe) version, you can skip reading this section.</strong></p>
 <p>After all preparations are finished, it is time to start the data migration.</p>
 <dl class="simple">
 <dt>The approximate time required is</dt><dd><ul class="simple">
@@ -561,11 +636,11 @@ This is due the limit of the Slack API, so parallelization using the CLI is not 
 This tool also supports individual channel migration using the CLI, so please consider the option as well.</p>
 <p>Now, let’s migrate actually.</p>
 <p>First, if you are using venv, enter venv.</p>
-<p>Mac/Linux/WSL:</p>
+<p>Mac/Linux/WSL (If you are not using a venv environment, skip this):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv/bin/activate
 </pre></div>
 </div>
-<p>Windows:</p>
+<p>Windows (If you are not using a venv environment, skip this):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
