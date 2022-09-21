@@ -528,3 +528,8 @@ not_in_channel error appears during uploading.
 If you get such an error, the channel name mapping in step 5 is incorrectly set and there is a duplication with an existing channel.
 Either set the name mapping to avoid duplication, or add the Uploader API to the channel if you are adding to an existing channel.
 See section 5 for details.
+
+I can't find the channel I migrated to.
+~~~~~~~~~~~~~~~~~~~~~
+Please go to "All Channels" to find the channel.
+The channels are automatically created as a channel with only API bots participating, and you are simply not added to it.
