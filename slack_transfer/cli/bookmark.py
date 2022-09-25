@@ -1,6 +1,7 @@
 import argparse
 import glob
 import os
+import unicodedata
 from typing import Dict
 from typing import List
 
@@ -83,8 +84,11 @@ def main_bookmark(args: argparse.Namespace) -> None:
     uploader.create_all_channels(
         channel_names=channel_names, name_mappings=name_mappings
     )
-    channel_files: List[str] = glob.glob(
-        os.path.join(uploader.local_data_dir, "channels", "*.json")
+    channel_files: List[str] = list(
+        map(
+            lambda x: unicodedata.normalize("NFC", x),
+            glob.glob(os.path.join(uploader.local_data_dir, "channels", "*.json")),
+        )
     )
     if channel_names:
         channel_files = list(
