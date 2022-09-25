@@ -480,7 +480,7 @@ Carry out:
 
 .. code-block:: bash
 
-    $ slack_transfer　run --data_dir=<local_data_dir> --downloader_token=<downloader_token> --uploader_token=<uploader_token> --channel_names=<channel_names> --name_mappings=<name_mappings> [--override] [--skip_bookmarks]
+    $ slack_transfer run --data_dir=<local_data_dir> --downloader_token=<downloader_token> --uploader_token=<uploader_token> --channel_names=<channel_names> --name_mappings=<name_mappings> [--override] [--skip_bookmarks]
 
 If :code:`slack_transfer` is not available, you can use :code:`python -m slack_transfer.run` instead.
 
@@ -499,7 +499,7 @@ Taken together, the example command to be executed looks like:
 
 .. code-block:: bash
 
-    $ slack_transfer　run --data_dir=local_data_dir --downloader_token=xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token=xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings=general:_general,random:_random
+    $ slack_transfer run --data_dir=local_data_dir --downloader_token=xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token=xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings=general:_general,random:_random
 
 7-2. Use the interactive mode to proceed with all settings on the screen
 ~~~~~~~~~~~~~~~~~~~~~
@@ -507,7 +507,7 @@ Starts program by:
 
 .. code-block:: bash
 
-    $ slack_transfer　interactive
+    $ slack_transfer interactive
 
 Then, follow the instructions.
 
@@ -528,3 +528,8 @@ not_in_channel error appears during uploading.
 If you get such an error, the channel name mapping in step 5 is incorrectly set and there is a duplication with an existing channel.
 Either set the name mapping to avoid duplication, or add the Uploader API to the channel if you are adding to an existing channel.
 See section 5 for details.
+
+I can't find the channel I migrated to.
+~~~~~~~~~~~~~~~~~~~~~
+Please go to "All Channels" to find the channel.
+The channels are automatically created as a channel with only API bots participating, and you are simply not added to it.

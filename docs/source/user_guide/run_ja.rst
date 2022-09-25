@@ -479,7 +479,7 @@ Windowsの場合(venv環境でなければ作業不要です)
 
 .. code-block:: bash
 
-    $ slack_transfer　run --data_dir=<local_data_dir> --downloader_token=<downloader_token> --uploader_token=<uploader_token> --channel_names=<channel_names> --name_mappings=<name_mappings> [--override] [--skip_bookmarks]
+    $ slack_transfer run --data_dir=<local_data_dir> --downloader_token=<downloader_token> --uploader_token=<uploader_token> --channel_names=<channel_names> --name_mappings=<name_mappings> [--override] [--skip_bookmarks]
 
 などと実行します．
 :code:`slack_transfer` が実行できない場合には，代わりに :code:`python -m slack_transfer.run` を使用することもできます．
@@ -500,14 +500,14 @@ Windowsの場合(venv環境でなければ作業不要です)
 
 .. code-block:: bash
 
-    $ slack_transfer　run --data_dir=local_data_dir --downloader_token=xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token=xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings=general:_general,random:_random
+    $ slack_transfer run --data_dir=local_data_dir --downloader_token=xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token=xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings=general:_general,random:_random
 
 7-2. interactiveコマンドを使用して，すべて画面操作で設定を進める方法
 ~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-    $ slack_transfer　interactive
+    $ slack_transfer interactive
 
 でプログラムを開始できます．あとは，指示に従って進めるだけです．
 
@@ -529,3 +529,7 @@ uploaderでnot_in_channelとでる．
 このようなエラーが出る場合は，5のステップでのチャンネル名のマッピングの設定が不適切で，既存のチャンネルとの重複があります．
 重複を回避するようにname mappingを設定するか，既存のチャンネルに追加を行う場合には，Uploader APIをチャンネルに追加する必要があります．
 詳しくは5のセクションを確認してください．
+
+移行したチャンネルが見つからない
+~~~~~~~~~~~~~~~~~~~~~
+API botのみが参加しているチャンネルとして自動生成されており，自分が追加されていないだけですので，「すべてのチャンネル」からチャンネルを見つけてください．
