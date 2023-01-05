@@ -165,7 +165,9 @@
       ~UploaderClientABC.dnd_teamInfo
       ~UploaderClientABC.emoji_list
       ~UploaderClientABC.files_comments_delete
+      ~UploaderClientABC.files_completeUploadExternal
       ~UploaderClientABC.files_delete
+      ~UploaderClientABC.files_getUploadURLExternal
       ~UploaderClientABC.files_info
       ~UploaderClientABC.files_list
       ~UploaderClientABC.files_remote_add
@@ -177,6 +179,7 @@
       ~UploaderClientABC.files_revokePublicURL
       ~UploaderClientABC.files_sharedPublicURL
       ~UploaderClientABC.files_upload
+      ~UploaderClientABC.files_upload_v2
       ~UploaderClientABC.get_channels_list
       ~UploaderClientABC.get_file_volumes
       ~UploaderClientABC.get_replies

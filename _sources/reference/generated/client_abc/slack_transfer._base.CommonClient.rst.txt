@@ -165,7 +165,9 @@
       ~CommonClient.dnd_teamInfo
       ~CommonClient.emoji_list
       ~CommonClient.files_comments_delete
+      ~CommonClient.files_completeUploadExternal
       ~CommonClient.files_delete
+      ~CommonClient.files_getUploadURLExternal
       ~CommonClient.files_info
       ~CommonClient.files_list
       ~CommonClient.files_remote_add
@@ -177,6 +179,7 @@
       ~CommonClient.files_revokePublicURL
       ~CommonClient.files_sharedPublicURL
       ~CommonClient.files_upload
+      ~CommonClient.files_upload_v2
       ~CommonClient.get_channels_list
       ~CommonClient.get_file_volumes
       ~CommonClient.get_replies

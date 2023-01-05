@@ -186,7 +186,7 @@
     <span class="n">channel_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">name_mappings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;create all channels or specified channels. In this process, channel purpose and description are also set.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;create all channels or specified channels. In this process, channel purpose and description are also set.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        client (UploaderClientABC): uploader client. If use this via any UploaderClient Class, self is automatically set.</span>
@@ -256,7 +256,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">chunk_size</span> <span class="o">=</span> <span class="n">chunk_size</span>
 
     <span class="k">def</span> <span class="nf">_send_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">message_body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encode_chunked</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
-        <span class="sd">&quot;&quot;&quot;Send the currently buffered request and clear the buffer.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Send the currently buffered request and clear the buffer.</span>
 
 <span class="sd">        Appends an extra \\r\\n to the buffer.</span>
 <span class="sd">        A message_body may be specified, to be appended to the request.</span>
@@ -352,7 +352,7 @@
     <span class="n">is_slack_post</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">thread_ts</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;upload a file. This is usually preprocess for posting message attaching files.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;upload a file. This is usually preprocess for posting message attaching files.</span>
 <span class="sd">    **So, this method is not usually directly used by users.**</span>
 
 <span class="sd">    Args:</span>
@@ -453,7 +453,7 @@
 
 
 <div class="viewcode-block" id="check_channel_exists"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.check_channel_exists.html#slack_transfer.functions.upload.check_channel_exists">[docs]</a><span class="k">def</span> <span class="nf">check_channel_exists</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span> <span class="n">channel_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;check if a channel already exists or not</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;check if a channel already exists or not</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        client (UploaderClientABC): uploader client. If use this via any UploaderClient Class, self is automatically set.</span>
@@ -477,7 +477,7 @@
     <span class="n">old_channel_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">time_zone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Asia/Tokyo&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;check if the uploading for a channel already finished or not. This check is rough. Just checking some latest messages.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;check if the uploading for a channel already finished or not. This check is rough. Just checking some latest messages.</span>
 <span class="sd">    Note that it raise error if the channel doesn&#39;t exist.</span>
 
 <span class="sd">    Args:</span>
@@ -566,7 +566,7 @@
     <span class="n">time_zone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Asia/Tokyo&quot;</span><span class="p">,</span>
     <span class="n">progress</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;upload messages, files, reactions, and pins.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;upload messages, files, reactions, and pins.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        client (UploaderClientABC): uploader client. If use this via any UploaderClient Class, self is automatically set.</span>
@@ -798,7 +798,7 @@
 <div class="viewcode-block" id="check_upload_conflict"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.check_upload_conflict.html#slack_transfer.functions.upload.check_upload_conflict">[docs]</a><span class="k">def</span> <span class="nf">check_upload_conflict</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span> <span class="n">name_mappings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;check upload conflict in terms of channel name.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;check upload conflict in terms of channel name.</span>
 
 <span class="sd">    This is not considered if the channel is already finished processing. Just checking name conflict.</span>
 
@@ -842,7 +842,7 @@
 <div class="viewcode-block" id="insert_bookmarks"><a class="viewcode-back" href="../../../reference/generated/functions/slack_transfer.functions.upload.insert_bookmarks.html#slack_transfer.functions.upload.insert_bookmarks">[docs]</a><span class="k">def</span> <span class="nf">insert_bookmarks</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">UploaderClientABC</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">old_channel_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;insert a series of bookmarks to a channel.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;insert a series of bookmarks to a channel.</span>
 
 <span class="sd">    This method is not checking if the bookmarks are already inserted or not.</span>
 
@@ -893,7 +893,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
   </div>
   

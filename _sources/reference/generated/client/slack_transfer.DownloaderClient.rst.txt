@@ -171,7 +171,9 @@
       ~DownloaderClient.download_members_list
       ~DownloaderClient.emoji_list
       ~DownloaderClient.files_comments_delete
+      ~DownloaderClient.files_completeUploadExternal
       ~DownloaderClient.files_delete
+      ~DownloaderClient.files_getUploadURLExternal
       ~DownloaderClient.files_info
       ~DownloaderClient.files_list
       ~DownloaderClient.files_remote_add
@@ -183,6 +185,7 @@
       ~DownloaderClient.files_revokePublicURL
       ~DownloaderClient.files_sharedPublicURL
       ~DownloaderClient.files_upload
+      ~DownloaderClient.files_upload_v2
       ~DownloaderClient.get_channels_list
       ~DownloaderClient.get_file_volumes
       ~DownloaderClient.get_replies

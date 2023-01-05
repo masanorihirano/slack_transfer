@@ -165,7 +165,9 @@
       ~CommonNoLocalVolumeClient.dnd_teamInfo
       ~CommonNoLocalVolumeClient.emoji_list
       ~CommonNoLocalVolumeClient.files_comments_delete
+      ~CommonNoLocalVolumeClient.files_completeUploadExternal
       ~CommonNoLocalVolumeClient.files_delete
+      ~CommonNoLocalVolumeClient.files_getUploadURLExternal
       ~CommonNoLocalVolumeClient.files_info
       ~CommonNoLocalVolumeClient.files_list
       ~CommonNoLocalVolumeClient.files_remote_add
@@ -177,6 +179,7 @@
       ~CommonNoLocalVolumeClient.files_revokePublicURL
       ~CommonNoLocalVolumeClient.files_sharedPublicURL
       ~CommonNoLocalVolumeClient.files_upload
+      ~CommonNoLocalVolumeClient.files_upload_v2
       ~CommonNoLocalVolumeClient.get_channels_list
       ~CommonNoLocalVolumeClient.get_file_volumes
       ~CommonNoLocalVolumeClient.get_replies

@@ -935,8 +935,14 @@ present, they will be loaded into this parameter: <cite>HTTPS_PROXY</cite>,
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_comments_delete</span></code>(*, file, id, **kwargs)</p></td>
 <td><p>Deletes an existing comment on a file.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_delete</span></code>(*, file, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_completeUploadExternal</span></code>(*, files[, ...])</p></td>
+<td><p>Finishes an upload started with files.getUploadURLExternal.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_delete</span></code>(*, file, **kwargs)</p></td>
 <td><p>Deletes a file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_getUploadURLExternal</span></code>(*, filename, length)</p></td>
+<td><p>Gets a URL for an edge external upload.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_info</span></code>(*, file[, count, cursor, limit, page])</p></td>
 <td><p>Gets information about a team file.</p></td>
@@ -971,289 +977,292 @@ present, they will be loaded into this parameter: <cite>HTTPS_PROXY</cite>,
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_upload</span></code>(*[, file, content, filename, ...])</p></td>
 <td><p>Uploads or creates a file.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_channels_list</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">files_upload_v2</span></code>(*[, filename, file, ...])</p></td>
+<td><p>This wrapper method provides an easy way to upload files using the following endpoints:</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_channels_list</span></code>()</p></td>
 <td><p>get channel list <a class="reference internal" href="../functions/slack_transfer.functions.common.get_channels_list.html#slack_transfer.functions.common.get_channels_list" title="slack_transfer.functions.common.get_channels_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_channels_list()</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_file_volumes</span></code>([channel_ids, auto_join])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_file_volumes</span></code>([channel_ids, auto_join])</p></td>
 <td><p>calculate rough volume for files which will be downloaded <a class="reference internal" href="../functions/slack_transfer.functions.common.get_file_volumes.html#slack_transfer.functions.common.get_file_volumes" title="slack_transfer.functions.common.get_file_volumes"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_file_volumes()</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_replies</span></code>(channel_id, ts)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_replies</span></code>(channel_id, ts)</p></td>
 <td><p>get replies for a message <a class="reference internal" href="../functions/slack_transfer.functions.common.get_replies.html#slack_transfer.functions.common.get_replies" title="slack_transfer.functions.common.get_replies"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.get_replies()</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_archive</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_archive</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Archives a private channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_create</span></code>(*, name, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_create</span></code>(*, name, **kwargs)</p></td>
 <td><p>Creates a private channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_createChild</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_createChild</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Clones and archives a private channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_history</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_history</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Fetches history of messages and events from a private channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_info</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_info</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Gets information about a private channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_invite</span></code>(*, channel, user, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_invite</span></code>(*, channel, user, **kwargs)</p></td>
 <td><p>Invites a user to a private channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_kick</span></code>(*, channel, user, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_kick</span></code>(*, channel, user, **kwargs)</p></td>
 <td><p>Removes a user from a private channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_leave</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_leave</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Leaves a private channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_list</span></code>(**kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_list</span></code>(**kwargs)</p></td>
 <td><p>Lists private channels that the calling user has access to.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_mark</span></code>(*, channel, ts, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_mark</span></code>(*, channel, ts, **kwargs)</p></td>
 <td><p>Sets the read cursor in a private channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_open</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_open</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Opens a private channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_rename</span></code>(*, channel, name, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_rename</span></code>(*, channel, name, **kwargs)</p></td>
 <td><p>Renames a private channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_replies</span></code>(*, channel, thread_ts, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_replies</span></code>(*, channel, thread_ts, **kwargs)</p></td>
 <td><p>Retrieve a thread of messages posted to a private channel</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_setPurpose</span></code>(*, channel, purpose, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_setPurpose</span></code>(*, channel, purpose, **kwargs)</p></td>
 <td><p>Sets the purpose for a private channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_setTopic</span></code>(*, channel, topic, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_setTopic</span></code>(*, channel, topic, **kwargs)</p></td>
 <td><p>Sets the topic for a private channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_unarchive</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">groups_unarchive</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Unarchives a private channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_close</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_close</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Close a direct message channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_history</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_history</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Fetches history of messages and events from direct message channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_list</span></code>(**kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_list</span></code>(**kwargs)</p></td>
 <td><p>Lists direct message channels for the calling user.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_mark</span></code>(*, channel, ts, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_mark</span></code>(*, channel, ts, **kwargs)</p></td>
 <td><p>Sets the read cursor in a direct message channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_open</span></code>(*, user, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_open</span></code>(*, user, **kwargs)</p></td>
 <td><p>Opens a direct message channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_replies</span></code>(*, channel, thread_ts, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">im_replies</span></code>(*, channel, thread_ts, **kwargs)</p></td>
 <td><p>Retrieve a thread of messages posted to a direct message conversation</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">insert_bookmarks</span></code>(channel_id[, old_channel_name])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">insert_bookmarks</span></code>(channel_id[, old_channel_name])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">migration_exchange</span></code>(*, users[, team_id, to_old])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">migration_exchange</span></code>(*, users[, team_id, to_old])</p></td>
 <td><p>For Enterprise Grid workspaces, map local user IDs to global user IDs <a class="reference external" href="https://api.slack.com/methods/migration.exchange">https://api.slack.com/methods/migration.exchange</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_close</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_close</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Closes a multiparty direct message channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_history</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_history</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Fetches history of messages and events from a multiparty direct message.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_list</span></code>(**kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_list</span></code>(**kwargs)</p></td>
 <td><p>Lists multiparty direct message channels for the calling user.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_mark</span></code>(*, channel, ts, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_mark</span></code>(*, channel, ts, **kwargs)</p></td>
 <td><p>Sets the read cursor in a multiparty direct message channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_open</span></code>(*, users, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_open</span></code>(*, users, **kwargs)</p></td>
 <td><p>This method opens a multiparty direct message.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_replies</span></code>(*, channel, thread_ts, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpim_replies</span></code>(*, channel, thread_ts, **kwargs)</p></td>
 <td><p>Retrieve a thread of messages posted to a direct message conversation from a multiparty direct message.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">oauth_access</span></code>(*, client_id, client_secret, code)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">oauth_access</span></code>(*, client_id, client_secret, code)</p></td>
 <td><p>Exchanges a temporary OAuth verifier code for an access token.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">oauth_v2_access</span></code>(*, client_id, client_secret)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">oauth_v2_access</span></code>(*, client_id, client_secret)</p></td>
 <td><p>Exchanges a temporary OAuth verifier code for an access token.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">oauth_v2_exchange</span></code>(*, token, client_id, ...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">oauth_v2_exchange</span></code>(*, token, client_id, ...)</p></td>
 <td><p>Exchanges a legacy access token for a new expiring access token and refresh token <a class="reference external" href="https://api.slack.com/methods/oauth.v2.exchange">https://api.slack.com/methods/oauth.v2.exchange</a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">openid_connect_token</span></code>(client_id, client_secret)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">openid_connect_token</span></code>(client_id, client_secret)</p></td>
 <td><p>Exchanges a temporary OAuth verifier code for an access token for Sign in with Slack.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">openid_connect_userInfo</span></code>(**kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">openid_connect_userInfo</span></code>(**kwargs)</p></td>
 <td><p>Get the identity of a user who has authorized Sign in with Slack.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pins_add</span></code>(*, channel[, timestamp])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pins_add</span></code>(*, channel[, timestamp])</p></td>
 <td><p>Pins an item to a channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pins_list</span></code>(*, channel, **kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pins_list</span></code>(*, channel, **kwargs)</p></td>
 <td><p>Lists items pinned to a channel.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pins_remove</span></code>(*, channel[, timestamp])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pins_remove</span></code>(*, channel[, timestamp])</p></td>
 <td><p>Un-pins an item from a channel.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_add</span></code>(*, channel, name, timestamp, ...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_add</span></code>(*, channel, name, timestamp, ...)</p></td>
 <td><p>Adds a reaction to an item.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_get</span></code>(*[, channel, file, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_get</span></code>(*[, channel, file, ...])</p></td>
 <td><p>Gets reactions for an item.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_list</span></code>(*[, count, cursor, full, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_list</span></code>(*[, count, cursor, full, ...])</p></td>
 <td><p>Lists reactions made by a user.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_remove</span></code>(*, name[, channel, file, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reactions_remove</span></code>(*, name[, channel, file, ...])</p></td>
 <td><p>Removes a reaction from an item.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_add</span></code>(*, text, time[, team_id, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_add</span></code>(*, text, time[, team_id, ...])</p></td>
 <td><p>Creates a reminder.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_complete</span></code>(*, reminder[, team_id])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_complete</span></code>(*, reminder[, team_id])</p></td>
 <td><p>Marks a reminder as complete.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_delete</span></code>(*, reminder[, team_id])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_delete</span></code>(*, reminder[, team_id])</p></td>
 <td><p>Deletes a reminder.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_info</span></code>(*, reminder[, team_id])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_info</span></code>(*, reminder[, team_id])</p></td>
 <td><p>Gets information about a reminder.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_list</span></code>(*[, team_id])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reminders_list</span></code>(*[, team_id])</p></td>
 <td><p>Lists all reminders created by or for a given user.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rtm_connect</span></code>(*[, batch_presence_aware, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rtm_connect</span></code>(*[, batch_presence_aware, ...])</p></td>
 <td><p>Starts a Real Time Messaging session.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rtm_start</span></code>(*[, batch_presence_aware, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">rtm_start</span></code>(*[, batch_presence_aware, ...])</p></td>
 <td><p>Starts a Real Time Messaging session.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_all</span></code>(*, query[, count, highlight, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_all</span></code>(*, query[, count, highlight, ...])</p></td>
 <td><p>Searches for messages and files matching a query.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_files</span></code>(*, query[, count, highlight, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_files</span></code>(*, query[, count, highlight, ...])</p></td>
 <td><p>Searches for files matching a query.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_messages</span></code>(*, query[, count, cursor, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">search_messages</span></code>(*, query[, count, cursor, ...])</p></td>
 <td><p>Searches for messages matching a query.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stars_add</span></code>(*[, channel, file, file_comment, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stars_add</span></code>(*[, channel, file, file_comment, ...])</p></td>
 <td><p>Adds a star to an item.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stars_list</span></code>(*[, count, cursor, limit, page, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stars_list</span></code>(*[, count, cursor, limit, page, ...])</p></td>
 <td><p>Lists stars for a user.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stars_remove</span></code>(*[, channel, file, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stars_remove</span></code>(*[, channel, file, ...])</p></td>
 <td><p>Removes a star from an item.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_accessLogs</span></code>(*[, before, count, page, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_accessLogs</span></code>(*[, before, count, page, ...])</p></td>
 <td><p>Gets the access logs for the current team.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_billableInfo</span></code>(*[, team_id, user])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_billableInfo</span></code>(*[, team_id, user])</p></td>
 <td><p>Gets billable users information for the current team.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_billing_info</span></code>(**kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_billing_info</span></code>(**kwargs)</p></td>
 <td><p>Reads a workspace's billing plan information.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_info</span></code>(*[, team, domain])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_info</span></code>(*[, team, domain])</p></td>
 <td><p>Gets information about the current team.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_integrationLogs</span></code>(*[, app_id, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_integrationLogs</span></code>(*[, app_id, ...])</p></td>
 <td><p>Gets the integration logs for the current team.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_preferences_list</span></code>(**kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_preferences_list</span></code>(**kwargs)</p></td>
 <td><p>Retrieve a list of a workspace's team preferences.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_profile_get</span></code>(*[, visibility])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">team_profile_get</span></code>(*[, visibility])</p></td>
 <td><p>Retrieve a team's profile.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_connection</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_connection</span></code>()</p></td>
 <td><p>test general connection to slack using token <a class="reference internal" href="../functions/slack_transfer.functions.common.test_connection.html#slack_transfer.functions.common.test_connection" title="slack_transfer.functions.common.test_connection"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.test_connection()</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_downloader</span></code>()</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_downloader</span></code>()</p></td>
 <td><p>test the token as downloader mode <a class="reference internal" href="../functions/slack_transfer.functions.common.test_downloader.html#slack_transfer.functions.common.test_downloader" title="slack_transfer.functions.common.test_downloader"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.test_downloader()</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_uploader</span></code>()</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_uploader</span></code>()</p></td>
 <td><p>test the token as uploader mode <a class="reference internal" href="../functions/slack_transfer.functions.common.test_uploader.html#slack_transfer.functions.common.test_uploader" title="slack_transfer.functions.common.test_uploader"><code class="xref py py-func docutils literal notranslate"><span class="pre">slack_transfer.functions.common.test_uploader()</span></code></a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">upload_file</span></code>(old_file_id, file_name[, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">upload_file</span></code>(old_file_id, file_name[, ...])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_create</span></code>(*, name[, channels, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_create</span></code>(*, name[, channels, ...])</p></td>
 <td><p>Create a User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.create">https://api.slack.com/methods/usergroups.create</a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_disable</span></code>(*, usergroup[, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_disable</span></code>(*, usergroup[, ...])</p></td>
 <td><p>Disable an existing User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.disable">https://api.slack.com/methods/usergroups.disable</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_enable</span></code>(*, usergroup[, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_enable</span></code>(*, usergroup[, ...])</p></td>
 <td><p>Enable a User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.enable">https://api.slack.com/methods/usergroups.enable</a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_list</span></code>(*[, include_count, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_list</span></code>(*[, include_count, ...])</p></td>
 <td><p>List all User Groups for a team <a class="reference external" href="https://api.slack.com/methods/usergroups.list">https://api.slack.com/methods/usergroups.list</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_update</span></code>(*, usergroup[, channels, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_update</span></code>(*, usergroup[, channels, ...])</p></td>
 <td><p>Update an existing User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.update">https://api.slack.com/methods/usergroups.update</a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_users_list</span></code>(*, usergroup[, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_users_list</span></code>(*, usergroup[, ...])</p></td>
 <td><p>List all users in a User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.users.list">https://api.slack.com/methods/usergroups.users.list</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_users_update</span></code>(*, usergroup, users)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">usergroups_users_update</span></code>(*, usergroup, users)</p></td>
 <td><p>Update the list of users for a User Group <a class="reference external" href="https://api.slack.com/methods/usergroups.users.update">https://api.slack.com/methods/usergroups.users.update</a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_conversations</span></code>(*[, cursor, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_conversations</span></code>(*[, cursor, ...])</p></td>
 <td><p>List conversations the calling user may access.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_deletePhoto</span></code>(**kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_deletePhoto</span></code>(**kwargs)</p></td>
 <td><p>Delete the user profile photo <a class="reference external" href="https://api.slack.com/methods/users.deletePhoto">https://api.slack.com/methods/users.deletePhoto</a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_getPresence</span></code>(*, user, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_getPresence</span></code>(*, user, **kwargs)</p></td>
 <td><p>Gets user presence information.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_identity</span></code>(**kwargs)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_identity</span></code>(**kwargs)</p></td>
 <td><p>Get a user's identity.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_info</span></code>(*, user[, include_locale])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_info</span></code>(*, user[, include_locale])</p></td>
 <td><p>Gets information about a user.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_list</span></code>(*[, cursor, include_locale, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_list</span></code>(*[, cursor, include_locale, ...])</p></td>
 <td><p>Lists all users in a Slack team.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_lookupByEmail</span></code>(*, email, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_lookupByEmail</span></code>(*, email, **kwargs)</p></td>
 <td><p>Find a user with an email address.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_profile_get</span></code>(*[, user, include_labels])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_profile_get</span></code>(*[, user, include_labels])</p></td>
 <td><p>Retrieves a user's profile information.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_profile_set</span></code>(*[, name, value, user, ...])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_profile_set</span></code>(*[, name, value, user, ...])</p></td>
 <td><p>Set the profile information for a user.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_setPhoto</span></code>(*, image[, crop_w, crop_x, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_setPhoto</span></code>(*, image[, crop_w, crop_x, ...])</p></td>
 <td><p>Set the user profile photo <a class="reference external" href="https://api.slack.com/methods/users.setPhoto">https://api.slack.com/methods/users.setPhoto</a></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_setPresence</span></code>(*, presence, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">users_setPresence</span></code>(*, presence, **kwargs)</p></td>
 <td><p>Manually sets user presence.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_slack_signature</span></code>(*, signing_secret, ...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_slack_signature</span></code>(*, signing_secret, ...)</p></td>
 <td><p>Slack creates a unique string for your app and shares it with you.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_open</span></code>(*, trigger_id, view, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_open</span></code>(*, trigger_id, view, **kwargs)</p></td>
 <td><p>Open a view for a user.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_publish</span></code>(*, user_id, view[, hash])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_publish</span></code>(*, user_id, view[, hash])</p></td>
 <td><p>Publish a static view for a User.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_push</span></code>(*, trigger_id, view, **kwargs)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_push</span></code>(*, trigger_id, view, **kwargs)</p></td>
 <td><p>Push a view onto the stack of a root view.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_update</span></code>(*, view[, external_id, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">views_update</span></code>(*, view[, external_id, ...])</p></td>
 <td><p>Update an existing view.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">workflows_stepCompleted</span></code>(*, ...[, outputs])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">workflows_stepCompleted</span></code>(*, ...[, outputs])</p></td>
 <td><p>Indicate a successful outcome of a workflow step's execution.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">workflows_stepFailed</span></code>(*, ...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">workflows_stepFailed</span></code>(*, ...)</p></td>
 <td><p>Indicate an unsuccessful outcome of a workflow step's execution.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">workflows_updateStep</span></code>(*, workflow_step_edit_id)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">workflows_updateStep</span></code>(*, workflow_step_edit_id)</p></td>
 <td><p>Update the configuration for a workflow extension step.</p></td>
 </tr>
 </tbody>
@@ -1318,7 +1327,7 @@ present, they will be loaded into this parameter: <cite>HTTPS_PROXY</cite>,
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
   </div>
   

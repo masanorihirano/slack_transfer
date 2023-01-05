@@ -601,15 +601,15 @@ emojiを先に移行しないと，後述の手順で，reactionの一部移設�
 <p>7-1で述べるCLIで絵文字をダウンロードする方法は以下です．</p>
 <p>まずはpython環境に入ります．
 Mac/Linux/WSLの場合(venv環境でなければ作業不要です)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv/bin/activate
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>.<span class="w"> </span>.venv/bin/activate
 </pre></div>
 </div>
 <p>Windowsの場合(venv環境でなければ作業不要です)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>.<span class="w"> </span>.venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
 <p>そのうえで，</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer emoji --data_dir &lt;local_data_dir&gt; --downloader_token &lt;downloader_token&gt;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>slack_transfer<span class="w"> </span>emoji<span class="w"> </span>--data_dir<span class="w"> </span>&lt;local_data_dir&gt;<span class="w"> </span>--downloader_token<span class="w"> </span>&lt;downloader_token&gt;
 </pre></div>
 </div>
 <p>として実施します．
@@ -642,11 +642,11 @@ Mac/Linux/WSLの場合(venv環境でなければ作業不要です)</p>
 <p>では，実際に移行の作業に入ります．</p>
 <p>まず，venvを使用する場合にはvenvに入ります．</p>
 <p>Mac/Linux/WSLの場合(venv環境でなければ作業不要です)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv/bin/activate
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>.<span class="w"> </span>.venv/bin/activate
 </pre></div>
 </div>
 <p>Windowsの場合(venv環境でなければ作業不要です)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>.<span class="w"> </span>.venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
 <dl class="simple">
@@ -660,7 +660,7 @@ Mac/Linux/WSLの場合(venv環境でなければ作業不要です)</p>
 (Mac版のデフォルトのpythonでは2が動かないようです．)</p>
 <section id="run-cli">
 <h3>7-1. runコマンドを使用して，すべての設定をCLIから流し込む方法<a class="headerlink" href="#run-cli" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer run --data_dir<span class="o">=</span>&lt;local_data_dir&gt; --downloader_token<span class="o">=</span>&lt;downloader_token&gt; --uploader_token<span class="o">=</span>&lt;uploader_token&gt; --channel_names<span class="o">=</span>&lt;channel_names&gt; --name_mappings<span class="o">=</span>&lt;name_mappings&gt; <span class="o">[</span>--override<span class="o">]</span> <span class="o">[</span>--skip_bookmarks<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>slack_transfer<span class="w"> </span>run<span class="w"> </span>--data_dir<span class="o">=</span>&lt;local_data_dir&gt;<span class="w"> </span>--downloader_token<span class="o">=</span>&lt;downloader_token&gt;<span class="w"> </span>--uploader_token<span class="o">=</span>&lt;uploader_token&gt;<span class="w"> </span>--channel_names<span class="o">=</span>&lt;channel_names&gt;<span class="w"> </span>--name_mappings<span class="o">=</span>&lt;name_mappings&gt;<span class="w"> </span><span class="o">[</span>--override<span class="o">]</span><span class="w"> </span><span class="o">[</span>--skip_bookmarks<span class="o">]</span>
 </pre></div>
 </div>
 <p>などと実行します．
@@ -671,7 +671,7 @@ Mac/Linux/WSLの場合(venv環境でなければ作業不要です)</p>
 <li><p><code class="code docutils literal notranslate"><span class="pre">&lt;downloader_token&gt;</span></code>: 2で取得したdownload側WSのAPI tokenです． xoxb-から始まります．</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">&lt;uploader_token&gt;</span></code>: 3で取得したupload側WSのAPI tokenです． xoxb-から始まります．</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">&lt;channel_names&gt;</span></code>: 処理の対象にしたいチャンネル名を指定します．カンマ区切りで，Download側WSの名前で指定します．指定せず，すべてを対象にする場合は，:code:<a href="#id7"><span class="problematic" id="id8">`</span></a>–channel_names=&lt;channel_names&gt;`を丸ごと削除します．</p></li>
-<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;name_mappings&gt;</span></code>: 4で決めたチャンネル名のマッピングを設定します．不要な場合は <code class="code docutils literal notranslate"><span class="pre">--name_mappings=&lt;name_mappings&gt;</span></code> を丸っと削除してください．なお，設定方法は <code class="code docutils literal notranslate"><span class="pre">old_name1:new_name1,old_name2:new_name2</span></code> などと設定します．old_nameがdownload側，new_nameがupload側のチャンネル名で，マッピングが必要なものだけを記載すれば充分です．(そのままの名前でよい場合は設定不用意)</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">&lt;name_mappings&gt;</span></code>: 5で決めたチャンネル名のマッピングを設定します．不要な場合は <code class="code docutils literal notranslate"><span class="pre">--name_mappings=&lt;name_mappings&gt;</span></code> を丸っと削除してください．なお，設定方法は <code class="code docutils literal notranslate"><span class="pre">old_name1:new_name1,old_name2:new_name2</span></code> などと設定します．old_nameがdownload側，new_nameがupload側のチャンネル名で，マッピングが必要なものだけを記載すれば充分です．(そのままの名前でよい場合は設定不用意)</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">--override</span></code>: 4で「そのままこれまでの投稿の末尾に追加する」を選択した場合には，これを付与してください．不要な場合は削除します．</p></li>
 <li><p><code class="code docutils literal notranslate"><span class="pre">--skip_bookmarks</span></code>: bookmarkの移植を行わない場合に使用するフラグです．bookmarkも移植する場合は削除します．</p></li>
 </ul>
@@ -680,13 +680,13 @@ Mac/Linux/WSLの場合(venv環境でなければ作業不要です)</p>
 <p>それ以外の詳細な引数に関しては，
 <a class="reference internal" href="../reference/generated/other/slack_transfer.run.run.html"><span class="doc">slack_transfer.run.run</span></a> を参照してください．</p>
 <p>これらを総合すると，実行すべきコマンド例は以下のような形になります．</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer run --data_dir<span class="o">=</span>local_data_dir --downloader_token<span class="o">=</span>xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token<span class="o">=</span>xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings<span class="o">=</span>general:_general,random:_random
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>slack_transfer<span class="w"> </span>run<span class="w"> </span>--data_dir<span class="o">=</span>local_data_dir<span class="w"> </span>--downloader_token<span class="o">=</span>xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx<span class="w"> </span>--uploader_token<span class="o">=</span>xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx<span class="w"> </span>--override<span class="w"> </span>--name_mappings<span class="o">=</span>general:_general,random:_random
 </pre></div>
 </div>
 </section>
 <section id="interactive">
 <h3>7-2. interactiveコマンドを使用して，すべて画面操作で設定を進める方法<a class="headerlink" href="#interactive" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer interactive
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>slack_transfer<span class="w"> </span>interactive
 </pre></div>
 </div>
 <p>でプログラムを開始できます．あとは，指示に従って進めるだけです．</p>
@@ -760,7 +760,7 @@ Mac/Linux/WSLの場合(venv環境でなければ作業不要です)</p>
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
   </div>
   

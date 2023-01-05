@@ -602,15 +602,15 @@ Upload and add emoji on the destination WS’s administration screen if necessar
 <p>The method for downloading emoji via the CLI is as follows.</p>
 <p>First, enter the python environment.
 For Mac/Linux/WSL　(If you are not using a venv environment, skip this):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv/bin/activate
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>.<span class="w"> </span>.venv/bin/activate
 </pre></div>
 </div>
 <p>For Windows　(If you are not using a venv environment, skip this):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>.<span class="w"> </span>.venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
 <p>Then,</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer emoji --data_dir &lt;local_data_dir&gt; --downloader_token &lt;downloader_token&gt;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>slack_transfer<span class="w"> </span>emoji<span class="w"> </span>--data_dir<span class="w"> </span>&lt;local_data_dir&gt;<span class="w"> </span>--downloader_token<span class="w"> </span>&lt;downloader_token&gt;
 </pre></div>
 </div>
 <dl class="simple">
@@ -643,11 +643,11 @@ This tool also supports individual channel migration using the CLI, so please co
 <p>Now, let’s migrate actually.</p>
 <p>First, if you are using venv, enter venv.</p>
 <p>Mac/Linux/WSL (If you are not using a venv environment, skip this):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv/bin/activate
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>.<span class="w"> </span>.venv/bin/activate
 </pre></div>
 </div>
 <p>Windows (If you are not using a venv environment, skip this):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ . .venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>.<span class="w"> </span>.venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
 </pre></div>
 </div>
 <dl class="simple">
@@ -662,7 +662,7 @@ This tool also supports individual channel migration using the CLI, so please co
 <section id="use-the-run-command-to-run-all-settings-from-the-cli">
 <h3>7-1. Use the run command to run all settings from the CLI<a class="headerlink" href="#use-the-run-command-to-run-all-settings-from-the-cli" title="Permalink to this heading">#</a></h3>
 <p>Carry out:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer run --data_dir<span class="o">=</span>&lt;local_data_dir&gt; --downloader_token<span class="o">=</span>&lt;downloader_token&gt; --uploader_token<span class="o">=</span>&lt;uploader_token&gt; --channel_names<span class="o">=</span>&lt;channel_names&gt; --name_mappings<span class="o">=</span>&lt;name_mappings&gt; <span class="o">[</span>--override<span class="o">]</span> <span class="o">[</span>--skip_bookmarks<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>slack_transfer<span class="w"> </span>run<span class="w"> </span>--data_dir<span class="o">=</span>&lt;local_data_dir&gt;<span class="w"> </span>--downloader_token<span class="o">=</span>&lt;downloader_token&gt;<span class="w"> </span>--uploader_token<span class="o">=</span>&lt;uploader_token&gt;<span class="w"> </span>--channel_names<span class="o">=</span>&lt;channel_names&gt;<span class="w"> </span>--name_mappings<span class="o">=</span>&lt;name_mappings&gt;<span class="w"> </span><span class="o">[</span>--override<span class="o">]</span><span class="w"> </span><span class="o">[</span>--skip_bookmarks<span class="o">]</span>
 </pre></div>
 </div>
 <p>If <code class="code docutils literal notranslate"><span class="pre">slack_transfer</span></code> is not available, you can use <code class="code docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">slack_transfer.run</span></code> instead.</p>
@@ -680,14 +680,14 @@ This tool also supports individual channel migration using the CLI, so please co
 </dl>
 <p>For other detailed arguments, see <a class="reference internal" href="../reference/generated/other/slack_transfer.run.run.html"><span class="doc">slack_transfer.run.run</span></a>.</p>
 <p>Taken together, the example command to be executed looks like:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer run --data_dir<span class="o">=</span>local_data_dir --downloader_token<span class="o">=</span>xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --uploader_token<span class="o">=</span>xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx --override --name_mappings<span class="o">=</span>general:_general,random:_random
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>slack_transfer<span class="w"> </span>run<span class="w"> </span>--data_dir<span class="o">=</span>local_data_dir<span class="w"> </span>--downloader_token<span class="o">=</span>xoxb-00000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx<span class="w"> </span>--uploader_token<span class="o">=</span>xoxb-0000000000000-0000000000000-xxxxxxxxxxxxxxxxxxxxxxxx<span class="w"> </span>--override<span class="w"> </span>--name_mappings<span class="o">=</span>general:_general,random:_random
 </pre></div>
 </div>
 </section>
 <section id="use-the-interactive-mode-to-proceed-with-all-settings-on-the-screen">
 <h3>7-2. Use the interactive mode to proceed with all settings on the screen<a class="headerlink" href="#use-the-interactive-mode-to-proceed-with-all-settings-on-the-screen" title="Permalink to this heading">#</a></h3>
 <p>Starts program by:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ slack_transfer interactive
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>slack_transfer<span class="w"> </span>interactive
 </pre></div>
 </div>
 <p>Then, follow the instructions.</p>
@@ -762,7 +762,7 @@ The channels are automatically created as a channel with only API bots participa
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
   </div>
   

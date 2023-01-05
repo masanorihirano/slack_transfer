@@ -178,7 +178,7 @@
 
 
 <div class="viewcode-block" id="CommonDryRunClient"><a class="viewcode-back" href="../../reference/generated/client_abc/slack_transfer._base.CommonDryRunClient.html#slack_transfer._base.CommonDryRunClient">[docs]</a><span class="k">class</span> <span class="nc">CommonDryRunClient</span><span class="p">(</span><span class="n">WebClient</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This class is generated to run dry-run operation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This class is generated to run dry-run operation.</span>
 <span class="sd">    Inherit :code:`slack_sdk.WebClient`.</span>
 
 <span class="sd">    .. seealso::</span>
@@ -207,22 +207,22 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">get_channels_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;get channel list :func:`slack_transfer.functions.common.get_channels_list`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get channel list :func:`slack_transfer.functions.common.get_channels_list`&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">get_channels_list</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_replies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ts</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;get replies for a message :func:`slack_transfer.functions.common.get_replies`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get replies for a message :func:`slack_transfer.functions.common.get_replies`&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">get_replies</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_id</span><span class="o">=</span><span class="n">channel_id</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="n">ts</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_file_volumes</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">channel_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;calculate rough volume for files which will be downloaded (Dry-run mode) :func:`slack_transfer.functions.common.get_file_volumes`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;calculate rough volume for files which will be downloaded (Dry-run mode) :func:`slack_transfer.functions.common.get_file_volumes`&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">get_file_volumes</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_ids</span><span class="o">=</span><span class="n">channel_ids</span><span class="p">,</span> <span class="n">auto_join</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CommonNoLocalVolumeClient"><a class="viewcode-back" href="../../reference/generated/client_abc/slack_transfer._base.CommonNoLocalVolumeClient.html#slack_transfer._base.CommonNoLocalVolumeClient">[docs]</a><span class="k">class</span> <span class="nc">CommonNoLocalVolumeClient</span><span class="p">(</span><span class="n">CommonDryRunClient</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This class is generated to run without local volume. (Some small modification can be caused on WS.)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This class is generated to run without local volume. (Some small modification can be caused on WS.)</span>
 <span class="sd">    Inherit :code:`slack_sdk.WebClient` via :func:`slack_transfer._base.CommonDryRunClient`</span>
 
 <span class="sd">    .. seealso::</span>
@@ -258,26 +258,26 @@
         <span class="n">channel_ids</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">auto_join</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;calculate rough volume for files which will be downloaded :func:`slack_transfer.functions.common.get_file_volumes`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;calculate rough volume for files which will be downloaded :func:`slack_transfer.functions.common.get_file_volumes`&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">get_file_volumes</span><span class="p">(</span>
             <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel_ids</span><span class="o">=</span><span class="n">channel_ids</span><span class="p">,</span> <span class="n">auto_join</span><span class="o">=</span><span class="n">auto_join</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">test_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;test general connection to slack using token :func:`slack_transfer.functions.common.test_connection`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test general connection to slack using token :func:`slack_transfer.functions.common.test_connection`&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">test_connection</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">test_downloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;test the token as downloader mode :func:`slack_transfer.functions.common.test_downloader`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test the token as downloader mode :func:`slack_transfer.functions.common.test_downloader`&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">test_downloader</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">test_uploader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;test the token as uploader mode :func:`slack_transfer.functions.common.test_uploader`&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;test the token as uploader mode :func:`slack_transfer.functions.common.test_uploader`&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">test_uploader</span><span class="p">(</span><span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CommonClient"><a class="viewcode-back" href="../../reference/generated/client_abc/slack_transfer._base.CommonClient.html#slack_transfer._base.CommonClient">[docs]</a><span class="k">class</span> <span class="nc">CommonClient</span><span class="p">(</span><span class="n">CommonNoLocalVolumeClient</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Common class among normal clients.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Common class among normal clients.</span>
 <span class="sd">    Inherit :code:`slack_sdk.WebClient` via some classes.</span>
 
 <span class="sd">    .. seealso::</span>
@@ -352,14 +352,14 @@
 
 
 <div class="viewcode-block" id="UploaderClientABC"><a class="viewcode-back" href="../../reference/generated/client_abc/slack_transfer._base.UploaderClientABC.html#slack_transfer._base.UploaderClientABC">[docs]</a><span class="k">class</span> <span class="nc">UploaderClientABC</span><span class="p">(</span><span class="n">CommonClient</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Abstract class for Uploader Clients. This is the same as :class:`slack_transfer._base.CommonClient`.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract class for Uploader Clients. This is the same as :class:`slack_transfer._base.CommonClient`.</span>
 <span class="sd">    But, this is introduced for easily identify the client is uploader.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="DownloaderClientABC"><a class="viewcode-back" href="../../reference/generated/client_abc/slack_transfer._base.DownloaderClientABC.html#slack_transfer._base.DownloaderClientABC">[docs]</a><span class="k">class</span> <span class="nc">DownloaderClientABC</span><span class="p">(</span><span class="n">CommonClient</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Abstract class for Downloader Clients. This is the same as :class:`slack_transfer._base.CommonClient`.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract class for Downloader Clients. This is the same as :class:`slack_transfer._base.CommonClient`.</span>
 <span class="sd">    But, this is introduced for easily identify the client is downloader.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
@@ -395,7 +395,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
   </div>
   

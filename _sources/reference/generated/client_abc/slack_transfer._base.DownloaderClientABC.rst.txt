@@ -165,7 +165,9 @@
       ~DownloaderClientABC.dnd_teamInfo
       ~DownloaderClientABC.emoji_list
       ~DownloaderClientABC.files_comments_delete
+      ~DownloaderClientABC.files_completeUploadExternal
       ~DownloaderClientABC.files_delete
+      ~DownloaderClientABC.files_getUploadURLExternal
       ~DownloaderClientABC.files_info
       ~DownloaderClientABC.files_list
       ~DownloaderClientABC.files_remote_add
@@ -177,6 +179,7 @@
       ~DownloaderClientABC.files_revokePublicURL
       ~DownloaderClientABC.files_sharedPublicURL
       ~DownloaderClientABC.files_upload
+      ~DownloaderClientABC.files_upload_v2
       ~DownloaderClientABC.get_channels_list
       ~DownloaderClientABC.get_file_volumes
       ~DownloaderClientABC.get_replies

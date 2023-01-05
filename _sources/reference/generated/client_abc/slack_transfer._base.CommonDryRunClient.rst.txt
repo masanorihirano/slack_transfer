@@ -165,7 +165,9 @@
       ~CommonDryRunClient.dnd_teamInfo
       ~CommonDryRunClient.emoji_list
       ~CommonDryRunClient.files_comments_delete
+      ~CommonDryRunClient.files_completeUploadExternal
       ~CommonDryRunClient.files_delete
+      ~CommonDryRunClient.files_getUploadURLExternal
       ~CommonDryRunClient.files_info
       ~CommonDryRunClient.files_list
       ~CommonDryRunClient.files_remote_add
@@ -177,6 +179,7 @@
       ~CommonDryRunClient.files_revokePublicURL
       ~CommonDryRunClient.files_sharedPublicURL
       ~CommonDryRunClient.files_upload
+      ~CommonDryRunClient.files_upload_v2
       ~CommonDryRunClient.get_channels_list
       ~CommonDryRunClient.get_file_volumes
       ~CommonDryRunClient.get_replies

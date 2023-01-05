@@ -170,7 +170,9 @@
       ~UploaderClient.dnd_teamInfo
       ~UploaderClient.emoji_list
       ~UploaderClient.files_comments_delete
+      ~UploaderClient.files_completeUploadExternal
       ~UploaderClient.files_delete
+      ~UploaderClient.files_getUploadURLExternal
       ~UploaderClient.files_info
       ~UploaderClient.files_list
       ~UploaderClient.files_remote_add
@@ -182,6 +184,7 @@
       ~UploaderClient.files_revokePublicURL
       ~UploaderClient.files_sharedPublicURL
       ~UploaderClient.files_upload
+      ~UploaderClient.files_upload_v2
       ~UploaderClient.get_channels_list
       ~UploaderClient.get_file_volumes
       ~UploaderClient.get_replies

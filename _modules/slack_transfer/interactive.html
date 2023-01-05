@@ -234,7 +234,7 @@
 
 
 <div class="viewcode-block" id="interactive"><a class="viewcode-back" href="../../reference/generated/other/slack_transfer.interactive.interactive.html#slack_transfer.interactive.interactive">[docs]</a><span class="k">def</span> <span class="nf">interactive</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;See interactive section in :doc:`/user_guide/cli`&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;See interactive section in :doc:`/user_guide/cli`&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">ssl_context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">create_default_context</span><span class="p">(</span>
             <span class="n">ssl</span><span class="o">.</span><span class="n">Purpose</span><span class="o">.</span><span class="n">SERVER_AUTH</span><span class="p">,</span> <span class="n">cafile</span><span class="o">=</span><span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">(),</span> <span class="n">capath</span><span class="o">=</span><span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">()</span>
@@ -419,9 +419,9 @@
         <span class="p">)</span>
 
         <span class="n">print_str</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;All settings:</span><span class="se">\n</span><span class="s2">data directory: </span><span class="si">{</span><span class="n">local_data_dir</span><span class="si">}</span><span class="se">\n</span><span class="s2">Download: </span><span class="si">{</span><span class="ow">not</span> <span class="n">skip_download</span><span class="si">}</span><span class="se">\n</span><span class="s2">Upload: </span><span class="si">{</span><span class="ow">not</span> <span class="n">skip_upload</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;All settings:</span><span class="se">\n</span><span class="s2">data directory: </span><span class="si">{</span><span class="n">local_data_dir</span><span class="si">}</span><span class="se">\n</span><span class="s2">Download: </span><span class="si">{</span><span class="ow">not</span><span class="w"> </span><span class="n">skip_download</span><span class="si">}</span><span class="se">\n</span><span class="s2">Upload: </span><span class="si">{</span><span class="ow">not</span><span class="w"> </span><span class="n">skip_upload</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Downloader token: </span><span class="si">{</span><span class="n">downloader_token</span><span class="si">}</span><span class="se">\n</span><span class="s2">Uploader token: </span><span class="si">{</span><span class="n">uploader_token</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Channels: </span><span class="si">{</span><span class="n">channel_names</span> <span class="k">if</span> <span class="n">channel_names</span> <span class="k">else</span> <span class="s1">&#39;Not specified&#39;</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Channels: </span><span class="si">{</span><span class="n">channel_names</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">channel_names</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Not specified&#39;</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Name mappings: </span><span class="si">{</span><span class="n">name_mappings</span><span class="si">}</span><span class="se">\n</span><span class="s2">Override: </span><span class="si">{</span><span class="n">override</span><span class="si">}</span><span class="se">\n</span><span class="s2">Skip bookmark: </span><span class="si">{</span><span class="n">skip_bookmarks</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
@@ -523,7 +523,7 @@
   
   <div class="footer-item">
     <p class="sphinx-version">
-Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.0.post0.<br>
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.3.0.<br>
 </p>
   </div>
   
