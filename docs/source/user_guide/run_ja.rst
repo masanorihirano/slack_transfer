@@ -489,7 +489,7 @@ Windowsの場合(venv環境でなければ作業不要です)
  - :code:`<downloader_token>`: 2で取得したdownload側WSのAPI tokenです． xoxb-から始まります．
  - :code:`<uploader_token>`: 3で取得したupload側WSのAPI tokenです． xoxb-から始まります．
  - :code:`<channel_names>`: 処理の対象にしたいチャンネル名を指定します．カンマ区切りで，Download側WSの名前で指定します．指定せず，すべてを対象にする場合は，:code:`--channel_names=<channel_names>`を丸ごと削除します．
- - :code:`<name_mappings>`: 4で決めたチャンネル名のマッピングを設定します．不要な場合は :code:`\-\-name_mappings=<name_mappings>` を丸っと削除してください．なお，設定方法は :code:`old_name1:new_name1,old_name2:new_name2` などと設定します．old_nameがdownload側，new_nameがupload側のチャンネル名で，マッピングが必要なものだけを記載すれば充分です．(そのままの名前でよい場合は設定不用意)
+ - :code:`<name_mappings>`: 5で決めたチャンネル名のマッピングを設定します．不要な場合は :code:`\-\-name_mappings=<name_mappings>` を丸っと削除してください．なお，設定方法は :code:`old_name1:new_name1,old_name2:new_name2` などと設定します．old_nameがdownload側，new_nameがupload側のチャンネル名で，マッピングが必要なものだけを記載すれば充分です．(そのままの名前でよい場合は設定不用意)
  - :code:`--override`: 4で「そのままこれまでの投稿の末尾に追加する」を選択した場合には，これを付与してください．不要な場合は削除します．
  - :code:`--skip_bookmarks`: bookmarkの移植を行わない場合に使用するフラグです．bookmarkも移植する場合は削除します．
 
