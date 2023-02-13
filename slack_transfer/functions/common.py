@@ -1,3 +1,4 @@
+import time
 import warnings
 from typing import Dict
 from typing import List
@@ -55,9 +56,21 @@ def get_replies(client: WebClient, channel_id: str, ts: str) -> List[Dict]:
     messages: List[Dict] = []
     next_cursor: Optional[str] = None
     while True:
-        response = client.conversations_replies(
-            channel=channel_id, ts=ts, cursor=next_cursor
-        )
+        i_trial: int = 0
+        while True:
+            try:
+                response = client.conversations_replies(
+                    channel=channel_id, ts=ts, cursor=next_cursor
+                )
+                break
+            except SlackApiError as e:
+                if i_trial > 5:
+                    raise e
+                i_trial += 1
+                warnings.warn(
+                    "some error happened when getting replies. Try again 1 min. later."
+                )
+                time.sleep(60)
         if not response["ok"]:
             raise IOError(
                 f"replies cannot be fetched in downloading WS data. (channel_id: {channel_id}, ts: {ts})"
