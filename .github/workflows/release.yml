@@ -175,7 +175,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: dist/slack-transfer-${{ steps.get_version.outputs.TAG }}.tar.gz
+        asset_path: dist/slack_transfer-${{ steps.get_version.outputs.TAG }}.tar.gz
         asset_name: slack_transfer-${{ steps.get_version.outputs.TAG }}.tar.gz
         asset_content_type: application/gzip
     - name: Upload whl
@@ -219,7 +219,7 @@ jobs:
         poetry install --no-dev
         poetry add pyinstaller
     - name: license check
-      run: poetry run pip-licenses --allow-only="MIT License;BSD License;ISC License (ISCL);Python Software Foundation License;Apache Software License;Public Domain;Mozilla Public License 2.0 (MPL 2.0);GNU General Public License v2 (GPLv2);GNU General Public License v3 (GPLv3);UNKNOWN;BSD;MIT;"
+      run: poetry run pip-licenses --allow-only="MIT License;BSD License;ISC License (ISCL);Python Software Foundation License;Apache Software License;Public Domain;Mozilla Public License 2.0 (MPL 2.0);GNU General Public License v2 (GPLv2);GNU General Public License v3 (GPLv3);UNKNOWN;BSD;MIT;The Unlicense (Unlicense);"
     - name: generate json file
       run: pip-licenses -a -f json --output-file slack_transfer/license.json
     - name: create exe
