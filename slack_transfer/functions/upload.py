@@ -591,11 +591,10 @@ def data_insert(
                 )
                 break
             except SlackApiError as e:
-                if e.response["error"] in ["ratelimited", "fatal_error"]:
-                    i_count += 1
-                    if i_count < 10:
-                        time.sleep(2)
-                        continue
+                i_count += 1
+                if i_count < 10:
+                    time.sleep(2)
+                    continue
                 raise e
 
         if not response["ok"]:
