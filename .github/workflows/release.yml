@@ -175,7 +175,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: dist/slack-transfer-${{ steps.get_version.outputs.TAG }}.tar.gz
+        asset_path: dist/slack_transfer-${{ steps.get_version.outputs.TAG }}.tar.gz
         asset_name: slack_transfer-${{ steps.get_version.outputs.TAG }}.tar.gz
         asset_content_type: application/gzip
     - name: Upload whl
